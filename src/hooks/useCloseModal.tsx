@@ -3,6 +3,7 @@ import {useSetRecoilState} from 'recoil'
 import { authModalState } from '../atoms/authModalAtom';
 
 const  useCloseModal = () => {
+  
   const setAuthModal = useSetRecoilState(authModalState);
 
   const closeModal = () => {
