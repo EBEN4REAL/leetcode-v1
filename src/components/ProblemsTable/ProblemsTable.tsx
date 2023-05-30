@@ -19,17 +19,16 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { problems } from "../../mockProblems/problems";
 
 type ProblemsTableProps = {
-  // setLoadingProblems: React.Dispatch<React.SetStateAction<boolean>>;
+  setLoadingProblems: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const ProblemsTable: React.FC<ProblemsTableProps> = ({}) => {
+const ProblemsTable: React.FC<ProblemsTableProps> = ({setLoadingProblems}) => {
   const [youtubePlayer, setYoutubePlayer] = useState({
     isOpen: false,
     videoId: "",
   });
-  // const problems = useGetProblems(setLoadingProblems);
-  // const solvedProblems = useGetSolvedProblems();
-  // console.log("solvedProblems", solvedProblems);
+  const problems = useGetProblems(setLoadingProblems);
+  const solvedProblems = useGetSolvedProblems();
   const closeModal = () => {
     setYoutubePlayer({ isOpen: false, videoId: "" });
   };
@@ -43,7 +42,6 @@ const ProblemsTable: React.FC<ProblemsTableProps> = ({}) => {
     return () => window.removeEventListener("keydown", handleEsc);
   }, []);
 
-  console.log("problems", problems);
 
   return (
     <>
@@ -61,10 +59,8 @@ const ProblemsTable: React.FC<ProblemsTableProps> = ({}) => {
               key={problem.id}
             >
               <th className="px-2 py-4 font-medium whitespace-nowrap text-dark-green-s">
-                {/* {solvedProblems.includes(problem.id) && <BsCheckCircle fontSize={"18"} width='18' />} */}
+                {solvedProblems.includes(problem.id) && <SolvedIcon />}
                 {/* <BsCheckCircle fontSize={"18"} width='18' /> */}
-                {/* <img src={solvedIcon} /> */}
-                <SolvedIcon />
               </th>
               <td className="px-6 py-4">
                 {problem.link ? (
@@ -137,45 +133,46 @@ const ProblemsTable: React.FC<ProblemsTableProps> = ({}) => {
 };
 export default ProblemsTable;
 
-// function useGetProblems(setLoadingProblems: React.Dispatch<React.SetStateAction<boolean>>) {
-// 	const [problems, setProblems] = useState<DBProblem[]>([]);
+function useGetProblems(setLoadingProblems: React.Dispatch<React.SetStateAction<boolean>>) {
+	const [problems, setProblems] = useState<DBProblem[]>([]);
 
-// 	useEffect(() => {
-// 		const getProblems = async () => {
-// 			setLoadingProblems(true);
-// 			const q = query(collection(firestore, "problems"), orderBy("order", "asc"));
-// 			const querySnapshot = await getDocs(q);
-// 			const tmp: DBProblem[] = [];
-// 			querySnapshot.forEach((doc) => {
-// 				tmp.push({ id: doc.id, ...doc.data() } as DBProblem);
-// 			});
-// 			console.log("tmp", tmp)
-// 			setProblems(tmp);
-// 			setLoadingProblems(false);
-// 		};
+	useEffect(() => {
+		const getProblems = async () => {
+			setLoadingProblems(true);
+			const q = query(collection(firestore, "problems"), orderBy("order", "asc"));
+			const querySnapshot = await getDocs(q);
+			const tmp: DBProblem[] = [];
+			console.log("querySnapshot", querySnapshot)
+			querySnapshot.forEach((doc) => {
+				tmp.push({ id: doc.id, ...doc.data() } as DBProblem);
+			});
+			console.log("tmp", tmp)
+			setProblems(tmp);
+			setLoadingProblems(false);
+		};
 
-// 		getProblems();
-// 	}, [setLoadingProblems]);
-// 	return problems;
-// }
+		getProblems();
+	}, [setLoadingProblems]);
+	return problems;
+}
 
-// function useGetSolvedProblems() {
-// 	const [solvedProblems, setSolvedProblems] = useState<string[]>([]);
-// 	const [user] = useAuthState(auth);
+function useGetSolvedProblems() {
+	const [solvedProblems, setSolvedProblems] = useState<string[]>([]);
+	const [user] = useAuthState(auth);
 
-// 	useEffect(() => {
-// 		const getSolvedProblems = async () => {
-// 			const userRef = doc(firestore, "users", user!.uid);
-// 			const userDoc = await getDoc(userRef);
+	useEffect(() => {
+		const getSolvedProblems = async () => {
+			const userRef = doc(firestore, "users", user!.uid);
+			const userDoc = await getDoc(userRef);
 
-// 			if (userDoc.exists()) {
-// 				setSolvedProblems(userDoc.data().solvedProblems);
-// 			}
-// 		};
+			if (userDoc.exists()) {
+				setSolvedProblems(userDoc.data().solvedProblems);
+			}
+		};
 
-// 		if (user) getSolvedProblems();
-// 		if (!user) setSolvedProblems([]);
-// 	}, [user]);
+		if (user) getSolvedProblems();
+		if (!user) setSolvedProblems([]);
+	}, [user]);
 
-// 	return solvedProblems;
-// }
+	return solvedProblems;
+}

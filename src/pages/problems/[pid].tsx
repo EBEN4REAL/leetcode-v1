@@ -23,8 +23,8 @@ const ProblemPage: React.FC<ProblemPageProps> = ({ problem }) => {
 };
 export default ProblemPage;
 
-//  SSG
-// getStaticPaths => it create the dynamic routes
+/** SSG **/
+/** getStaticPaths => it create the dynamic routes **/
 export async function getStaticPaths() {
 	const paths = Object.keys(problems).map((key) => ({
 		params: { pid: key },
@@ -36,7 +36,7 @@ export async function getStaticPaths() {
 	};
 }
 
-// getStaticProps => it fetch the data
+/** getStaticProps => it fetch the data **/
 export async function getStaticProps({ params }: { params: { pid: string } }) {
 	const { pid } = params;
 	const problem = problems[pid];

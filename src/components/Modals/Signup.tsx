@@ -53,6 +53,11 @@ const Signup: React.FC<SignupProps> = () => {
       };
       await setDoc(doc(firestore, "users", newUser.user.uid), userData);
       router.push("/");
+	  toast.success("Registration successful", {
+        position: "top-center",
+        autoClose: 3000,
+        theme: "dark",
+      });
     } catch (error: any) {
       toast.error(error.message, { position: "top-center" });
     } finally {
