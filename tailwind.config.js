@@ -28,6 +28,11 @@ module.exports = {
         olive: "rgb(0, 184, 163)",
         "dark-green-s": "rgb(44 187 93)",
         "dark-blue-s": "rgb(10 132 255)",
+        "text-gray": "rgba(245, 245, 245, 0.75)",
+        "secondary-gray": "#2A2A2A",
+        "card-para": "rgba(183, 183, 183, 0.60)",
+        "light-gray": "#eff1f6bf",
+        "light-border": "rgba(255, 255, 255, 0.16)"
       },
     },
   },
