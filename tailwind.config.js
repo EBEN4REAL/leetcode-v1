@@ -13,10 +13,10 @@ module.exports = {
       colors: {
         "dark-layer-1": "rgb(40,40,40)",
         "dark-layer-2": "rgb(26,26,26)",
-        "dark-label-2": "rgba(239, 241, 246, 0.75)",
+        "dark-label-2": "#eff1f6bf",
         "dark-divider-border-2": "rgb(61, 61, 61)",
         "dark-fill-2": "hsla(0,0%,100%,.14)",
-        "dark-fill-3": "hsla(0,0%,100%,.1)",
+        // "dark-fill-3": "hsla(0,0%,100%,.1)",
         "dark-gray-6": "rgb(138, 138, 138)",
         "dark-gray-7": "rgb(179, 179, 179)",
         "gray-8": "rgb(38, 38, 38)",
@@ -32,7 +32,14 @@ module.exports = {
         "secondary-gray": "#2A2A2A",
         "card-para": "rgba(183, 183, 183, 0.60)",
         "light-gray": "#eff1f6bf",
-        "light-border": "rgba(255, 255, 255, 0.16)"
+        "light-border": "rgba(255, 255, 255, 0.16)",
+        purple: "#7e5bef",
+        'input-grey': '#69696c',
+        'dark-layer-3': "#ffffff1a",
+        "dark-fill-4": "#ffffff12",
+        "dark-fill-3": "#ffffff1a",
+        "label-2": "#262626bf",
+        "dark-text-gray-7": "rgb(89, 89, 89, 1)"
       },
     },
   },

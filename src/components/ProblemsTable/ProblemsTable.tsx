@@ -16,7 +16,7 @@ import {
 import { auth, firestore } from "@/firebase/firebase";
 import { DBProblem } from "@/utils/types/problem";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { problems } from "../../mockProblems/problems";
+import { Padlock } from '../../icons/padlock';
 
 type ProblemsTableProps = {
   setLoadingProblems: React.Dispatch<React.SetStateAction<boolean>>;
@@ -60,13 +60,12 @@ const ProblemsTable: React.FC<ProblemsTableProps> = ({setLoadingProblems}) => {
             >
               <th className="px-2 py-4 font-medium whitespace-nowrap text-dark-green-s">
                 {solvedProblems.includes(problem.id) && <SolvedIcon />}
-                {/* <BsCheckCircle fontSize={"18"} width='18' /> */}
               </th>
-              <td className="px-6 py-4">
+              <td className="px-6 py-4 w-[300px]">
                 {problem.link ? (
                   <Link
                     href={problem.link}
-                    className="hover:text-blue-600 cursor-pointer"
+                    className="hover:text-blue-600 cursor-pointer whitespace-nowrap truncate"
                     target="_blank"
                   >
                     {problem.title}
@@ -83,7 +82,7 @@ const ProblemsTable: React.FC<ProblemsTableProps> = ({setLoadingProblems}) => {
               <td className={`px-6 py-4 ${difficulyColor}`}>
                 {problem.difficulty}
               </td>
-              <td className={"px-6 py-4"}>{problem.category}</td>
+              <td className={"px-6 py-4"}>{`${((Math.random() * 100) + 1).toFixed(2)}%`}</td>
               <td className={"px-6 py-4"}>
                 {problem.videoId ? (
                   <AiFillYoutube
@@ -100,6 +99,13 @@ const ProblemsTable: React.FC<ProblemsTableProps> = ({setLoadingProblems}) => {
                   <p className="text-gray-400">Coming soon</p>
                 )}
               </td>
+			  <td>
+				<div className="dark:bg-dark-fill-3 rounded-l-lg rounded-r-lg bg-fill-3 h-2 relative w-4/5 mx-auto">
+					<div className={`h-5 w-6 absolute -top-2.5  left-1/2 transform -translate-x-1/2 ${idx % 2 == 1 ? "bg-dark-layer-1" : "dark:bg-dark-layer-2"}  `}>
+						<Padlock />
+					</div>
+				</div>
+			  </td>
             </tr>
           );
         })}
