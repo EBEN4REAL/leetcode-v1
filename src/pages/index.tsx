@@ -5,7 +5,7 @@ import LoadingSkeleton from "@/components/LoadingSkeleton";
 import { doc, setDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
 
-import { ReactElement, useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { firestore } from "@/firebase/firebase";
 import { clipText } from "@/utils/clipText";
 import { RxCaretDown } from "react-icons/rx";
@@ -15,7 +15,13 @@ import { BiSearch } from "react-icons/bi";
 import { FiSettings } from "react-icons/fi";
 import { QuestionPick } from "@/icons/questionPick";
 import { Octagon } from "@/icons/octagon";
-import React from "react";
+import { BsDash, BsCheck2 } from "react-icons/bs";
+import { Attempted } from "@/icons/attempted";
+import { Padlock } from "@/icons/padlock";
+import { GrPowerReset } from "react-icons/gr";
+
+
+// CALENDAR
 
 import {
   Algorithms,
@@ -30,6 +36,7 @@ export default function Home() {
   const [loadingProblems, setLoadingProblems] = useState(false);
   const hasMounted = useHasMounted();
   const [activeTopic, setActiveTopic] = useState<string>("All Topics");
+  const [collapseCategory, setCollapseCategory] = useState<boolean>(true);
 
   const [cards, setCards] = useState([
     {
@@ -65,6 +72,114 @@ export default function Home() {
   ]);
 
   const [categories, setCategories] = useState([
+    {
+      name: "Array",
+      count: 1381,
+    },
+    {
+      name: "String",
+      count: 615,
+    },
+    {
+      name: "Hash table",
+      count: 475,
+    },
+    {
+      name: "Dynamic Programming",
+      count: 431,
+    },
+    {
+      name: "Math",
+      count: 430,
+    },
+    {
+      name: "Sorting",
+      count: 318,
+    },
+    {
+      name: "Greedy",
+      count: 309,
+    },
+    {
+      name: "Depth-First Search ",
+      count: 274,
+    },
+    {
+      name: "Database",
+      count: 226,
+    },
+    {
+      name: "Array",
+      count: 1381,
+    },
+    {
+      name: "String",
+      count: 615,
+    },
+    {
+      name: "Hash table",
+      count: 475,
+    },
+    {
+      name: "Dynamic Programming",
+      count: 431,
+    },
+    {
+      name: "Math",
+      count: 430,
+    },
+    {
+      name: "Sorting",
+      count: 318,
+    },
+    {
+      name: "Greedy",
+      count: 309,
+    },
+    {
+      name: "Depth-First Search ",
+      count: 274,
+    },
+    {
+      name: "Database",
+      count: 226,
+    },
+    {
+      name: "Array",
+      count: 1381,
+    },
+    {
+      name: "String",
+      count: 615,
+    },
+    {
+      name: "Hash table",
+      count: 475,
+    },
+    {
+      name: "Dynamic Programming",
+      count: 431,
+    },
+    {
+      name: "Math",
+      count: 430,
+    },
+    {
+      name: "Sorting",
+      count: 318,
+    },
+    {
+      name: "Greedy",
+      count: 309,
+    },
+    {
+      name: "Depth-First Search ",
+      count: 274,
+    },
+    {
+      name: "Database",
+      count: 226,
+    },
     {
       name: "Array",
       count: 1381,
@@ -208,6 +323,9 @@ export default function Home() {
         dropdown.addEventListener("click", function (this: typeof dropdown, e) {
           e.stopPropagation();
           const dropdownContent = dropdownContents[index];
+          dropdownContent.parentNode?.children[0].children[1]?.classList.toggle(
+            "rotate-180"
+          );
           dropdownContent.classList.toggle("show");
         });
       });
@@ -230,6 +348,9 @@ export default function Home() {
           !dropdowns[index]?.contains(e.target as HTMLElement)
         ) {
           ddContent.classList.remove("show");
+          ddContent.parentNode?.children[0].children[1]?.classList.remove(
+            "rotate-180"
+          );
         }
       });
     });
@@ -242,11 +363,30 @@ export default function Home() {
   useEffect(() => {
     setTimeout(() => {
       closeDropDowns();
-    }, 100)
-   
+    }, 100);
   });
 
-  if (!hasMounted) return null;
+  const renderednewCategories = useMemo(() => {
+    const newCategories = [];
+    for (let i = 0; i < categories.length; i++) {
+      if (i < 10) {
+        newCategories.push({ ...categories[i] });
+      }
+    }
+
+    const categoriesList = collapseCategory ? newCategories : categories;
+
+    return categoriesList.map((newCategory, index) => (
+      <div
+        key={index}
+        className="flex dark:bg-dark-fill-3 rounded-full dark:text-dark-label-3 py-0.5 px-3 whitespace-nowrap text-xs"
+      >
+        {newCategory.name}
+      </div>
+    ));
+  }, [categories, collapseCategory]);
+
+  
 
   const renderCompanies = () =>
     companies.map((company, index) => (
@@ -319,6 +459,8 @@ export default function Home() {
         )}
       </div>
     ));
+
+  if (!hasMounted) return null;
 
   return (
     <>
@@ -432,45 +574,134 @@ export default function Home() {
                 <div className="mt-5">
                   <div className="flex w-full gap-2">
                     <div className="relative">
-                      <div className="dropdown  flex py-1 gap-4 flex-1 justify-between items-center px-3 cursor-pointer  bg-secondary-gray rounded-[5px] relative" id="dropdownDefaultButton" >
+                      <div
+                        className="dropdown  flex py-1 gap-4 flex-1 justify-between items-center px-3 cursor-pointer  bg-secondary-gray rounded-[5px] relative"
+                        id="dropdownDefaultButton"
+                      >
                         <div className="text-light-gray text-sm label">
                           Lists
                         </div>
-                        <div>
+                        <div className="transition-all ease-in-out duration-300">
                           <RxCaretDown className="text-light-gray text-2xl caret" />
                         </div>
                       </div>
-                      <div className="dropdown-content absolute top-9 left-0 w-[200px] h-[200px] dark:bg-secondary-gray rounded-lg hidden">
-                        <a href="#home">Home</a>
-                        <a href="#about">About</a>
-                        <a href="#contact">Contact</a>
+                      <div className="dropdown-content absolute top-9 left-0 p-3 dark:bg-dark-overlay-3 rounded-lg hidden max-w-[15rem] min-w-[8.75rem] overflow-auto">
+                        <div className="flex  gap-4 dark:text-white text-sm hover:dark:bg-dark-fill-3 hover:rounded-md px-2 py-1.5 whitespace-nowrap">
+                          LeetCode Curated Algo 170
+                        </div>
+                        <div className="flex  gap-4 dark:text-white text-sm hover:rounded-md   hover:dark:bg-dark-fill-3 px-2 py-1.5 whitespace-nowrap">
+                          LeetCode Curated Algo 170
+                        </div>
+                        <div className="flex  gap-4 dark:text-white text-sm hover:rounded-md  hover:dark:bg-dark-fill-3 px-2 py-1.5 whitespace-nowrap">
+                          LeetCode Curated Algo 170
+                        </div>
+                        <div className="flex  gap-4 dark:text-white text-sm hover:rounded-md  hover:dark:bg-dark-fill-3 px-2 py-1.5 whitespace-nowrap">
+                          LeetCode Curated Algo 170
+                        </div>
                       </div>
                     </div>
                     <div className="relative">
-                      <div className="dropdown py-1 gap-4 px-3 flex flex-1 justify-between items-center  bg-secondary-gray rounded-[5px] relative">
+                      <div className="dropdown py-1 gap-4 px-3 flex flex-1 justify-between items-center   bg-secondary-gray rounded-[5px] relative">
                         <div className="text-light-gray text-sm">
                           Difficulty
                         </div>
-                        <div>
+                        <div className="transition-all ease-in-out duration-300">
                           <RxCaretDown className="text-light-gray text-2xl" />
                         </div>
                       </div>
-                      <div className="dropdown-content absolute top-9 left-0 w-[200px] h-[200px] dark:bg-secondary-gray rounded-lg hidden">
-                        <a href="#home">Home</a>
-                        <a href="#about">About</a>
-                        <a href="#contact">Contact</a>
+                      <div className="dropdown-content absolute top-9 left-0 p-3 dark:bg-dark-overlay-3 rounded-lg hidden max-w-[15rem] min-w-[8.75rem] overflow-auto">
+                        <div className="flex  gap-4   text-sm hover:dark:bg-dark-fill-3 hover:rounded-md px-2 py-1.5 whitespace-nowrap text-dark-green-s">
+                          Easy
+                        </div>
+                        <div className="flex  gap-4  text-sm hover:rounded-md  hover:dark:bg-dark-fill-3 px-2 py-1.5 whitespace-nowrap text-dark-yellow">
+                          Medium
+                        </div>
+                        <div className="flex  gap-4 text-sm hover:rounded-md  hover:dark:bg-dark-fill-3 px-2 py-1.5 whitespace-nowrap text-dark-pink">
+                          Hard
+                        </div>
                       </div>
                     </div>
-                    <div className="flex flex-1 justify-between items-center px-3  bg-secondary-gray rounded-[5px]">
-                      <div className="text-light-gray text-sm">Status</div>
-                      <div>
-                        <RxCaretDown className="text-light-gray text-2xl" />
+                    <div className="relative">
+                      <div className="dropdown flex flex-1 justify-between items-center px-3  bg-secondary-gray rounded-[5px] relative py-1">
+                        <div className="text-light-gray text-sm">Status</div>
+                        <div className="ransition-all ease-in-out duration-300">
+                          <RxCaretDown className="text-light-gray text-2xl" />
+                        </div>
+                      </div>
+                      <div className="dropdown-content absolute top-9 left-0 p-3 dark:bg-dark-overlay-3 rounded-lg hidden max-w-[15rem] min-w-[8.75rem] overflow-auto">
+                        <div className="flex gap items-center dark:text-white text-sm hover:dark:bg-dark-fill-3 hover:rounded-md px-2 py-1.5 whitespace-nowrap">
+                          <span className="">
+                            <BsDash className="text-xl" />
+                          </span>
+                          Todo
+                        </div>
+                        <div className="flex  gap-1 items-center dark:text-white text-sm hover:rounded-md   hover:dark:bg-dark-fill-3 px-2 py-1.5 whitespace-nowrap">
+                          <span className="">
+                            <BsCheck2 className="text-lg text-dark-green-s " />
+                          </span>
+                          Solved
+                        </div>
+                        <div className="flex  gap-1 items-center dark:text-white text-sm hover:rounded-md  hover:dark:bg-dark-fill-3 px-2 py-1.5 whitespace-nowrap">
+                          <span className="">
+                            <Attempted />
+                          </span>
+                          Attempted
+                        </div>
                       </div>
                     </div>
-                    <div className="flex flex-1 justify-between items-center px-3  bg-secondary-gray rounded-[5px]">
-                      <div className="text-light-gray text-sm">Tags</div>
-                      <div>
-                        <RxCaretDown className="text-light-gray text-2xl" />
+                    <div className="relative">
+                      <div className="dropdown flex flex-1 justify-between py-1 items-center px-3  bg-secondary-gray rounded-[5px]">
+                        <div className="text-light-gray text-sm">Tags</div>
+                        <div className="transition-all ease-in-out duration-300">
+                          <RxCaretDown className="text-light-gray text-2xl" />
+                        </div>
+                      </div>
+                      <div className="dropdown-content absolute top-9 left-0 p-3 dark:bg-dark-overlay-3 rounded-lg hidden w-[372px] min-w-[8.75rem]  md:max-w-[500px] max-h-[400px] overflow-y-scroll">
+                        <div className="flex w-full justify-center items-center  dark:bg-dark-fill-3 rounded-md ">
+                          <div className="w-1/6 flex justify-center">
+                            <BiSearch className="text-input-grey text-md ml-2" />
+                          </div>
+                          <div className="w-5/6">
+                            <input
+                              type="text"
+                              placeholder="Search for tags..."
+                              className="bg-transparent outline-none border-0 dark:text-dark-label-2  placeholder:text-input-grey text-input-grey py-1 placeholder:text-sm "
+                            />
+                          </div>
+                        </div>
+                        <div className="mt-3">
+                          <ul className="flex items-center gap-6">
+                            <li className="text-white text-sm py-1 border-b-2 border-text-white">
+                              Topics
+                            </li>
+                            <li className="dark:text-dark-label-2 text-sm flex items-center">
+                              Companies
+                              <span className="ml-1">
+                                <div className="h-4">
+                                  <Padlock />
+                                </div>
+                              </span>
+                            </li>
+                          </ul>
+                        </div>
+                        <div className="mt-5 flex gap-2 w-full flex-wrap mb-4">
+                          {renderednewCategories}
+                          <span
+                            className="text-blue-500 ml-2 cursor-pointer text-sm"
+                            onClick={() => setCollapseCategory((prev) => !prev)}
+                          >
+                            {collapseCategory ? "Expand" : "Collapse"}
+                          </span>
+                        </div>
+
+                        <div className="border-t border-light-border h-2"></div>
+
+                        <div className="flex items-center justify-end mt-2 dark:text-dark-label-3 opacity-60">
+                          <span className="mr-1">
+                            <GrPowerReset className="dark:text-dark-label-3 opacity-60" />
+                          </span>
+                          <span className="d text-sm ">Reset</span>
+                        </div>
                       </div>
                     </div>
                     <div className="flex min-w-[230px] justify-center items-center  bg-secondary-gray rounded-md">

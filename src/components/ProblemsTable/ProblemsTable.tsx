@@ -96,7 +96,7 @@ const ProblemsTable: React.FC<ProblemsTableProps> = ({setLoadingProblems}) => {
                     }
                   />
                 ) : (
-                  <p className="text-gray-400">Coming soon</p>
+                  <p className="text-gray-400">Coming...</p>
                 )}
               </td>
 			  <td>

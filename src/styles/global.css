@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+    --chakra-colors-yellow60: "#FFC926"
+}
 .css-x6g7yi {
   width: 18px;
   height: 18px;
@@ -117,3 +120,17 @@ code {
 .show {
   display: block;
 }
+.css-fortly {
+    width: 14px;
+    height: 14px;
+    display: inline-block;
+    line-height: 1em;
+    flex-shrink: 0;
+    color: #FFC926;
+    vertical-align: middle;
+    fill: none;
+}
+
+.dropdown-content::-webkit-scrollbar{
+    display: none;
+  }

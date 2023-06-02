@@ -39,7 +39,9 @@ module.exports = {
         "dark-fill-4": "#ffffff12",
         "dark-fill-3": "#ffffff1a",
         "label-2": "#262626bf",
-        "dark-text-gray-7": "rgb(89, 89, 89, 1)"
+        "dark-text-gray-7": "rgb(89, 89, 89, 1)",
+        "dark-overlay-3": "rgb(48, 48, 48, 1)",
+        "dark-label-3": "#eff2f699"
       },
     },
   },
