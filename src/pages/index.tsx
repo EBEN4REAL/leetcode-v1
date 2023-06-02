@@ -4,6 +4,8 @@ import useHasMounted from "@/hooks/useHasMounted";
 import LoadingSkeleton from "@/components/LoadingSkeleton";
 import { doc, setDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
+import Calendar from "moedim";
+// import "react-calendar/dist/Calendar.css";
 
 import React, { useState, useEffect, useMemo } from "react";
 import { firestore } from "@/firebase/firebase";
@@ -20,9 +22,6 @@ import { Attempted } from "@/icons/attempted";
 import { Padlock } from "@/icons/padlock";
 import { GrPowerReset } from "react-icons/gr";
 
-
-// CALENDAR
-
 import {
   Algorithms,
   ALlTopics,
@@ -37,6 +36,8 @@ export default function Home() {
   const hasMounted = useHasMounted();
   const [activeTopic, setActiveTopic] = useState<string>("All Topics");
   const [collapseCategory, setCollapseCategory] = useState<boolean>(true);
+  const [date, setDate] = useState(new Date());
+  const [tagQuery, setTagQuery] = useState<string>("");
 
   const [cards, setCards] = useState([
     {
@@ -310,7 +311,306 @@ export default function Home() {
       name: "LinkedIn",
       count: 168,
     },
+    {
+      name: "Amazon",
+      count: 1237,
+    },
+    {
+      name: "Google",
+      count: 1202,
+    },
+    {
+      name: "Microsoft",
+      count: 729,
+    },
+    {
+      name: "Facebook",
+      count: 668,
+    },
+    {
+      name: "Apple",
+      count: 613,
+    },
+    {
+      name: "Bloomberg",
+      count: 585,
+    },
+    {
+      name: "Adobe",
+      count: 508,
+    },
+    {
+      name: "Uber",
+      count: 504378,
+    },
+    {
+      name: "Oracle",
+      count: 219,
+    },
+    {
+      name: "TikTok",
+      count: 213,
+    },
+    {
+      name: "Goldman Sachs",
+      count: 180,
+    },
+    {
+      name: "Yahoo",
+      count: 177,
+    },
+    {
+      name: "LinkedIn",
+      count: 168,
+    },
+    {
+      name: "Amazon",
+      count: 1237,
+    },
+    {
+      name: "Google",
+      count: 1202,
+    },
+    {
+      name: "Microsoft",
+      count: 729,
+    },
+    {
+      name: "Facebook",
+      count: 668,
+    },
+    {
+      name: "Apple",
+      count: 613,
+    },
+    {
+      name: "Bloomberg",
+      count: 585,
+    },
+    {
+      name: "Adobe",
+      count: 508,
+    },
+    {
+      name: "Uber",
+      count: 504378,
+    },
+    {
+      name: "Oracle",
+      count: 219,
+    },
+    {
+      name: "TikTok",
+      count: 213,
+    },
+    {
+      name: "Goldman Sachs",
+      count: 180,
+    },
+    {
+      name: "Yahoo",
+      count: 177,
+    },
+    {
+      name: "LinkedIn",
+      count: 168,
+    },
+    {
+      name: "Amazon",
+      count: 1237,
+    },
+    {
+      name: "Google",
+      count: 1202,
+    },
+    {
+      name: "Microsoft",
+      count: 729,
+    },
+    {
+      name: "Facebook",
+      count: 668,
+    },
+    {
+      name: "Apple",
+      count: 613,
+    },
+    {
+      name: "Bloomberg",
+      count: 585,
+    },
+    {
+      name: "Adobe",
+      count: 508,
+    },
+    {
+      name: "Uber",
+      count: 504378,
+    },
+    {
+      name: "Oracle",
+      count: 219,
+    },
+    {
+      name: "TikTok",
+      count: 213,
+    },
+    {
+      name: "Goldman Sachs",
+      count: 180,
+    },
+    {
+      name: "Yahoo",
+      count: 177,
+    },
+    {
+      name: "LinkedIn",
+      count: 168,
+    },
+    {
+      name: "Amazon",
+      count: 1237,
+    },
+    {
+      name: "Google",
+      count: 1202,
+    },
+    {
+      name: "Microsoft",
+      count: 729,
+    },
+    {
+      name: "Facebook",
+      count: 668,
+    },
+    {
+      name: "Apple",
+      count: 613,
+    },
+    {
+      name: "Bloomberg",
+      count: 585,
+    },
+    {
+      name: "Adobe",
+      count: 508,
+    },
+    {
+      name: "Uber",
+      count: 504378,
+    },
+    {
+      name: "Oracle",
+      count: 219,
+    },
+    {
+      name: "TikTok",
+      count: 213,
+    },
+    {
+      name: "Goldman Sachs",
+      count: 180,
+    },
+    {
+      name: "Yahoo",
+      count: 177,
+    },
+    {
+      name: "LinkedIn",
+      count: 168,
+    },
+    {
+      name: "Amazon",
+      count: 1237,
+    },
+    {
+      name: "Google",
+      count: 1202,
+    },
+    {
+      name: "Microsoft",
+      count: 729,
+    },
+    {
+      name: "Facebook",
+      count: 668,
+    },
+    {
+      name: "Apple",
+      count: 613,
+    },
+    {
+      name: "Bloomberg",
+      count: 585,
+    },
+    {
+      name: "Adobe",
+      count: 508,
+    },
+    {
+      name: "Uber",
+      count: 504378,
+    },
+    {
+      name: "Oracle",
+      count: 219,
+    },
+    {
+      name: "TikTok",
+      count: 213,
+    },
+    {
+      name: "Goldman Sachs",
+      count: 180,
+    },
+    {
+      name: "Yahoo",
+      count: 177,
+    },
+    {
+      name: "LinkedIn",
+      count: 168,
+    },
   ]);
+
+  /**
+   * Pagination
+   */
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [pageSize, setPageSize] = useState<number>(20);
+  const [totalPages, setTotalPages] = useState<number>(
+    Math.ceil(companies.length / pageSize)
+  );
+  const [itemCount, setItemCount] = useState<number>(companies.length);
+
+  const setNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage((prev) => (prev += 1));
+    }
+  };
+
+  const setPrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage((prev) => (prev -= 1));
+    }
+  };
+
+  const paginatedCompanies = useMemo(() => {
+    const clonedCompanies: { name: string; count: number }[] = [...companies];
+    const startIndex = (currentPage - 1) * pageSize;
+    const endIndex = startIndex + pageSize;
+
+    const newCompanies = clonedCompanies.slice(startIndex, endIndex);
+
+    return newCompanies;
+  }, [companies, currentPage, pageSize]);
+
+  const paginationBtns = useMemo(() => {
+    return {
+      hasNext: currentPage < totalPages,
+      hasPrev: currentPage > 1 
+    }
+  }, [currentPage, totalPages]);
 
   const handleDropdownClicks = () => {
     const dropdowns = Array.from(document.querySelectorAll(".dropdown"));
@@ -363,18 +663,13 @@ export default function Home() {
   useEffect(() => {
     setTimeout(() => {
       closeDropDowns();
-    }, 100);
+    }, 500);
   });
 
   const renderednewCategories = useMemo(() => {
-    const newCategories = [];
-    for (let i = 0; i < categories.length; i++) {
-      if (i < 10) {
-        newCategories.push({ ...categories[i] });
-      }
-    }
-
-    const categoriesList = collapseCategory ? newCategories : categories;
+    const categoriesList = collapseCategory
+      ? categories.slice(0, 11)
+      : categories;
 
     return categoriesList.map((newCategory, index) => (
       <div
@@ -386,12 +681,17 @@ export default function Home() {
     ));
   }, [categories, collapseCategory]);
 
-  
+  const filteredCompanies = useMemo(() => {
+    const filteredTags = paginatedCompanies.filter((company) =>
+      company.name.toLowerCase().includes(tagQuery.toLowerCase())
+    );
+    return filteredTags.length > 0 ? filteredTags : companies;
+  }, [companies, paginatedCompanies, tagQuery]);
 
   const renderCompanies = () =>
-    companies.map((company, index) => (
+    filteredCompanies.map((company, index) => (
       <div
-        key={company.name}
+        key={index}
         className="rounded-full dark:text-dark-label-2 py-1 px-2 dark:bg-dark-fill-3"
       >
         <span className="text-sm">{company.name} </span>
@@ -450,7 +750,7 @@ export default function Home() {
 
   const renderCategories = () =>
     categories.slice(0, 7).map((category, index) => (
-      <div className="inline-flex items-center " key={category.name}>
+      <div className="inline-flex items-center " key={index}>
         <span className="text-white whitespace-nowrap">{category.name}</span>
         {index < 7 ? (
           <CategoryCount count={category.count} index={index} />
@@ -487,14 +787,6 @@ export default function Home() {
                 </div>
               </div>
               <div className="relative overflow-x-auto mx-auto ">
-                {loadingProblems && (
-                  <div className="max-w-[1200px] mx-auto w-full animate-pulse">
-                    {[...Array(10)].map((_, idx) => (
-                      <LoadingSkeleton key={idx} />
-                    ))}
-                  </div>
-                )}
-
                 <div className="flex justify-between items-center">
                   <div className="text-text-gray text-xl pt-5">Study Plan</div>
                   <div>
@@ -664,7 +956,7 @@ export default function Home() {
                           <div className="w-5/6">
                             <input
                               type="text"
-                              placeholder="Search for tags..."
+                              placeholder="Filter topics"
                               className="bg-transparent outline-none border-0 dark:text-dark-label-2  placeholder:text-input-grey text-input-grey py-1 placeholder:text-sm "
                             />
                           </div>
@@ -729,6 +1021,13 @@ export default function Home() {
                 </div>
 
                 <table className="text-sm text-left text-gray-500 dark:text-gray-400  w-full max-w-[1200px] mx-auto mt-5">
+                  {loadingProblems && (
+                    <div className="max-w-[1200px] mx-auto w-full animate-pulse">
+                      {[...Array(10)].map((_, idx) => (
+                        <LoadingSkeleton key={idx} />
+                      ))}
+                    </div>
+                  )}
                   {!loadingProblems && (
                     <thead className="text-xs text-gray-700 uppercase dark:text-gray-400 border-b border-light-border ">
                       <tr>
@@ -759,18 +1058,86 @@ export default function Home() {
               </div>
             </div>
             <div className="w-3/12 relative">
-              <div className="w-full  h-[300px] p-3 rounded-[8px] bg-dark-layer-1">
-                <Octagon />
+              <div className="w-full  h-auto py-1.5 p-3 rounded-[8px] bg-dark-layer-1 relative">
+                <div className=" w-[75px] h-[75px] absolute -top-[2.5rem] right-[2.0rem] dark:opacity-50">
+                  <img
+                    src="./assets/img/lccal.png"
+                    alt="DCC March 2022"
+                    className="h-full w-full"
+                  />
+                </div>
+                <Calendar
+                  className="!w-full !border-0 !bg-transparent"
+                  onChange={(date: React.SetStateAction<Date>) =>
+                    setDate(date as React.SetStateAction<Date>)
+                  }
+                  value={date}
+                />
+                <div className="mt-4 w-full h-auto rounded-lg p-3 py-4  bg-cover bg-[url('/lc-bg.svg')]">
+                  <div className="text-xs text-brand-orange">
+                    Weekly premium
+                  </div>
+                  <div className="flex gap-7 mt-3 ">
+                    <span className="text-xs text-brand-orange cursor-pointer">
+                      W1
+                    </span>
+                    <span className="text-xs text-brand-orange cursor-pointer">
+                      W2
+                    </span>
+                    <span className="text-xs text-brand-orange cursor-pointer">
+                      W3
+                    </span>
+                    <span className="text-xs text-brand-orange cursor-pointer">
+                      W4
+                    </span>
+                    <span className="text-xs text-brand-orange cursor-pointer">
+                      W5
+                    </span>
+                  </div>
+                </div>
+                <div className="mt-5 flex  justify-between items-center mb-2">
+                  <div className="w-4/5 flex items-center gap-2">
+                    <img
+                      src="./assets/img/points-oct.png"
+                      className="h-[18px] w-[18px]"
+                    />
+                    <span className=" text-sm dark:text-dark-label-2 ">0</span>
+                    <span className="text-xs dark:text-dark-green-s ">
+                      Redeem
+                    </span>
+                  </div>
+                  <div className="w-1/5 dark:text-dark-label-2 text-xs flex justify-end">
+                    Rules
+                  </div>
+                </div>
               </div>
               <div className="w-full  py-3 px-3 rounded-[8px] bg-dark-layer-1 mt-3">
                 <div className="flex items-center justify-between">
                   <div className="dark:text-dark-label-2">Companies</div>
                   <div className="flex justify-center items-center gap-1">
-                    <div className="flex items-center justify-center h-[25px] w-[25px] rounded-[5px] dark:bg-dark-fill-4  dark:hover:bg-dark-fill-3 dark:text-dark-label-2 text-label-2 cursor-pointer">
-                      <RxCaretLeft className="text-4xl font-bold" />
+                    <div
+                      className={`flex items-center justify-center  h-[25px] w-[25px] rounded-[5px] dark:bg-dark-fill-4   dark:hover:bg-dark-fill-3  text-label-2  ${
+                        paginationBtns.hasPrev
+                          ? "dark:text-dark-label-2 cursor-pointer"
+                          : "text-label-light cursor-not-allowed"
+                      }`}
+                    >
+                      <RxCaretLeft
+                        className="text-4xl font-bold"
+                        onClick={setPrevPage}
+                      />
                     </div>
-                    <div className="flex items-center justify-center  h-[25px] w-[25px] rounded-[5px] dark:bg-dark-fill-4  dark:hover:bg-dark-fill-3 dark:text-dark-label-2 text-label-2 cursor-pointer">
-                      <RxCaretRight className="text-4xl font-bold" />
+                    <div
+                      className={`flex items-center justify-center  h-[25px] w-[25px] rounded-[5px] dark:bg-dark-fill-4   dark:hover:bg-dark-fill-3  text-label-2  ${
+                        paginationBtns.hasNext
+                          ? "dark:text-dark-label-2 cursor-pointer"
+                          : "text-label-light cursor-not-allowed"
+                      }`}
+                    >
+                      <RxCaretRight
+                        className="text-4xl font-bold"
+                        onClick={setNextPage}
+                      />
                     </div>
                   </div>
                 </div>
@@ -781,7 +1148,10 @@ export default function Home() {
                   <div className="w-5/6">
                     <input
                       type="text"
-                      placeholder="Search for tags..."
+                      placeholder="Search for tags"
+                      onInput={(e: React.FormEvent<HTMLInputElement>) =>
+                        setTagQuery((e.target as HTMLInputElement).value)
+                      }
                       className="bg-transparent outline-none border-0 dark:text-dark-label-2  placeholder:text-input-grey text-input-grey py-1 placeholder:text-sm "
                     />
                   </div>

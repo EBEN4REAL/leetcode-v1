@@ -51,19 +51,21 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage }) => {
     },
   ]);
 
-  const navigationTabs = navTabs.map((nav)=> (
-    <li
-      key={nav.name}
-      className={`text-light-gray ${
-        nav.name === activeTab ? "border-b-2 border-text-white pb-2" : ""
-      }`}
-      onClick={() => setActiveTab(nav.name)}
-    >
-		<>
-			{nav.name} {nav.hasDropdown ? MdArrowDropDown : ''}
-		</>
-    </li>
-  ));
+  const navigationTabs = () => {
+	return navTabs.map((nav)=> (
+		<li
+		  key={nav.name}
+		  className={`text-light-gray ${
+			nav.name === activeTab ? "border-b-2 border-text-white pb-2" : ""
+		  }`}
+		  onClick={() => setActiveTab(nav.name)}
+		>
+			<>
+				{nav.name} {nav.hasDropdown ? MdArrowDropDown : ''}
+			</>
+		</li>
+	  ));
+  }
 
   const handleProblemChange = (isForward: boolean) => {
     const { order } = problems[router.query.pid as string] as Problem;
@@ -103,7 +105,7 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage }) => {
               alt="LeetCode Logo"
             />
             <div className="">
-              <ul className={`flex gap-7`}>{navigationTabs}</ul>
+              <ul className={`flex gap-7`}>{navigationTabs()}</ul>
             </div>
           </div>
         </Link>

@@ -4,6 +4,7 @@ const nextConfig = {
   images: {
     domains: ["assets.leetcode.com", "leetcode.com"]
   },
+  transpilePackages: ['moedim']
 }
 
 module.exports = nextConfig

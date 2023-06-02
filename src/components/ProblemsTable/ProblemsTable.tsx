@@ -82,7 +82,10 @@ const ProblemsTable: React.FC<ProblemsTableProps> = ({setLoadingProblems}) => {
               <td className={`px-6 py-4 ${difficulyColor}`}>
                 {problem.difficulty}
               </td>
-              <td className={"px-6 py-4"}>{`${((Math.random() * 100) + 1).toFixed(2)}%`}</td>
+              <td className={"px-6 py-4"}>
+			  {/* {`${((Math.random() * 100) + 1).toFixed(2)}%`}	 */}
+			  70%
+			  </td>
               <td className={"px-6 py-4"}>
                 {problem.videoId ? (
                   <AiFillYoutube
@@ -148,11 +151,9 @@ function useGetProblems(setLoadingProblems: React.Dispatch<React.SetStateAction<
 			const q = query(collection(firestore, "problems"), orderBy("order", "asc"));
 			const querySnapshot = await getDocs(q);
 			const tmp: DBProblem[] = [];
-			console.log("querySnapshot", querySnapshot)
 			querySnapshot.forEach((doc) => {
 				tmp.push({ id: doc.id, ...doc.data() } as DBProblem);
 			});
-			console.log("tmp", tmp)
 			setProblems(tmp);
 			setLoadingProblems(false);
 		};

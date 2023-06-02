@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-    --chakra-colors-yellow60: "#FFC926"
+  --chakra-colors-yellow60: "#FFC926";
 }
 .css-x6g7yi {
   width: 18px;
@@ -38,8 +38,34 @@ body {
     @apply absolute w-auto p-2 text-sm m-2  min-w-max translate-x-3  right-0 top-5 z-10 rounded-md shadow-md
 		text-dark-layer-2 bg-gray-200  origin-center scale-0 transition-all duration-100 ease-linear group-hover:scale-100;
   }
+
+  .jdiNPu {
+    @apply p-0 !important;
+  }
 }
 
+.sc-gEvEer .sc-eqUAAy button {
+  @apply dark:text-dark-label-2 border-0;
+}
+.sc-kAyceB {
+  @apply dark:text-dark-label-2;
+}
+.YPIdN[aria-pressed="true"] {
+  @apply dark:bg-dark-green-s !important;
+}
+.YPIdN {
+  @apply hover:dark:bg-dark-fill-3 h-[35px] w-[35px] !important;
+}
+.jdiNPu {
+  padding: 0 !important;
+}
+.bNlvSn {
+  gap: 64px;
+}
+.bNlvSn .dRyZqW:hover {
+    border: 0 !important;
+    background: 0 !important;
+}
 /* dark  scrollbar */
 ::-webkit-scrollbar {
   width: 0.5rem;
@@ -121,16 +147,16 @@ code {
   display: block;
 }
 .css-fortly {
-    width: 14px;
-    height: 14px;
-    display: inline-block;
-    line-height: 1em;
-    flex-shrink: 0;
-    color: #FFC926;
-    vertical-align: middle;
-    fill: none;
+  width: 14px;
+  height: 14px;
+  display: inline-block;
+  line-height: 1em;
+  flex-shrink: 0;
+  color: #ffc926;
+  vertical-align: middle;
+  fill: none;
 }
 
-.dropdown-content::-webkit-scrollbar{
-    display: none;
-  }
+.dropdown-content::-webkit-scrollbar {
+  display: none;
+}

@@ -10,6 +10,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      backgroundImage: {
+        'yellow_bg' : "url('./lc-bg')",
+      },
       colors: {
         "dark-layer-1": "rgb(40,40,40)",
         "dark-layer-2": "rgb(26,26,26)",
@@ -41,7 +44,9 @@ module.exports = {
         "label-2": "#262626bf",
         "dark-text-gray-7": "rgb(89, 89, 89, 1)",
         "dark-overlay-3": "rgb(48, 48, 48, 1)",
-        "dark-label-3": "#eff2f699"
+        "dark-label-3": "#eff2f699",
+        "label-3": "#3c3c4399",
+        "label-light": "#eff1f640"
       },
     },
   },
