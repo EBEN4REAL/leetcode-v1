@@ -161,9 +161,20 @@ code {
   display: none;
 }
 
+.swiper-slide,
+swiper-slide {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 10px !important;
+}
+.swiper-button-lock {
+  display: block !important;
+}
 
-.swiper-slide, swiper-slide {
-    display: flex !important;
-    flex-wrap: wrap !important;
-    gap: 10px !important;
+.swiper-button-disabled.disabled_btn {
+  cursor: not-allowed !important;
+  color: #eff1f640;
+}
+.enabled-btn {
+  color: #eff1f6bf;
 }

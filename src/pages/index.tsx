@@ -15,7 +15,6 @@ import { RxCaretRight } from "react-icons/rx";
 import { BiSearch } from "react-icons/bi";
 import { FiSettings } from "react-icons/fi";
 import { QuestionPick } from "@/icons/questionPick";
-import { Octagon } from "@/icons/octagon";
 import { BsDash, BsCheck2 } from "react-icons/bs";
 import { Attempted } from "@/icons/attempted";
 import { Padlock } from "@/icons/padlock";
@@ -30,7 +29,6 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css";
 import "swiper/css/virtual";
-import { ReactElement } from "react";
 import {
   Algorithms,
   ALlTopics,
@@ -664,6 +662,19 @@ export default function Home() {
     });
   };
 
+  const handleTagsPaginationBtns = () => {
+    const tagsBtns = Array.from(document.querySelectorAll(".tags-btn"));
+    tagsBtns.forEach((tagBtn) => {
+      if (tagBtn.classList.contains("swiper-button-disabled")) {
+        tagBtn.classList.add("disabled_btn");
+        tagBtn.classList.remove("enabled-btn");
+      } else {
+        tagBtn.classList.remove("disabled_btn");
+        tagBtn.classList.add("enabled-btn")
+      }
+    });
+  };
+
   useEffect(() => {
     handleDropdownClicks();
   });
@@ -691,10 +702,15 @@ export default function Home() {
 
   const filteredCompanies = useMemo(() => {
     const clonedCompanies = [...companies];
-    return clonedCompanies.filter((company) =>
+
+    const trimmedCompanies = clonedCompanies.filter((company) =>
       company.name.toLowerCase().includes(tagQuery.toLowerCase())
     );
-  }, [companies, tagQuery]);
+    const tags = tagQuery.length > 0 ? trimmedCompanies : clonedCompanies;
+    setTotalPages((_) => Math.ceil(tags.length / pageSize));
+
+    return tags;
+  }, [companies, pageSize, tagQuery]);
 
   let startIndex = 0;
   let endIndex = 10;
@@ -712,7 +728,7 @@ export default function Home() {
         return (
           <div
             key={`company_slide_${(Math.random() + 1) * 163636636373373}`}
-            className="rounded-full dark:text-dark-label-2 py-1 px-2 dark:bg-dark-fill-3"
+            className="rounded-full dark:text-dark-label-2 py-1 px-2 dark:bg-dark-fill-3 max-h-[32px]"
           >
             <span className="text-sm">{slide.name} </span>
             <span className="bg-brand-orange rounded-full px-1.5 text-gray-700 text-sm">
@@ -794,6 +810,8 @@ export default function Home() {
 
   if (!hasMounted) return null;
 
+  handleTagsPaginationBtns();
+
   return (
     <>
       <main className="bg-dark-layer-2 min-h-screen ">
@@ -871,7 +889,7 @@ export default function Home() {
                     return (
                       <div
                         key={`topic__${topic.name}`}
-                        onClick={() => setActiveTopic(topic.name)}
+                        onClick={() => setActiveTopic(() => topic.name)}
                         className={`${
                           activeTopic === topic.name ? "bg-white" : ""
                         } cursor-pointer bg-secondary-gray rounded-full py-[8px] px-4`}
@@ -1149,28 +1167,14 @@ export default function Home() {
                   <div className="dark:text-dark-label-2">Companies</div>
                   <div className="flex justify-center items-center gap-1">
                     <div
-                      className={`flex items-center justify-center  h-[25px] w-[25px] rounded-[5px] dark:bg-dark-fill-4   dark:hover:bg-dark-fill-3  text-label-2  ${
-                        paginationBtns.hasPrev
-                          ? "dark:text-dark-label-2 cursor-pointer"
-                          : "text-label-light cursor-not-allowed"
-                      }`}
+                      className={`flex items-center justify-center  h-[25px] w-[25px] rounded-[5px] dark:bg-dark-fill-4   dark:hover:bg-dark-fill-3   cursor-pointer  `}
                     >
-                      <RxCaretLeft
-                        className="text-4xl font-bold prev"
-                        onClick={() => setPrevPage()}
-                      />
+                      <RxCaretLeft className="text-4xl font-bold prev tags-btn" />
                     </div>
                     <div
-                      className={`flex items-center justify-center  h-[25px] w-[25px] rounded-[5px] dark:bg-dark-fill-4   dark:hover:bg-dark-fill-3  text-label-2  ${
-                        paginationBtns.hasNext
-                          ? "dark:text-dark-label-2 cursor-pointer"
-                          : "text-label-light cursor-not-allowed"
-                      }`}
+                      className={`flex items-center justify-center  h-[25px] w-[25px] rounded-[5px] dark:bg-dark-fill-4   dark:hover:bg-dark-fill-3   cursor-pointer `}
                     >
-                      <RxCaretRight
-                        className="text-4xl font-bold next"
-                        onClick={() => setNextPage()}
-                      />
+                      <RxCaretRight className="text-4xl font-bold next tags-btn" />
                     </div>
                   </div>
                 </div>
@@ -1202,8 +1206,13 @@ export default function Home() {
                     onSlideChange={(e) => handleSlideChange(e)}
                     slideToClickedSlide
                   >
-                    <>{companiesSliders}</>
+                    <>{companiesSliders.length > 0 && companiesSliders}</>
                   </Swiper>
+                  {companiesSliders.length < 1 && (
+                    <div className="text-center dark:text-dark-gray-4 text-sm flex justify-center w-full">
+                      {`There aren't any tags here yet!`}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

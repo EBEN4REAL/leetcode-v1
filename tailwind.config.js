@@ -46,7 +46,8 @@ module.exports = {
         "dark-overlay-3": "rgb(48, 48, 48, 1)",
         "dark-label-3": "#eff2f699",
         "label-3": "#3c3c4399",
-        "label-light": "#eff1f640"
+        "label-light": "#eff1f640",
+        "dark-gray-4": "rgb(74, 74, 74, 1)"
       },
     },
   },
