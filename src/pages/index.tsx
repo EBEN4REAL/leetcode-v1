@@ -5,9 +5,9 @@ import LoadingSkeleton from "@/components/LoadingSkeleton";
 import { doc, setDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
 import Calendar from "moedim";
-// import "react-calendar/dist/Calendar.css";
+import SwiperButtons from "@/components/SwiperButtons"
 
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import { firestore } from "@/firebase/firebase";
 import { clipText } from "@/utils/clipText";
 import { RxCaretDown } from "react-icons/rx";
@@ -22,6 +22,14 @@ import { Attempted } from "@/icons/attempted";
 import { Padlock } from "@/icons/padlock";
 import { GrPowerReset } from "react-icons/gr";
 
+/** Slider **/
+import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
+import SwiperCore,  { Navigation, Pagination, Scrollbar, A11y, Virtual } from "swiper";
+import "swiper/swiper.min.css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "swiper/css";
+import "swiper/css/virtual";
 import {
   Algorithms,
   ALlTopics,
@@ -38,6 +46,8 @@ export default function Home() {
   const [collapseCategory, setCollapseCategory] = useState<boolean>(true);
   const [date, setDate] = useState(new Date());
   const [tagQuery, setTagQuery] = useState<string>("");
+  const [activeSlideIndex, setActiveSlideIndex] = useState<number>(0)
+  
 
   const [cards, setCards] = useState([
     {
@@ -574,7 +584,7 @@ export default function Home() {
   ]);
 
   /**
-   * Pagination
+   * Pagination starts
    */
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(20);
@@ -608,8 +618,8 @@ export default function Home() {
   const paginationBtns = useMemo(() => {
     return {
       hasNext: currentPage < totalPages,
-      hasPrev: currentPage > 1 
-    }
+      hasPrev: currentPage > 1,
+    };
   }, [currentPage, totalPages]);
 
   const handleDropdownClicks = () => {
@@ -666,6 +676,7 @@ export default function Home() {
     }, 500);
   });
 
+
   const renderednewCategories = useMemo(() => {
     const categoriesList = collapseCategory
       ? categories.slice(0, 11)
@@ -673,7 +684,7 @@ export default function Home() {
 
     return categoriesList.map((newCategory, index) => (
       <div
-        key={index}
+        key={`cat_${index}`}
         className="flex dark:bg-dark-fill-3 rounded-full dark:text-dark-label-3 py-0.5 px-3 whitespace-nowrap text-xs"
       >
         {newCategory.name}
@@ -691,7 +702,7 @@ export default function Home() {
   const renderCompanies = () =>
     filteredCompanies.map((company, index) => (
       <div
-        key={index}
+        key={`company__${index}`}
         className="rounded-full dark:text-dark-label-2 py-1 px-2 dark:bg-dark-fill-3"
       >
         <span className="text-sm">{company.name} </span>
@@ -701,6 +712,38 @@ export default function Home() {
       </div>
     ));
 
+  let startIndex = 0;
+  let endIndex = 10;
+  let page = 1;
+
+  const companiesSliders = Array(totalPages)
+    .fill(undefined)
+    .map((_, index) => {
+      let clonedCompanies = [...companies];
+      startIndex = (page - 1) * pageSize;
+      endIndex = startIndex + pageSize;
+      let slidesArr = clonedCompanies.slice(startIndex, endIndex);
+      const slidesPageHtml = slidesArr.map((slide, _idx) => {
+        return (
+          <div
+            key={`company_slide_${(Math.random() + 1) * 163636636373373}`}
+            className="rounded-full dark:text-dark-label-2 py-1 px-2 dark:bg-dark-fill-3"
+          >
+            <span className="text-sm">{slide.name} </span>
+            <span className="bg-brand-orange rounded-full px-1.5 text-gray-700 text-sm">
+              {slide.count}
+            </span>
+          </div>
+        );
+      });
+
+      page += 1;
+
+      return (
+        <SwiperSlide key={`slide___${index}`}>{slidesPageHtml}</SwiperSlide>
+      );
+    });
+  
   function hanldeOnChange(e: React.ChangeEvent<HTMLInputElement>) {
     e.preventDefault();
     setInputs((prev) => {
@@ -750,7 +793,7 @@ export default function Home() {
 
   const renderCategories = () =>
     categories.slice(0, 7).map((category, index) => (
-      <div className="inline-flex items-center " key={index}>
+      <div className="inline-flex items-center " key={`category_&_${index}`}>
         <span className="text-white whitespace-nowrap">{category.name}</span>
         {index < 7 ? (
           <CategoryCount count={category.count} index={index} />
@@ -759,6 +802,15 @@ export default function Home() {
         )}
       </div>
     ));
+
+  const handleSlideChange = (e: any) => {
+    console.log("e", e)
+    // if(e.activeIndex < activeSlideIndex) {
+    //   console.log("PREV")
+    // }else {
+    //   console.log("NEXT")
+    // }
+  }
 
   if (!hasMounted) return null;
 
@@ -797,7 +849,7 @@ export default function Home() {
                 <div className="grid grid-cols-3 gap-4 mt-5">
                   {cards.map((card, index) => (
                     <div
-                      key={index}
+                      key={`car__${index}`}
                       className="flex gap-4 items-center  bg-secondary-gray rounded-[8px] p-2"
                     >
                       <span className="inline-block overflow-hidden  rounded-[8px]">
@@ -838,7 +890,7 @@ export default function Home() {
                   {topics.map((topic, _) => {
                     return (
                       <div
-                        key={topic.name}
+                        key={`topic__${topic.name}`}
                         onClick={() => setActiveTopic(topic.name)}
                         className={`${
                           activeTopic === topic.name ? "bg-white" : ""
@@ -1024,7 +1076,7 @@ export default function Home() {
                   {loadingProblems && (
                     <div className="max-w-[1200px] mx-auto w-full animate-pulse">
                       {[...Array(10)].map((_, idx) => (
-                        <LoadingSkeleton key={idx} />
+                        <LoadingSkeleton key={`skeleton__${idx}`} />
                       ))}
                     </div>
                   )}
@@ -1111,6 +1163,7 @@ export default function Home() {
                   </div>
                 </div>
               </div>
+
               <div className="w-full  py-3 px-3 rounded-[8px] bg-dark-layer-1 mt-3">
                 <div className="flex items-center justify-between">
                   <div className="dark:text-dark-label-2">Companies</div>
@@ -1123,8 +1176,8 @@ export default function Home() {
                       }`}
                     >
                       <RxCaretLeft
-                        className="text-4xl font-bold"
-                        onClick={setPrevPage}
+                        className="text-4xl font-bold prev"
+                        onClick={() => setPrevPage()}
                       />
                     </div>
                     <div
@@ -1135,8 +1188,8 @@ export default function Home() {
                       }`}
                     >
                       <RxCaretRight
-                        className="text-4xl font-bold"
-                        onClick={setNextPage}
+                        className="text-4xl font-bold next"
+                        onClick={() => setNextPage()}
                       />
                     </div>
                   </div>
@@ -1156,8 +1209,23 @@ export default function Home() {
                     />
                   </div>
                 </div>
-                <div className="mt-3 flex gap-2 w-full flex-wrap">
-                  {renderCompanies()}
+                <div className="mt-3 flex gap-2 w-full flex-wrap slider">
+                  <Swiper
+                    navigation={{
+                      prevEl: '.prev',
+                      nextEl: '.next',
+                    }}
+                    allowTouchMove={false}
+                    modules={[Navigation]}
+                    className="flex gap-2 w-full flex-wrap"
+                    onSwiper={(swiper) => console.log(swiper)}
+                    onSlideChange={(e) => handleSlideChange(e)}
+                    slideToClickedSlide
+                  >
+                    <>
+                      {companiesSliders}
+                    </>
+                  </Swiper>
                 </div>
               </div>
             </div>

@@ -63,8 +63,8 @@ body {
   gap: 64px;
 }
 .bNlvSn .dRyZqW:hover {
-    border: 0 !important;
-    background: 0 !important;
+  border: 0 !important;
+  background: 0 !important;
 }
 /* dark  scrollbar */
 ::-webkit-scrollbar {
@@ -159,4 +159,11 @@ code {
 
 .dropdown-content::-webkit-scrollbar {
   display: none;
+}
+
+
+.swiper-slide, swiper-slide {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 10px !important;
 }
