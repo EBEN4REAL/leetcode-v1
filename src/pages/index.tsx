@@ -619,7 +619,6 @@ export default function Home() {
   }, [currentPage, totalPages]);
 
   const handleDropdownClicks = () => {
-    console.log("active topic", activeTopic)
     const dropdowns = Array.from(document.querySelectorAll(".dropdown"));
     const dropdownContents = Array.from(
       document.querySelectorAll<HTMLElement>(".dropdown-content")
@@ -678,6 +677,10 @@ export default function Home() {
   useEffect(() => {
     handleDropdownClicks();
   });
+
+  useEffect(() => {
+    handleDropdownClicks()
+  }, [activeTopic])
 
   useEffect(() => {
     setTimeout(() => {
