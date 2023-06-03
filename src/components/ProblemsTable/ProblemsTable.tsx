@@ -83,7 +83,7 @@ const ProblemsTable: React.FC<ProblemsTableProps> = ({setLoadingProblems}) => {
                 {problem.difficulty}
               </td>
               <td className={"px-6 py-4"}>
-			  	{`${((Math.random() * 100) + 1).toFixed(2)}%`}	
+			  	{/* {`${((Math.random() * 100) + 1).toFixed(2)}%`}	 */}
 			  </td>
               <td className={"px-6 py-4"}>
                 {problem.videoId ? (

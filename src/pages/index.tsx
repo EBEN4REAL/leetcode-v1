@@ -585,7 +585,7 @@ export default function Home() {
    * Pagination starts
    */
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [pageSize, setPageSize] = useState<number>(10);
+  const [pageSize, setPageSize] = useState<number>(20);
   const [totalPages, setTotalPages] = useState<number>(
     Math.ceil(companies.length / pageSize)
   );
@@ -619,23 +619,24 @@ export default function Home() {
   }, [currentPage, totalPages]);
 
   const handleDropdownClicks = () => {
+    console.log("active topic", activeTopic)
     const dropdowns = Array.from(document.querySelectorAll(".dropdown"));
     const dropdownContents = Array.from(
       document.querySelectorAll<HTMLElement>(".dropdown-content")
     );
 
-    if (dropdowns.length > 0) {
-      dropdowns.forEach((dropdown, index) => {
-        dropdown.addEventListener("click", function (this: typeof dropdown, e) {
-          e.stopPropagation();
-          const dropdownContent = dropdownContents[index];
-          dropdownContent.parentNode?.children[0].children[1]?.classList.toggle(
-            "rotate-180"
-          );
-          dropdownContent.classList.toggle("show");
-        });
+    dropdowns.forEach((dropdown, index) => {
+      dropdown.addEventListener("click",  (e) => {
+        e.stopPropagation();
+        console.log(`dropdown ${index}`, 'clicked')
+        const dropdownContent = dropdownContents[index];
+        console.log("dropdownContent", dropdownContent)
+        dropdownContent.parentNode?.children[0].children[1]?.classList.toggle(
+          "rotate-180"
+        );
+        dropdownContent.classList.toggle("show");
       });
-    }
+    });
   };
 
   const closeDropDowns = () => {
@@ -667,7 +668,6 @@ export default function Home() {
     tagsBtns.forEach((tagBtn) => {
       if (tagBtn.classList.contains("swiper-button-disabled")) {
         tagBtn.classList.add("disabled_btn");
-        tagBtn.classList.remove("enabled-btn");
       } else {
         tagBtn.classList.remove("disabled_btn");
         tagBtn.classList.add("enabled-btn")
@@ -682,7 +682,7 @@ export default function Home() {
   useEffect(() => {
     setTimeout(() => {
       closeDropDowns();
-    }, 800);
+    }, 1000);
   });
 
   const renderednewCategories = useMemo(() => {
@@ -889,7 +889,11 @@ export default function Home() {
                     return (
                       <div
                         key={`topic__${topic.name}`}
-                        onClick={() => setActiveTopic(() => topic.name)}
+                        onClick={(e) => {
+                          e.preventDefault()
+                          e.stopPropagation()
+                          setActiveTopic(() => topic.name)
+                        }}
                         className={`${
                           activeTopic === topic.name ? "bg-white" : ""
                         } cursor-pointer bg-secondary-gray rounded-full py-[8px] px-4`}
