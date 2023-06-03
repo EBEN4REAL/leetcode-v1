@@ -5,9 +5,8 @@ import LoadingSkeleton from "@/components/LoadingSkeleton";
 import { doc, setDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
 import Calendar from "moedim";
-import SwiperButtons from "@/components/SwiperButtons"
 
-import React, { useState, useEffect, useMemo, useRef } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { firestore } from "@/firebase/firebase";
 import { clipText } from "@/utils/clipText";
 import { RxCaretDown } from "react-icons/rx";
@@ -21,15 +20,17 @@ import { BsDash, BsCheck2 } from "react-icons/bs";
 import { Attempted } from "@/icons/attempted";
 import { Padlock } from "@/icons/padlock";
 import { GrPowerReset } from "react-icons/gr";
+import ReactDOMServer from "react-dom/server";
 
 /** Slider **/
-import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
-import SwiperCore,  { Navigation, Pagination, Scrollbar, A11y, Virtual } from "swiper";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper";
 import "swiper/swiper.min.css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css";
 import "swiper/css/virtual";
+import { ReactElement } from "react";
 import {
   Algorithms,
   ALlTopics,
@@ -46,8 +47,7 @@ export default function Home() {
   const [collapseCategory, setCollapseCategory] = useState<boolean>(true);
   const [date, setDate] = useState(new Date());
   const [tagQuery, setTagQuery] = useState<string>("");
-  const [activeSlideIndex, setActiveSlideIndex] = useState<number>(0)
-  
+  const [activeSlideIndex, setActiveSlideIndex] = useState<number>(0);
 
   const [cards, setCards] = useState([
     {
@@ -587,12 +587,10 @@ export default function Home() {
    * Pagination starts
    */
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [pageSize, setPageSize] = useState<number>(20);
+  const [pageSize, setPageSize] = useState<number>(10);
   const [totalPages, setTotalPages] = useState<number>(
     Math.ceil(companies.length / pageSize)
   );
-  const [itemCount, setItemCount] = useState<number>(companies.length);
-
   const setNextPage = () => {
     if (currentPage < totalPages) {
       setCurrentPage((prev) => (prev += 1));
@@ -673,9 +671,8 @@ export default function Home() {
   useEffect(() => {
     setTimeout(() => {
       closeDropDowns();
-    }, 500);
+    }, 800);
   });
-
 
   const renderednewCategories = useMemo(() => {
     const categoriesList = collapseCategory
@@ -693,24 +690,11 @@ export default function Home() {
   }, [categories, collapseCategory]);
 
   const filteredCompanies = useMemo(() => {
-    const filteredTags = paginatedCompanies.filter((company) =>
+    const clonedCompanies = [...companies];
+    return clonedCompanies.filter((company) =>
       company.name.toLowerCase().includes(tagQuery.toLowerCase())
     );
-    return filteredTags.length > 0 ? filteredTags : companies;
-  }, [companies, paginatedCompanies, tagQuery]);
-
-  const renderCompanies = () =>
-    filteredCompanies.map((company, index) => (
-      <div
-        key={`company__${index}`}
-        className="rounded-full dark:text-dark-label-2 py-1 px-2 dark:bg-dark-fill-3"
-      >
-        <span className="text-sm">{company.name} </span>
-        <span className="bg-brand-orange rounded-full px-1.5 text-gray-700 text-sm">
-          {company.count}
-        </span>
-      </div>
-    ));
+  }, [companies, tagQuery]);
 
   let startIndex = 0;
   let endIndex = 10;
@@ -719,10 +703,11 @@ export default function Home() {
   const companiesSliders = Array(totalPages)
     .fill(undefined)
     .map((_, index) => {
-      let clonedCompanies = [...companies];
+      let clonedCompanies = [...filteredCompanies];
       startIndex = (page - 1) * pageSize;
       endIndex = startIndex + pageSize;
       let slidesArr = clonedCompanies.slice(startIndex, endIndex);
+
       const slidesPageHtml = slidesArr.map((slide, _idx) => {
         return (
           <div
@@ -743,7 +728,7 @@ export default function Home() {
         <SwiperSlide key={`slide___${index}`}>{slidesPageHtml}</SwiperSlide>
       );
     });
-  
+
   function hanldeOnChange(e: React.ChangeEvent<HTMLInputElement>) {
     e.preventDefault();
     setInputs((prev) => {
@@ -804,13 +789,8 @@ export default function Home() {
     ));
 
   const handleSlideChange = (e: any) => {
-    console.log("e", e)
-    // if(e.activeIndex < activeSlideIndex) {
-    //   console.log("PREV")
-    // }else {
-    //   console.log("NEXT")
-    // }
-  }
+    setActiveSlideIndex(e.activeIndex);
+  };
 
   if (!hasMounted) return null;
 
@@ -1212,8 +1192,8 @@ export default function Home() {
                 <div className="mt-3 flex gap-2 w-full flex-wrap slider">
                   <Swiper
                     navigation={{
-                      prevEl: '.prev',
-                      nextEl: '.next',
+                      prevEl: ".prev",
+                      nextEl: ".next",
                     }}
                     allowTouchMove={false}
                     modules={[Navigation]}
@@ -1222,9 +1202,7 @@ export default function Home() {
                     onSlideChange={(e) => handleSlideChange(e)}
                     slideToClickedSlide
                   >
-                    <>
-                      {companiesSliders}
-                    </>
+                    <>{companiesSliders}</>
                   </Swiper>
                 </div>
               </div>
