@@ -5,13 +5,11 @@ import LoadingSkeleton from "@/components/LoadingSkeleton";
 import { doc, setDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
 import Calendar from "moedim";
+import { RxCaretDown } from "react-icons/rx";
 
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { firestore } from "@/firebase/firebase";
 import { clipText } from "@/utils/clipText";
-import { RxCaretDown } from "react-icons/rx";
-import { RxCaretLeft } from "react-icons/rx";
-import { RxCaretRight } from "react-icons/rx";
 import { BiSearch } from "react-icons/bi";
 import { FiSettings } from "react-icons/fi";
 import { QuestionPick } from "@/icons/questionPick";
@@ -19,604 +17,52 @@ import { BsDash, BsCheck2 } from "react-icons/bs";
 import { Attempted } from "@/icons/attempted";
 import { Padlock } from "@/icons/padlock";
 import { GrPowerReset } from "react-icons/gr";
-import ReactDOMServer from "react-dom/server";
 
-/** Slider **/
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation } from "swiper";
-import "swiper/swiper.min.css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import "swiper/css";
-import "swiper/css/virtual";
-import {
-  Algorithms,
-  ALlTopics,
-  Concurrency,
-  Database,
-  Javascript,
-  Shell,
-} from "@/icons/Topics";
+/**
+ *
+ * @returns Components
+ */
+import LInput from "@/components/Base_input/input";
+import CompanyTags from "@/components/Company_tags/CompanyTags";
+import Filters from "@/components/Filters/filters";
+import Dropdown from "@/components/Dropdown/dropdown";
 
-export default function Home() {
+/**
+ *
+ * @returns constants
+ */
+import { _cards, _categories, _topics, _inputs, _companies } from "@/constants";
+import { problems } from '../mockProblems/problems';
+
+const Home = () => {
   const [loadingProblems, setLoadingProblems] = useState(false);
   const hasMounted = useHasMounted();
   const [activeTopic, setActiveTopic] = useState<string>("All Topics");
   const [collapseCategory, setCollapseCategory] = useState<boolean>(true);
   const [date, setDate] = useState(new Date());
-  const [tagQuery, setTagQuery] = useState<string>("");
-  const [activeSlideIndex, setActiveSlideIndex] = useState<number>(0);
+  const [cards, setCards] = useState(_cards);
+  const [categories, setCategories] = useState(_categories);
+  const [topics, setTopics] = useState(_topics);
+  const [inputs, setInputs] = useState(_inputs);
+  const [companies, setCompanies] = useState(_companies);
+  const [guagePercent, setGuagePercent] = useState<boolean>(false);
+  const [solvedProblems, setSolvedProblems] = useState<number>(0);
+  const [difficultyMode, setDifficultyMode] = useState<string>("");
 
-  const [cards, setCards] = useState([
-    {
-      name: "lc-4",
-      title: "Top Interview 150",
-      desc: "Must-do List for Interview Prep",
-    },
-    {
-      name: "lc-5",
-      title: "LeetCode 75",
-      desc: "Ace Coding Interview with 75 Qs",
-    },
-    {
-      name: "lc-6",
-      title: "SQL 50",
-      desc: "Crack SQL Interview in 50 Qs",
-    },
-    {
-      name: "lc-7",
-      title: "Premium Algo 100",
-      desc: "LeetCode Staff Pick",
-    },
-    {
-      name: "lc-8",
-      title: "Amazon Spring '23 High Frequency",
-      desc: "Practice Amazon 25 Recently Asked Qs",
-    },
-    {
-      name: "lc-9",
-      title: "Dynamic Programming",
-      desc: "10 Essential DP Patterns",
-    },
-  ]);
+  const renderednewCategories = useMemo(() => {
+    const categoriesList = collapseCategory
+      ? categories.slice(0, 11)
+      : categories;
 
-  const [categories, setCategories] = useState([
-    {
-      name: "Array",
-      count: 1381,
-    },
-    {
-      name: "String",
-      count: 615,
-    },
-    {
-      name: "Hash table",
-      count: 475,
-    },
-    {
-      name: "Dynamic Programming",
-      count: 431,
-    },
-    {
-      name: "Math",
-      count: 430,
-    },
-    {
-      name: "Sorting",
-      count: 318,
-    },
-    {
-      name: "Greedy",
-      count: 309,
-    },
-    {
-      name: "Depth-First Search ",
-      count: 274,
-    },
-    {
-      name: "Database",
-      count: 226,
-    },
-    {
-      name: "Array",
-      count: 1381,
-    },
-    {
-      name: "String",
-      count: 615,
-    },
-    {
-      name: "Hash table",
-      count: 475,
-    },
-    {
-      name: "Dynamic Programming",
-      count: 431,
-    },
-    {
-      name: "Math",
-      count: 430,
-    },
-    {
-      name: "Sorting",
-      count: 318,
-    },
-    {
-      name: "Greedy",
-      count: 309,
-    },
-    {
-      name: "Depth-First Search ",
-      count: 274,
-    },
-    {
-      name: "Database",
-      count: 226,
-    },
-    {
-      name: "Array",
-      count: 1381,
-    },
-    {
-      name: "String",
-      count: 615,
-    },
-    {
-      name: "Hash table",
-      count: 475,
-    },
-    {
-      name: "Dynamic Programming",
-      count: 431,
-    },
-    {
-      name: "Math",
-      count: 430,
-    },
-    {
-      name: "Sorting",
-      count: 318,
-    },
-    {
-      name: "Greedy",
-      count: 309,
-    },
-    {
-      name: "Depth-First Search ",
-      count: 274,
-    },
-    {
-      name: "Database",
-      count: 226,
-    },
-    {
-      name: "Array",
-      count: 1381,
-    },
-    {
-      name: "String",
-      count: 615,
-    },
-    {
-      name: "Hash table",
-      count: 475,
-    },
-    {
-      name: "Dynamic Programming",
-      count: 431,
-    },
-    {
-      name: "Math",
-      count: 430,
-    },
-    {
-      name: "Sorting",
-      count: 318,
-    },
-    {
-      name: "Greedy",
-      count: 309,
-    },
-    {
-      name: "Depth-First Search ",
-      count: 274,
-    },
-    {
-      name: "Database",
-      count: 226,
-    },
-  ]);
-
-  const [topics, setTopics] = useState([
-    {
-      name: "All Topics",
-      img: ALlTopics,
-    },
-    {
-      name: "Algorithms",
-      img: Algorithms,
-    },
-    {
-      name: "Database",
-      img: Database,
-    },
-    {
-      name: "Javascript",
-      img: Javascript,
-    },
-    {
-      name: "Shell",
-      img: Shell,
-    },
-    {
-      name: "Concurrency",
-      img: Concurrency,
-    },
-  ]);
-
-  const [inputs, setInputs] = useState({
-    id: "",
-    title: "",
-    difficulty: "",
-    category: "",
-    videoId: "",
-    link: "",
-    order: 0,
-    likes: 0,
-    dislikes: 0,
-  });
-
-  const [companies, setCompanies] = useState([
-    {
-      name: "Amazon",
-      count: 1237,
-    },
-    {
-      name: "Google",
-      count: 1202,
-    },
-    {
-      name: "Microsoft",
-      count: 729,
-    },
-    {
-      name: "Facebook",
-      count: 668,
-    },
-    {
-      name: "Apple",
-      count: 613,
-    },
-    {
-      name: "Bloomberg",
-      count: 585,
-    },
-    {
-      name: "Adobe",
-      count: 508,
-    },
-    {
-      name: "Uber",
-      count: 504378,
-    },
-    {
-      name: "Oracle",
-      count: 219,
-    },
-    {
-      name: "TikTok",
-      count: 213,
-    },
-    {
-      name: "Goldman Sachs",
-      count: 180,
-    },
-    {
-      name: "Yahoo",
-      count: 177,
-    },
-    {
-      name: "LinkedIn",
-      count: 168,
-    },
-    {
-      name: "Amazon",
-      count: 1237,
-    },
-    {
-      name: "Google",
-      count: 1202,
-    },
-    {
-      name: "Microsoft",
-      count: 729,
-    },
-    {
-      name: "Facebook",
-      count: 668,
-    },
-    {
-      name: "Apple",
-      count: 613,
-    },
-    {
-      name: "Bloomberg",
-      count: 585,
-    },
-    {
-      name: "Adobe",
-      count: 508,
-    },
-    {
-      name: "Uber",
-      count: 504378,
-    },
-    {
-      name: "Oracle",
-      count: 219,
-    },
-    {
-      name: "TikTok",
-      count: 213,
-    },
-    {
-      name: "Goldman Sachs",
-      count: 180,
-    },
-    {
-      name: "Yahoo",
-      count: 177,
-    },
-    {
-      name: "LinkedIn",
-      count: 168,
-    },
-    {
-      name: "Amazon",
-      count: 1237,
-    },
-    {
-      name: "Google",
-      count: 1202,
-    },
-    {
-      name: "Microsoft",
-      count: 729,
-    },
-    {
-      name: "Facebook",
-      count: 668,
-    },
-    {
-      name: "Apple",
-      count: 613,
-    },
-    {
-      name: "Bloomberg",
-      count: 585,
-    },
-    {
-      name: "Adobe",
-      count: 508,
-    },
-    {
-      name: "Uber",
-      count: 504378,
-    },
-    {
-      name: "Oracle",
-      count: 219,
-    },
-    {
-      name: "TikTok",
-      count: 213,
-    },
-    {
-      name: "Goldman Sachs",
-      count: 180,
-    },
-    {
-      name: "Yahoo",
-      count: 177,
-    },
-    {
-      name: "LinkedIn",
-      count: 168,
-    },
-    {
-      name: "Amazon",
-      count: 1237,
-    },
-    {
-      name: "Google",
-      count: 1202,
-    },
-    {
-      name: "Microsoft",
-      count: 729,
-    },
-    {
-      name: "Facebook",
-      count: 668,
-    },
-    {
-      name: "Apple",
-      count: 613,
-    },
-    {
-      name: "Bloomberg",
-      count: 585,
-    },
-    {
-      name: "Adobe",
-      count: 508,
-    },
-    {
-      name: "Uber",
-      count: 504378,
-    },
-    {
-      name: "Oracle",
-      count: 219,
-    },
-    {
-      name: "TikTok",
-      count: 213,
-    },
-    {
-      name: "Goldman Sachs",
-      count: 180,
-    },
-    {
-      name: "Yahoo",
-      count: 177,
-    },
-    {
-      name: "LinkedIn",
-      count: 168,
-    },
-    {
-      name: "Amazon",
-      count: 1237,
-    },
-    {
-      name: "Google",
-      count: 1202,
-    },
-    {
-      name: "Microsoft",
-      count: 729,
-    },
-    {
-      name: "Facebook",
-      count: 668,
-    },
-    {
-      name: "Apple",
-      count: 613,
-    },
-    {
-      name: "Bloomberg",
-      count: 585,
-    },
-    {
-      name: "Adobe",
-      count: 508,
-    },
-    {
-      name: "Uber",
-      count: 504378,
-    },
-    {
-      name: "Oracle",
-      count: 219,
-    },
-    {
-      name: "TikTok",
-      count: 213,
-    },
-    {
-      name: "Goldman Sachs",
-      count: 180,
-    },
-    {
-      name: "Yahoo",
-      count: 177,
-    },
-    {
-      name: "LinkedIn",
-      count: 168,
-    },
-    {
-      name: "Amazon",
-      count: 1237,
-    },
-    {
-      name: "Google",
-      count: 1202,
-    },
-    {
-      name: "Microsoft",
-      count: 729,
-    },
-    {
-      name: "Facebook",
-      count: 668,
-    },
-    {
-      name: "Apple",
-      count: 613,
-    },
-    {
-      name: "Bloomberg",
-      count: 585,
-    },
-    {
-      name: "Adobe",
-      count: 508,
-    },
-    {
-      name: "Uber",
-      count: 504378,
-    },
-    {
-      name: "Oracle",
-      count: 219,
-    },
-    {
-      name: "TikTok",
-      count: 213,
-    },
-    {
-      name: "Goldman Sachs",
-      count: 180,
-    },
-    {
-      name: "Yahoo",
-      count: 177,
-    },
-    {
-      name: "LinkedIn",
-      count: 168,
-    },
-  ]);
-
-  /**
-   * Pagination starts
-   */
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [pageSize, setPageSize] = useState<number>(20);
-  const [totalPages, setTotalPages] = useState<number>(
-    Math.ceil(companies.length / pageSize)
-  );
-  const setNextPage = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage((prev) => (prev += 1));
-    }
-  };
-
-  const setPrevPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage((prev) => (prev -= 1));
-    }
-  };
-
-  const paginatedCompanies = useMemo(() => {
-    const clonedCompanies: { name: string; count: number }[] = [...companies];
-    const startIndex = (currentPage - 1) * pageSize;
-    const endIndex = startIndex + pageSize;
-
-    const newCompanies = clonedCompanies.slice(startIndex, endIndex);
-
-    return newCompanies;
-  }, [companies, currentPage, pageSize]);
-
-  const paginationBtns = useMemo(() => {
-    return {
-      hasNext: currentPage < totalPages,
-      hasPrev: currentPage > 1,
-    };
-  }, [currentPage, totalPages]);
+    return categoriesList.map((newCategory, index) => (
+      <div
+        key={`cat_${index}`}
+        className="flex dark:bg-dark-fill-3 rounded-full dark:text-dark-label-3 py-0.5 px-3 whitespace-nowrap text-xs"
+      >
+        {newCategory.name}
+      </div>
+    ));
+  }, [categories, collapseCategory]);
 
   const handleDropdownClicks = () => {
     const dropdowns = Array.from(document.querySelectorAll(".dropdown"));
@@ -625,11 +71,9 @@ export default function Home() {
     );
 
     dropdowns.forEach((dropdown, index) => {
-      dropdown.addEventListener("click",  (e) => {
+      dropdown.addEventListener("click", (e) => {
         e.stopPropagation();
-        console.log(`dropdown ${index}`, 'clicked')
         const dropdownContent = dropdownContents[index];
-        console.log("dropdownContent", dropdownContent)
         dropdownContent.parentNode?.children[0].children[1]?.classList.toggle(
           "rotate-180"
         );
@@ -662,122 +106,19 @@ export default function Home() {
     });
   };
 
-  const handleTagsPaginationBtns = () => {
-    const tagsBtns = Array.from(document.querySelectorAll(".tags-btn"));
-    tagsBtns.forEach((tagBtn) => {
-      if (tagBtn.classList.contains("swiper-button-disabled")) {
-        tagBtn.classList.add("disabled_btn");
-      } else {
-        tagBtn.classList.remove("disabled_btn");
-        tagBtn.classList.add("enabled-btn")
-      }
-    });
-  };
-
   useEffect(() => {
     handleDropdownClicks();
   });
 
   useEffect(() => {
-    handleDropdownClicks()
-  }, [activeTopic])
+    handleDropdownClicks();
+  }, [activeTopic]);
 
   useEffect(() => {
     setTimeout(() => {
       closeDropDowns();
     }, 1000);
   });
-
-  const renderednewCategories = useMemo(() => {
-    const categoriesList = collapseCategory
-      ? categories.slice(0, 11)
-      : categories;
-
-    return categoriesList.map((newCategory, index) => (
-      <div
-        key={`cat_${index}`}
-        className="flex dark:bg-dark-fill-3 rounded-full dark:text-dark-label-3 py-0.5 px-3 whitespace-nowrap text-xs"
-      >
-        {newCategory.name}
-      </div>
-    ));
-  }, [categories, collapseCategory]);
-
-  const filteredCompanies = useMemo(() => {
-    const clonedCompanies = [...companies];
-
-    const trimmedCompanies = clonedCompanies.filter((company) =>
-      company.name.toLowerCase().includes(tagQuery.toLowerCase())
-    );
-    const tags = tagQuery.length > 0 ? trimmedCompanies : clonedCompanies;
-    setTotalPages((_) => Math.ceil(tags.length / pageSize));
-
-    return tags;
-  }, [companies, pageSize, tagQuery]);
-
-  let startIndex = 0;
-  let endIndex = 10;
-  let page = 1;
-
-  const companiesSliders = Array(totalPages)
-    .fill(undefined)
-    .map((_, index) => {
-      let clonedCompanies = [...filteredCompanies];
-      startIndex = (page - 1) * pageSize;
-      endIndex = startIndex + pageSize;
-      let slidesArr = clonedCompanies.slice(startIndex, endIndex);
-
-      const slidesPageHtml = slidesArr.map((slide, _idx) => {
-        return (
-          <div
-            key={`company_slide_${(Math.random() + 1) * 163636636373373}`}
-            className="rounded-full dark:text-dark-label-2 py-1 px-2 dark:bg-dark-fill-3 max-h-[32px]"
-          >
-            <span className="text-sm">{slide.name} </span>
-            <span className="bg-brand-orange rounded-full px-1.5 text-gray-700 text-sm">
-              {slide.count}
-            </span>
-          </div>
-        );
-      });
-
-      page += 1;
-
-      return (
-        <SwiperSlide key={`slide___${index}`}>{slidesPageHtml}</SwiperSlide>
-      );
-    });
-
-  function hanldeOnChange(e: React.ChangeEvent<HTMLInputElement>) {
-    e.preventDefault();
-    setInputs((prev) => {
-      return {
-        ...prev,
-        [e.target.name]: e.target.value,
-      };
-    });
-  }
-
-  function handleSubmit(e: React.SyntheticEvent) {
-    e.preventDefault();
-    async function saveDoc() {
-      const newInputs = {
-        ...inputs,
-        order: Number(inputs.order),
-      };
-      try {
-        await setDoc(doc(firestore, "problems", newInputs.id), newInputs);
-        toast.success("Successful", {
-          position: "top-center",
-          autoClose: 3000,
-          theme: "dark",
-        });
-      } catch (e: unknown) {
-        throw new Error(e as string);
-      }
-    }
-    saveDoc();
-  }
 
   function CategoryCount({ count, index }: { count: number; index: number }) {
     return (
@@ -807,19 +148,13 @@ export default function Home() {
       </div>
     ));
 
-  const handleSlideChange = (e: any) => {
-    setActiveSlideIndex(e.activeIndex);
-  };
-
   if (!hasMounted) return null;
-
-  handleTagsPaginationBtns();
 
   return (
     <>
       <main className="bg-dark-layer-2 min-h-screen ">
         <Topbar />
-        <div className="max-w-[1150px] mx-auto mt-[67px]">
+        <div className="max-w-[1150px] mx-auto mt-[67px] pb-5">
           <div className="flex gap-6">
             <div className="w-9/12">
               <div className="flex gap-6">
@@ -839,7 +174,7 @@ export default function Home() {
                   </span>
                 </div>
               </div>
-              <div className="relative overflow-x-auto mx-auto ">
+              <div className="relative  mx-auto ">
                 <div className="flex justify-between items-center">
                   <div className="text-text-gray text-xl pt-5">Study Plan</div>
                   <div>
@@ -879,12 +214,6 @@ export default function Home() {
 
                 <div className="flex gap-4 mt-5  overflow-hidden flex-nowrap relative">
                   {renderCategories()}
-                  {/* <span className="text-light-gray absolute whitespace-nowrap flex top-1 -right-1 font-bold items-center text-xs">
-                    Expand
-                    <span className="ml-0">
-                      <RxCaretDown className="text-light-gray"/>
-                    </span>
-                  </span> */}
                 </div>
 
                 <div className="flex  gap-4 mt-5">
@@ -893,9 +222,9 @@ export default function Home() {
                       <div
                         key={`topic__${topic.name}`}
                         onClick={(e) => {
-                          e.preventDefault()
-                          e.stopPropagation()
-                          setActiveTopic(() => topic.name)
+                          e.preventDefault();
+                          e.stopPropagation();
+                          setActiveTopic(() => topic.name);
                         }}
                         className={`${
                           activeTopic === topic.name ? "bg-white" : ""
@@ -919,21 +248,11 @@ export default function Home() {
                     );
                   })}
                 </div>
+                <Filters />
 
                 <div className="mt-5">
                   <div className="flex w-full gap-2">
-                    <div className="relative">
-                      <div
-                        className="dropdown  flex py-1 gap-4 flex-1 justify-between items-center px-3 cursor-pointer  bg-secondary-gray rounded-[5px] relative"
-                        id="dropdownDefaultButton"
-                      >
-                        <div className="text-light-gray text-sm label">
-                          Lists
-                        </div>
-                        <div className="transition-all ease-in-out duration-300">
-                          <RxCaretDown className="text-light-gray text-2xl caret" />
-                        </div>
-                      </div>
+                    <Dropdown header="Lists" activeTopic={activeTopic}>
                       <div className="dropdown-content absolute top-9 left-0 p-3 dark:bg-dark-overlay-3 rounded-lg hidden max-w-[15rem] min-w-[8.75rem] overflow-auto">
                         <div className="flex  gap-4 dark:text-white text-sm hover:dark:bg-dark-fill-3 hover:rounded-md px-2 py-1.5 whitespace-nowrap">
                           LeetCode Curated Algo 170
@@ -948,16 +267,8 @@ export default function Home() {
                           LeetCode Curated Algo 170
                         </div>
                       </div>
-                    </div>
-                    <div className="relative">
-                      <div className="dropdown py-1 gap-4 px-3 flex flex-1 justify-between items-center   bg-secondary-gray rounded-[5px] relative">
-                        <div className="text-light-gray text-sm">
-                          Difficulty
-                        </div>
-                        <div className="transition-all ease-in-out duration-300">
-                          <RxCaretDown className="text-light-gray text-2xl" />
-                        </div>
-                      </div>
+                    </Dropdown>
+                    <Dropdown header="Difficulty" activeTopic={activeTopic}>
                       <div className="dropdown-content absolute top-9 left-0 p-3 dark:bg-dark-overlay-3 rounded-lg hidden max-w-[15rem] min-w-[8.75rem] overflow-auto">
                         <div className="flex  gap-4   text-sm hover:dark:bg-dark-fill-3 hover:rounded-md px-2 py-1.5 whitespace-nowrap text-dark-green-s">
                           Easy
@@ -969,14 +280,8 @@ export default function Home() {
                           Hard
                         </div>
                       </div>
-                    </div>
-                    <div className="relative">
-                      <div className="dropdown flex flex-1 justify-between items-center px-3  bg-secondary-gray rounded-[5px] relative py-1">
-                        <div className="text-light-gray text-sm">Status</div>
-                        <div className="ransition-all ease-in-out duration-300">
-                          <RxCaretDown className="text-light-gray text-2xl" />
-                        </div>
-                      </div>
+                    </Dropdown>
+                    <Dropdown header="Status" activeTopic={activeTopic}>
                       <div className="dropdown-content absolute top-9 left-0 p-3 dark:bg-dark-overlay-3 rounded-lg hidden max-w-[15rem] min-w-[8.75rem] overflow-auto">
                         <div className="flex gap items-center dark:text-white text-sm hover:dark:bg-dark-fill-3 hover:rounded-md px-2 py-1.5 whitespace-nowrap">
                           <span className="">
@@ -997,27 +302,20 @@ export default function Home() {
                           Attempted
                         </div>
                       </div>
-                    </div>
-                    <div className="relative">
-                      <div className="dropdown flex flex-1 justify-between py-1 items-center px-3  bg-secondary-gray rounded-[5px]">
-                        <div className="text-light-gray text-sm">Tags</div>
-                        <div className="transition-all ease-in-out duration-300">
-                          <RxCaretDown className="text-light-gray text-2xl" />
-                        </div>
-                      </div>
+                    </Dropdown>
+                    <Dropdown header="Tags" activeTopic={activeTopic}>
                       <div className="dropdown-content absolute top-9 left-0 p-3 dark:bg-dark-overlay-3 rounded-lg hidden w-[372px] min-w-[8.75rem]  md:max-w-[500px] max-h-[400px] overflow-y-scroll">
-                        <div className="flex w-full justify-center items-center  dark:bg-dark-fill-3 rounded-md ">
-                          <div className="w-1/6 flex justify-center">
-                            <BiSearch className="text-input-grey text-md ml-2" />
-                          </div>
-                          <div className="w-5/6">
-                            <input
-                              type="text"
-                              placeholder="Filter topics"
-                              className="bg-transparent outline-none border-0 dark:text-dark-label-2  placeholder:text-input-grey text-input-grey py-1 placeholder:text-sm "
-                            />
-                          </div>
-                        </div>
+                        <LInput
+                          config={{
+                            type: "text",
+                            placeholderText: "Filter topics",
+                            styles: ["w-full", "dark:bg-dark-fill-3"],
+                            placeholderImg: {
+                              component: BiSearch,
+                              color: "text-input-grey",
+                            },
+                          }}
+                        />
                         <div className="mt-3">
                           <ul className="flex items-center gap-6">
                             <li className="text-white text-sm py-1 border-b-2 border-text-white">
@@ -1052,19 +350,18 @@ export default function Home() {
                           <span className="d text-sm ">Reset</span>
                         </div>
                       </div>
-                    </div>
-                    <div className="flex min-w-[230px] justify-center items-center  bg-secondary-gray rounded-md">
-                      <div className="w-1/6 flex justify-center">
-                        <BiSearch className="text-input-grey text-lg ml-2" />
-                      </div>
-                      <div className="w-5/6">
-                        <input
-                          type="text"
-                          placeholder="Search questions"
-                          className="bg-transparent outline-none border-0  placeholder:text-input-grey focus:text-input-grey text-input-grey "
-                        />
-                      </div>
-                    </div>
+                    </Dropdown>
+                    <LInput
+                      config={{
+                        type: "text",
+                        placeholderText: "Search questions",
+                        styles: ["min-w-[230px]", "bg-secondary-gray"],
+                        placeholderImg: {
+                          component: BiSearch,
+                          color: "text-input-grey",
+                        },
+                      }}
+                    />
                     <div className="flex items-center justify-between bg-dark-layer-3 rounded-[5px]  px-3">
                       <FiSettings className="text-xl text-light-gray" />
                     </div>
@@ -1078,14 +375,13 @@ export default function Home() {
                 </div>
 
                 <table className="text-sm text-left text-gray-500 dark:text-gray-400  w-full max-w-[1200px] mx-auto mt-5">
-                  {loadingProblems && (
-                    <div className="max-w-[1200px] mx-auto w-full animate-pulse">
+                  {loadingProblems ? (
+                    <span className="max-w-[1200px] mx-auto w-full animate-pulse">
                       {[...Array(10)].map((_, idx) => (
                         <LoadingSkeleton key={`skeleton__${idx}`} />
                       ))}
-                    </div>
-                  )}
-                  {!loadingProblems && (
+                    </span>
+                  ) : (
                     <thead className="text-xs text-gray-700 uppercase dark:text-gray-400 border-b border-light-border ">
                       <tr>
                         <th scope="col" className="px-1 py-3 w-0 text-sm">
@@ -1110,8 +406,53 @@ export default function Home() {
                       </tr>
                     </thead>
                   )}
-                  <ProblemsTable setLoadingProblems={setLoadingProblems} />
+                  {/* {!loadingProblems && (
+                    <thead className="text-xs text-gray-700 uppercase dark:text-gray-400 border-b border-light-border ">
+                      <tr>
+                        <th scope="col" className="px-1 py-3 w-0 text-sm">
+                          Status
+                        </th>
+                        <th scope="col" className="px-6 py-3 w-0 text-sm">
+                          Title
+                        </th>
+                        <th scope="col" className="px-6 py-3 w-0 text-sm">
+                          Difficulty
+                        </th>
+
+                        <th scope="col" className="px-6 py-3 w-0 text-sm">
+                          Acceptance
+                        </th>
+                        <th scope="col" className="px-6 py-3 w-0 text-sm">
+                          Solution
+                        </th>
+                        <th scope="col" className="px-6 py-3 w-0 text-sm">
+                          Frequency
+                        </th>
+                      </tr>
+                    </thead>
+                  )} */}
+                  <ProblemsTable
+                    setLoadingProblems={setLoadingProblems}
+                  />
                 </table>
+                <div className="py-3 flex justify-content-between relative">
+                  <div>
+                    <Dropdown header="50 / page">
+                      <div className="dropdown-content absolute top-9 left-0 p-3 dark:bg-dark-overlay-3 rounded-lg hidden max-w-[15rem] min-w-[8.75rem] overflow-auto">
+                        <div className="flex  gap-4 dark:text-white text-sm hover:dark:bg-dark-fill-3 hover:rounded-md px-2 py-1.5 whitespace-nowrap">
+                          20 / page
+                        </div>
+                        <div className="flex  gap-4 dark:text-white text-sm hover:rounded-md   hover:dark:bg-dark-fill-3 px-2 py-1.5 whitespace-nowrap">
+                          50 / page
+                        </div>
+                        <div className="flex  gap-4 dark:text-white text-sm hover:rounded-md  hover:dark:bg-dark-fill-3 px-2 py-1.5 whitespace-nowrap">
+                          100 / page
+                        </div>
+                      </div>
+                    </Dropdown>
+                  </div>
+                  <div></div>
+                </div>
               </div>
             </div>
             <div className="w-3/12 relative">
@@ -1168,58 +509,153 @@ export default function Home() {
                   </div>
                 </div>
               </div>
+              <CompanyTags companies={companies} />
+              <div className="w-full  py-3 mt-4 bg-dark-layer-1  rounded-lg">
+                <div className="flex items-center justify-between px-3 pb-3">
+                  <div className=" text-white">Session</div>
+                  <div className="flex gap-[1px]">
+                    <div className="rounded-l-[5px] h-[24px] flex items-center px-1.5 text-xs cursor-pointer  dark:bg-dark-fill-3  dark:text-dark-label-3">
+                      Anonymous
+                    </div>
+                    <div className="flex items-center justify-center h-[24px] w-[22px] rounded-r-[5px] dark:bg-dark-fill-3  dark:text-dark-label-3">
+                      <FiSettings className="text-xl text-light-gray w-3" />
+                    </div>
+                  </div>
+                </div>
+                <div className="w-full px-3 flex">
+                  <div className="w-1/2">
+                    <div
+                      className=" relative max-h-[100px] max-w-[100px] z-base"
+                      onMouseEnter={() => setGuagePercent(true)}
+                      onMouseLeave={() => setGuagePercent(false)}
+                    >
+                      <svg
+                        className="h-full w-full origin-center -rotate-90 transform"
+                        viewBox="0 0 100 100"
+                      >
+                        <circle
+                          fill="none"
+                          cx="50px"
+                          cy="50px"
+                          r="42px"
+                          strokeWidth="3"
+                          strokeLinecap="round"
+                          stroke="currentColor"
+                          className="text-gray-4 dark:text-dark-gray-4"
+                        ></circle>
+                        <circle
+                          fill="none"
+                          cx="50px"
+                          cy="50px"
+                          r="42px"
+                          strokeWidth={`${difficultyMode ? "7" : "3"}`}
+                          strokeLinecap="round"
+                          stroke="currentColor"
+                          className={`cursor-pointer ${
+                            difficultyMode === "Easy"
+                              ? "text-dark-green-s"
+                              : difficultyMode === "Medium"
+                              ? "text-dark-yellow"
+                              : difficultyMode === "Hard"
+                              ? "text-dark-pink"
+                              : "text-olive dark:text-dark-olive"
+                          }`}
+                          strokeDasharray="0.09645240603126558 263.79733049551135"
+                          strokeDashoffset="0"
+                          data-difficulty="EASY"
+                        ></circle>
+                      </svg>
+                      {!guagePercent && (
+                        <div className="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2   transform cursor-default">
+                          <div
+                            data-difficulty="TOTAL"
+                            className="truncate text-center"
+                          >
+                            <div className="mb-[1px] text-[11px]">
+                              <span className="text-label-3 dark:text-dark-label-3">
+                                All
+                              </span>
+                            </div>
+                            <div className="pb-0.5 text-xl font-medium leading-none text-white lg:text-2xl lg:leading-none">
+                              {solvedProblems}
+                            </div>
+                            <hr className="border-divider-2 dark:border-dark-label-4 mx-auto max-w-[32px]" />
+                            <div className="text-label-4 dark:text-dark-label-4 pt-0.5 text-xs font-semibold">
+                              2736
+                            </div>
+                          </div>
+                        </div>
+                      )}
 
-              <div className="w-full  py-3 px-3 rounded-[8px] bg-dark-layer-1 mt-3">
-                <div className="flex items-center justify-between">
-                  <div className="dark:text-dark-label-2">Companies</div>
-                  <div className="flex justify-center items-center gap-1">
-                    <div
-                      className={`flex items-center justify-center  h-[25px] w-[25px] rounded-[5px] dark:bg-dark-fill-4   dark:hover:bg-dark-fill-3   cursor-pointer  `}
-                    >
-                      <RxCaretLeft className="text-4xl font-bold prev tags-btn" />
-                    </div>
-                    <div
-                      className={`flex items-center justify-center  h-[25px] w-[25px] rounded-[5px] dark:bg-dark-fill-4   dark:hover:bg-dark-fill-3   cursor-pointer `}
-                    >
-                      <RxCaretRight className="text-4xl font-bold next tags-btn" />
+                      {guagePercent && (
+                        <div className="flex flex-col	items-center justify-center absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2   transform cursor-default">
+                          <div
+                            className={`pb-0.5 text-lg font-medium leading-none ${
+                              difficultyMode === "Easy"
+                                ? "text-dark-green-s"
+                                : difficultyMode === "Medium"
+                                ? "text-dark-yellow"
+                                : difficultyMode === "Hard"
+                                ? "text-dark-pink"
+                                : "text-white"
+                            } lg:text-2xl lg:leading-none`}
+                          >
+                            50
+                            <span className="text-xs">.0%</span>
+                          </div>
+                          <div className="text-label-4 dark:text-dark-label-5 pt-0.5 text-[11px] font-semibold">
+                            Acceptance
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
-                </div>
-                <div className="flex min-w-[230px] justify-center items-center  dark:bg-dark-fill-3 rounded-md mt-2">
-                  <div className="w-1/6 flex justify-center">
-                    <BiSearch className="text-input-grey text-md ml-2" />
-                  </div>
-                  <div className="w-5/6">
-                    <input
-                      type="text"
-                      placeholder="Search for tags"
-                      onInput={(e: React.FormEvent<HTMLInputElement>) =>
-                        setTagQuery((e.target as HTMLInputElement).value)
-                      }
-                      className="bg-transparent outline-none border-0 dark:text-dark-label-2  placeholder:text-input-grey text-input-grey py-1 placeholder:text-sm "
-                    />
-                  </div>
-                </div>
-                <div className="mt-3 flex gap-2 w-full flex-wrap slider">
-                  <Swiper
-                    navigation={{
-                      prevEl: ".prev",
-                      nextEl: ".next",
-                    }}
-                    allowTouchMove={false}
-                    modules={[Navigation]}
-                    className="flex gap-2 w-full flex-wrap"
-                    onSwiper={(swiper) => console.log(swiper)}
-                    onSlideChange={(e) => handleSlideChange(e)}
-                    slideToClickedSlide
-                  >
-                    <>{companiesSliders.length > 0 && companiesSliders}</>
-                  </Swiper>
-                  {companiesSliders.length < 1 && (
-                    <div className="text-center dark:text-dark-gray-4 text-sm flex justify-center w-full">
-                      {`There aren't any tags here yet!`}
+                  <div className="flex justify-between items-center w-1/2">
+                    <div>
+                      {["Easy", "Medium", "Hard"].map((difficulty, _) => (
+                        <div
+                          key={`difficulty__${difficulty}`}
+                          onMouseEnter={() => {
+                            setGuagePercent(true);
+                            setDifficultyMode(difficulty);
+                          }}
+                          onMouseLeave={() => {
+                            setGuagePercent(false);
+                            setDifficultyMode("");
+                          }}
+                          className={`text-sm cursor-pointer  mt-3 whitespace-nowrap ${
+                            difficulty === "Easy"
+                              ? "text-dark-green-s"
+                              : difficulty === "Medium"
+                              ? "text-dark-yellow"
+                              : "text-dark-pink"
+                          } `}
+                        >
+                          {difficulty}
+                        </div>
+                      ))}
                     </div>
-                  )}
+                    <div>
+                      <div className="text-sm  mt-3 whitespace-nowrap">
+                        <span className="dark:text-dark-label-2">1 </span>
+                        <span className="font-semibold text-xs dark:text-dark-label-4">
+                          /686
+                        </span>
+                      </div>
+                      <div className="text-sm  mt-3 whitespace-nowrap">
+                        <span className="dark:text-dark-label-2">0 </span>
+                        <span className="font-semibold text-xs dark:text-dark-label-4">
+                          /1447
+                        </span>
+                      </div>
+                      <div className="text-sm  mt-3 whitespace-nowrap">
+                        <span className="dark:text-dark-label-2">0 </span>
+                        <span className="font-semibold text-xs text-dark-label-4">
+                          /603
+                        </span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -1228,4 +664,6 @@ export default function Home() {
       </main>
     </>
   );
-}
+};
+
+export default Home;

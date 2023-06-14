@@ -51,21 +51,24 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage }) => {
     },
   ]);
 
-  const navigationTabs = () => {
-	return navTabs.map((nav)=> (
-		<li
-		  key={nav.name}
-		  className={`text-light-gray ${
-			nav.name === activeTab ? "border-b-2 border-text-white pb-2" : ""
-		  }`}
-		  onClick={() => setActiveTab(nav.name)}
-		>
-			<>
-				{nav.name} {nav.hasDropdown ? MdArrowDropDown : ''}
-			</>
-		</li>
-	  ));
-  }
+  const navigationTabs = () =>
+    navTabs.map((nav) => {
+      const isActive = nav.name === activeTab;
+
+      const handleClick = () => setActiveTab(nav.name);
+
+      return (
+        <li
+          key={nav.name}
+          className={`flex text-light-gray ${
+            isActive ? "border-b-2 border-text-white pb-2" : ""
+          }`}
+          onClick={handleClick}
+        >
+          {nav.name} {nav.hasDropdown && <MdArrowDropDown className="mt-1" />}
+        </li>
+      );
+    });
 
   const handleProblemChange = (isForward: boolean) => {
     const { order } = problems[router.query.pid as string] as Problem;
