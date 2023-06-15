@@ -6,6 +6,8 @@ import { doc, setDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
 import Calendar from "moedim";
 import { RxCaretDown } from "react-icons/rx";
+import { RxCaretRight } from "react-icons/rx";
+import { RxCaretLeft } from "react-icons/rx";
 
 import React, { useState, useMemo, useEffect } from "react";
 import { firestore } from "@/firebase/firebase";
@@ -17,7 +19,7 @@ import { BsDash, BsCheck2 } from "react-icons/bs";
 import { Attempted } from "@/icons/attempted";
 import { Padlock } from "@/icons/padlock";
 import { GrPowerReset } from "react-icons/gr";
-
+import { getDropDownDirection } from "@/utils/getDropDownDirection";
 /**
  *
  * @returns Components
@@ -26,13 +28,13 @@ import LInput from "@/components/Base_input/input";
 import CompanyTags from "@/components/Company_tags/CompanyTags";
 import Filters from "@/components/Filters/filters";
 import Dropdown from "@/components/Dropdown/dropdown";
-
+import Pagination from "@/components/Pagination"
 /**
  *
  * @returns constants
  */
 import { _cards, _categories, _topics, _inputs, _companies } from "@/constants";
-import { problems } from '../mockProblems/problems';
+import { problems } from "../mockProblems/problems";
 
 const Home = () => {
   const [loadingProblems, setLoadingProblems] = useState(false);
@@ -77,7 +79,18 @@ const Home = () => {
         dropdownContent.parentNode?.children[0].children[1]?.classList.toggle(
           "rotate-180"
         );
+        dropdownContent.classList.remove("dropdown-up");
         dropdownContent.classList.toggle("show");
+        const dropdownDirection = getDropDownDirection(
+          dropdown,
+          dropdownContent
+        );
+        const dropdownUpwards =
+          dropdownContent.classList.contains("show") &&
+          dropdownDirection === "up";
+        if (dropdownUpwards) {
+          dropdownContent.classList.add("dropdown-up");
+        }
       });
     });
   };
@@ -374,7 +387,7 @@ const Home = () => {
                   </div>
                 </div>
 
-                <table className="text-sm text-left text-gray-500 dark:text-gray-400  w-full max-w-[1200px] mx-auto mt-5">
+                <table className="text-sm text-left mb-4 text-gray-500 dark:text-gray-400  w-full max-w-[1200px] mx-auto mt-5">
                   {loadingProblems ? (
                     <span className="max-w-[1200px] mx-auto w-full animate-pulse">
                       {[...Array(10)].map((_, idx) => (
@@ -406,53 +419,9 @@ const Home = () => {
                       </tr>
                     </thead>
                   )}
-                  {/* {!loadingProblems && (
-                    <thead className="text-xs text-gray-700 uppercase dark:text-gray-400 border-b border-light-border ">
-                      <tr>
-                        <th scope="col" className="px-1 py-3 w-0 text-sm">
-                          Status
-                        </th>
-                        <th scope="col" className="px-6 py-3 w-0 text-sm">
-                          Title
-                        </th>
-                        <th scope="col" className="px-6 py-3 w-0 text-sm">
-                          Difficulty
-                        </th>
-
-                        <th scope="col" className="px-6 py-3 w-0 text-sm">
-                          Acceptance
-                        </th>
-                        <th scope="col" className="px-6 py-3 w-0 text-sm">
-                          Solution
-                        </th>
-                        <th scope="col" className="px-6 py-3 w-0 text-sm">
-                          Frequency
-                        </th>
-                      </tr>
-                    </thead>
-                  )} */}
-                  <ProblemsTable
-                    setLoadingProblems={setLoadingProblems}
-                  />
+                  <ProblemsTable setLoadingProblems={setLoadingProblems} />
                 </table>
-                <div className="py-3 flex justify-content-between relative">
-                  <div>
-                    <Dropdown header="50 / page">
-                      <div className="dropdown-content absolute top-9 left-0 p-3 dark:bg-dark-overlay-3 rounded-lg hidden max-w-[15rem] min-w-[8.75rem] overflow-auto">
-                        <div className="flex  gap-4 dark:text-white text-sm hover:dark:bg-dark-fill-3 hover:rounded-md px-2 py-1.5 whitespace-nowrap">
-                          20 / page
-                        </div>
-                        <div className="flex  gap-4 dark:text-white text-sm hover:rounded-md   hover:dark:bg-dark-fill-3 px-2 py-1.5 whitespace-nowrap">
-                          50 / page
-                        </div>
-                        <div className="flex  gap-4 dark:text-white text-sm hover:rounded-md  hover:dark:bg-dark-fill-3 px-2 py-1.5 whitespace-nowrap">
-                          100 / page
-                        </div>
-                      </div>
-                    </Dropdown>
-                  </div>
-                  <div></div>
-                </div>
+                <Pagination  list={companies} />
               </div>
             </div>
             <div className="w-3/12 relative">

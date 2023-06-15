@@ -181,3 +181,6 @@ swiper-slide {
 .enabled-btn {
   color: #eff1f6bf;
 }
+.dropdown-up {
+    top: -7.9rem;
+}
