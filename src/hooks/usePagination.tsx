@@ -1,5 +1,4 @@
-import React, { useState, useMemo, SetStateAction } from "react";
-import { useEffect } from "react";
+import React, { useState, useMemo, SetStateAction, useEffect } from "react";
 
 const usePagination = <T,>(itemList: T[], _pageSize: number) => {
   const [list, setList] = useState<T[]>(itemList);
@@ -9,6 +8,7 @@ const usePagination = <T,>(itemList: T[], _pageSize: number) => {
   const [totalPages, setTotalPages] = useState<number>(
     Math.ceil(list.length / pageSize)
   );
+
   const setNextPage = () => {
     if (currentPage < totalPages) {
       setCurrentPage((prev) => (prev += 1));
@@ -22,53 +22,86 @@ const usePagination = <T,>(itemList: T[], _pageSize: number) => {
   };
 
   useEffect(() => {
-    setTotalPages((prev) => Math.ceil(list.length / pageSize));
-  }, [list.length, pageSize]);
+    setTotalPages((prev) => Math.ceil(itemList.length / pageSize));
+  }, [itemList.length, pageSize]);
+
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [pageSize])
 
   const paginatedList = useMemo(() => {
-    const clonedList: T[] = [...list];
+    const clonedList: T[] = [...itemList];
     const startIndex = (currentPage - 1) * pageSize;
     const endIndex = startIndex + pageSize;
 
     const newList = clonedList.slice(startIndex, endIndex);
 
     return newList;
-  }, [list, currentPage, pageSize]);
+  }, [itemList, currentPage, pageSize]);
 
   const paginationBtns = useMemo(() => {
-    generatePagination(currentPage, totalPages);
+    getPaginationLinks(currentPage, totalPages, 6);
     return {
       hasNext: currentPage < totalPages,
       hasPrev: currentPage > 1,
     };
   }, [currentPage, totalPages]);
 
-  function generatePagination(currentPage: number, totalPages: number) {
-    const delta = 2;
-    const range = [];
-    const links = [];
+  function getPaginationLinks(
+    currentPage: number,
+    totalPages: number,
+    maxVisiblePages: number
+  ): void {
+    const links: Array<number | string> = [];
 
-    range.push(1);
-    for (let i = currentPage - delta; i <= currentPage + delta; i++) {
-      if (i > 1 && i < totalPages) {
-        range.push(i);
+    if (totalPages <= maxVisiblePages) {
+      // If the total number of pages is less than or equal to the maximum visible pages,display all page links.
+      for (let i = 1; i <= totalPages; i++) {
+        links.push(i);
       }
-    }
-    range.push(totalPages);
+    } else {
+      // Calculate the range of page links to display around the current page.
+      const halfVisiblePages = Math.floor(maxVisiblePages / 2);
+      let startPage = currentPage - halfVisiblePages;
+      let endPage = currentPage + halfVisiblePages;
 
-    let prevPage = null;
-    for (const page of range) {
-      if (prevPage) {
-        if (page - prevPage === 2) {
-          links.push(prevPage + 1);
-        } else if (page - prevPage !== 1) {
-          links.push("...");
+      if (startPage < 1) {
+        startPage = 1;
+        endPage = maxVisiblePages;
+      } else if (endPage > totalPages) {
+        endPage = totalPages;
+        startPage = totalPages - maxVisiblePages + 1;
+      }
+
+      // Add the first page link.
+        links.push(1);
+
+        if(startPage === 1) {
+            links.shift()
         }
+
+      // Add dots if the range of page links is not adjacent to the first page.
+      if (startPage > 2) {
+        links.push("...");
       }
-      links.push(page);
-      prevPage = page;
+
+      // Add the page links within the range.
+      for (let i = startPage; i <= endPage; i++) {
+        links.push(i);
+      }
+
+      // Add dots if the range of page links is not adjacent to the last page.
+      if (endPage < totalPages - 1) {
+        links.push("...");
+      }
+      // Add the last page link.
+      links.push(totalPages);
+
+      if(endPage === totalPages) {
+        links.pop()
+      }
     }
-    setPaginationLink(links)
+    setPaginationLink(links);
   }
 
   return {
@@ -78,6 +111,8 @@ const usePagination = <T,>(itemList: T[], _pageSize: number) => {
     paginationBtns,
     totalPages,
     paginationLink,
+    setTotalPages,
+    setList,
     setCurrentPage,
     setNextPage,
     setPrevPage,

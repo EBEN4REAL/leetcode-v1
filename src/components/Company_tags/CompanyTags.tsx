@@ -5,6 +5,7 @@ import { RxCaretLeft } from "react-icons/rx";
 import { BiSearch } from "react-icons/bi";
 import { SwiperSlide } from "swiper/react";
 import Slides from "../Swiper/Slides";
+import usePagination from '@/hooks/usePagination'
 
 interface CompanyTagsProps {
   companies: { name: string; count: number }[];
@@ -13,42 +14,19 @@ interface CompanyTagsProps {
 const CompanyTags: React.FC<CompanyTagsProps> = ({ companies }) => {
   const [tagQuery, setTagQuery] = useState<string>("");
 
-  /**
-   * Pagination starts
-   */
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [pageSize, setPageSize] = useState<number>(20);
-  const [totalPages, setTotalPages] = useState<number>(
-    Math.ceil(companies.length / pageSize)
-  );
-  const setNextPage = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage((prev) => (prev += 1));
-    }
-  };
-
-  const setPrevPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage((prev) => (prev -= 1));
-    }
-  };
-
-  const paginatedCompanies = useMemo(() => {
-    const clonedCompanies: { name: string; count: number }[] = [...companies];
-    const startIndex = (currentPage - 1) * pageSize;
-    const endIndex = startIndex + pageSize;
-
-    const newCompanies = clonedCompanies.slice(startIndex, endIndex);
-
-    return newCompanies;
-  }, [companies, currentPage, pageSize]);
-
-  const paginationBtns = useMemo(() => {
-    return {
-      hasNext: currentPage < totalPages,
-      hasPrev: currentPage > 1,
-    };
-  }, [currentPage, totalPages]);
+  const {
+    currentPage,
+    paginatedList,
+    pageSize,
+    paginationBtns,
+    totalPages,
+    paginationLink,
+    setTotalPages,
+    setCurrentPage,
+    setNextPage,
+    setPrevPage,
+    setPageSize,
+  } = usePagination(companies, 20);
 
   const filteredCompanies = useMemo(() => {
     const clonedCompanies = [...companies];
@@ -60,7 +38,7 @@ const CompanyTags: React.FC<CompanyTagsProps> = ({ companies }) => {
     setTotalPages((_) => Math.ceil(tags.length / pageSize));
 
     return tags;
-  }, [companies, pageSize, tagQuery]);
+  }, [companies, pageSize, setTotalPages, tagQuery]);
 
   let startIndex = 0;
   let endIndex = 10;

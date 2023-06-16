@@ -1,5 +1,3 @@
-
-
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { BsCheckCircle } from "react-icons/bs";
@@ -19,22 +17,24 @@ import { auth, firestore } from "@/firebase/firebase";
 import { DBProblem } from "@/utils/types/problem";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Padlock } from "../../icons/padlock";
+import usePagination from "@/hooks/usePagination";
+import useGetProblems from "@/hooks/useGetProblems";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { problemsState } from "@/atoms/problemsAtom";
+import LoadingSkeleton from "@/components/LoadingSkeleton";
+import Pagination from "@/components/Pagination"
 
-type ProblemsTableProps = {
-  setLoadingProblems: React.Dispatch<React.SetStateAction<boolean>>;
-//   setSolvedProblems: React.Dispatch<React.SetStateAction<number>>;
-};
 
-const ProblemsTable: React.FC<ProblemsTableProps> = ({
-  setLoadingProblems,
-//   setSolvedProblems,
-}) => {
+const ProblemsTable = () => {
   const [youtubePlayer, setYoutubePlayer] = useState({
     isOpen: false,
     videoId: "",
   });
+  const [loadingProblems, setLoadingProblems] = useState<boolean>(false);
   const problems = useGetProblems(setLoadingProblems);
   const solvedProblems = useGetSolvedProblems();
+  const problemsObj = useRecoilValue(problemsState);
+
   const closeModal = () => {
     setYoutubePlayer({ isOpen: false, videoId: "" });
   };
@@ -48,12 +48,10 @@ const ProblemsTable: React.FC<ProblemsTableProps> = ({
     return () => window.removeEventListener("keydown", handleEsc);
   }, []);
 
-//   useEffect(() => {
-//     setSolvedProblems(solvedProblems.length);
-//   }, [setSolvedProblems, solvedProblems]);
+  const problemsToRender = problemsObj.paginatedProblems as DBProblem[];
 
   const tBody = () =>
-    problems.map((problem, idx) => {
+    problemsToRender.map((problem, idx) => {
       const difficulyColor =
         problem.difficulty === "Easy"
           ? "text-dark-green-s"
@@ -128,63 +126,72 @@ const ProblemsTable: React.FC<ProblemsTableProps> = ({
 
   return (
     <>
-      <tbody className="text-white">{tBody()}</tbody>
-      {youtubePlayer.isOpen && (
-        <tfoot className="fixed top-0 left-0 h-screen w-screen flex items-center justify-center">
-          <div
-            className="bg-black z-10 opacity-70 top-0 left-0 w-screen h-screen absolute"
-            onClick={closeModal}
-          >
+      <table className="text-sm text-left mb-4 text-gray-500 dark:text-gray-400  w-full max-w-[1200px] mx-auto mt-5">
+        {loadingProblems ? (
+          <span className="max-w-[1200px] mx-auto w-full animate-pulse">
+            {[...Array(10)].map((_, idx) => (
+              <LoadingSkeleton key={`skeleton__${idx}`} />
+            ))}
+          </span>
+        ) : (
+          <thead className="text-xs text-gray-700 uppercase dark:text-gray-400 border-b border-light-border ">
+            <tr>
+              <th scope="col" className="px-1 py-3 w-0 text-sm">
+                Status
+              </th>
+              <th scope="col" className="px-6 py-3 w-0 text-sm">
+                Title
+              </th>
+              <th scope="col" className="px-6 py-3 w-0 text-sm">
+                Difficulty
+              </th>
 
-		  </div>
-          <div className="w-full z-50 h-full px-6 relative max-w-4xl">
-            <div className="w-full h-full flex items-center justify-center relative">
-              <div className="w-full relative">
-                <IoClose
-                  fontSize={"35"}
-                  className="cursor-pointer absolute -top-16 right-0"
-                  onClick={closeModal}
-                />
-                <YouTube
-                  videoId={youtubePlayer.videoId}
-                  loading="lazy"
-                  iframeClassName="w-full min-h-[500px]"
-                />
+              <th scope="col" className="px-6 py-3 w-0 text-sm">
+                Acceptance
+              </th>
+              <th scope="col" className="px-6 py-3 w-0 text-sm">
+                Solution
+              </th>
+              <th scope="col" className="px-6 py-3 w-0 text-sm">
+                Frequency
+              </th>
+            </tr>
+          </thead>
+        )}
+        <tbody className="text-white">{tBody()}</tbody>
+        {youtubePlayer.isOpen && (
+          <tfoot className="fixed top-0 left-0 h-screen w-screen flex items-center justify-center">
+            <div
+              className="bg-black z-10 opacity-70 top-0 left-0 w-screen h-screen absolute"
+              onClick={closeModal}
+            ></div>
+            <div className="w-full z-50 h-full px-6 relative max-w-4xl">
+              <div className="w-full h-full flex items-center justify-center relative">
+                <div className="w-full relative">
+                  <IoClose
+                    fontSize={"35"}
+                    className="cursor-pointer absolute -top-16 right-0"
+                    onClick={closeModal}
+                  />
+                  <YouTube
+                    videoId={youtubePlayer.videoId}
+                    loading="lazy"
+                    iframeClassName="w-full min-h-[500px]"
+                  />
+                </div>
               </div>
             </div>
-          </div>
-        </tfoot>
-      )}
+          </tfoot>
+        )}
+      </table>
+      <Pagination
+        list={problemsObj.problems}
+        handleDropdownClose={() => void(0)}
+      />
     </>
   );
 };
 export default ProblemsTable;
-
-function useGetProblems(
-  setLoadingProblems: React.Dispatch<React.SetStateAction<boolean>>
-) {
-  const [problems, setProblems] = useState<DBProblem[]>([]);
-
-  useEffect(() => {
-    const getProblems = async () => {
-      setLoadingProblems(true);
-      const q = query(
-        collection(firestore, "problems"),
-        orderBy("order", "asc")
-      );
-      const querySnapshot = await getDocs(q);
-      const tmp: DBProblem[] = [];
-      querySnapshot.forEach((doc) => {
-        tmp.push({ id: doc.id, ...doc.data() } as DBProblem);
-      });
-      setProblems(tmp);
-      setLoadingProblems(false);
-    };
-
-    getProblems();
-  }, [setLoadingProblems]);
-  return problems;
-}
 
 function useGetSolvedProblems() {
   const [solvedProblems, setSolvedProblems] = useState<string[]>([]);

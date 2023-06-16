@@ -5,9 +5,6 @@ import LoadingSkeleton from "@/components/LoadingSkeleton";
 import { doc, setDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
 import Calendar from "moedim";
-import { RxCaretDown } from "react-icons/rx";
-import { RxCaretRight } from "react-icons/rx";
-import { RxCaretLeft } from "react-icons/rx";
 
 import React, { useState, useMemo, useEffect } from "react";
 import { firestore } from "@/firebase/firebase";
@@ -20,6 +17,9 @@ import { Attempted } from "@/icons/attempted";
 import { Padlock } from "@/icons/padlock";
 import { GrPowerReset } from "react-icons/gr";
 import { getDropDownDirection } from "@/utils/getDropDownDirection";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { problemsState } from "@/atoms/problemsAtom";
+import { useLayoutEffect } from "react";
 /**
  *
  * @returns Components
@@ -28,13 +28,15 @@ import LInput from "@/components/Base_input/input";
 import CompanyTags from "@/components/Company_tags/CompanyTags";
 import Filters from "@/components/Filters/filters";
 import Dropdown from "@/components/Dropdown/dropdown";
-import Pagination from "@/components/Pagination"
+import Pagination from "@/components/Pagination";
+
 /**
  *
  * @returns constants
  */
 import { _cards, _categories, _topics, _inputs, _companies } from "@/constants";
 import { problems } from "../mockProblems/problems";
+import { DBProblem } from "../utils/types/problem";
 
 const Home = () => {
   const [loadingProblems, setLoadingProblems] = useState(false);
@@ -67,9 +69,9 @@ const Home = () => {
   }, [categories, collapseCategory]);
 
   const handleDropdownClicks = () => {
-    const dropdowns = Array.from(document.querySelectorAll(".dropdown"));
+    const dropdowns = Array.from(document.querySelectorAll("._dropdown"));
     const dropdownContents = Array.from(
-      document.querySelectorAll<HTMLElement>(".dropdown-content")
+      document.querySelectorAll<HTMLElement>(".dropdown_content")
     );
 
     dropdowns.forEach((dropdown, index) => {
@@ -81,6 +83,7 @@ const Home = () => {
         );
         dropdownContent.classList.remove("dropdown-up");
         dropdownContent.classList.toggle("show");
+        ``;
         const dropdownDirection = getDropDownDirection(
           dropdown,
           dropdownContent
@@ -88,8 +91,16 @@ const Home = () => {
         const dropdownUpwards =
           dropdownContent.classList.contains("show") &&
           dropdownDirection === "up";
+
+        const dropdownContentHeight = dropdownContent.clientHeight;
+        const dropdownHeight = dropdown.clientHeight;
         if (dropdownUpwards) {
-          dropdownContent.classList.add("dropdown-up");
+          dropdownContent.style.setProperty(
+            "top",
+            `${-(dropdownContentHeight + dropdownHeight - 27)}px`
+          );
+        } else {
+          dropdownContent.style.setProperty("top", `${2.2}rem`);
         }
       });
     });
@@ -97,12 +108,12 @@ const Home = () => {
 
   const closeDropDowns = () => {
     const dropdowns: Element[] = Array.from(
-      document.querySelectorAll(".dropdown")
+      document.querySelectorAll("._dropdown")
     );
 
     document.addEventListener("mousedown", (e) => {
       const dropdownContents = Array.from(
-        document.querySelectorAll<HTMLElement>(".dropdown-content")
+        document.querySelectorAll<HTMLElement>(".dropdown_content")
       );
 
       dropdownContents.forEach((ddContent, index) => {
@@ -119,15 +130,15 @@ const Home = () => {
     });
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     handleDropdownClicks();
   });
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     handleDropdownClicks();
   }, [activeTopic]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     setTimeout(() => {
       closeDropDowns();
     }, 1000);
@@ -266,7 +277,7 @@ const Home = () => {
                 <div className="mt-5">
                   <div className="flex w-full gap-2">
                     <Dropdown header="Lists" activeTopic={activeTopic}>
-                      <div className="dropdown-content absolute top-9 left-0 p-3 dark:bg-dark-overlay-3 rounded-lg hidden max-w-[15rem] min-w-[8.75rem] overflow-auto">
+                      <div className="dropdown_content absolute top-9 left-0 p-3 dark:bg-dark-overlay-3 rounded-lg hidden max-w-[15rem] min-w-[8.75rem] overflow-auto">
                         <div className="flex  gap-4 dark:text-white text-sm hover:dark:bg-dark-fill-3 hover:rounded-md px-2 py-1.5 whitespace-nowrap">
                           LeetCode Curated Algo 170
                         </div>
@@ -282,7 +293,7 @@ const Home = () => {
                       </div>
                     </Dropdown>
                     <Dropdown header="Difficulty" activeTopic={activeTopic}>
-                      <div className="dropdown-content absolute top-9 left-0 p-3 dark:bg-dark-overlay-3 rounded-lg hidden max-w-[15rem] min-w-[8.75rem] overflow-auto">
+                      <div className="dropdown_content absolute top-9 left-0 p-3 dark:bg-dark-overlay-3 rounded-lg hidden max-w-[15rem] min-w-[8.75rem] overflow-auto">
                         <div className="flex  gap-4   text-sm hover:dark:bg-dark-fill-3 hover:rounded-md px-2 py-1.5 whitespace-nowrap text-dark-green-s">
                           Easy
                         </div>
@@ -295,7 +306,7 @@ const Home = () => {
                       </div>
                     </Dropdown>
                     <Dropdown header="Status" activeTopic={activeTopic}>
-                      <div className="dropdown-content absolute top-9 left-0 p-3 dark:bg-dark-overlay-3 rounded-lg hidden max-w-[15rem] min-w-[8.75rem] overflow-auto">
+                      <div className="dropdown_content absolute top-9 left-0 p-3 dark:bg-dark-overlay-3 rounded-lg hidden max-w-[15rem] min-w-[8.75rem] overflow-auto">
                         <div className="flex gap items-center dark:text-white text-sm hover:dark:bg-dark-fill-3 hover:rounded-md px-2 py-1.5 whitespace-nowrap">
                           <span className="">
                             <BsDash className="text-xl" />
@@ -317,7 +328,7 @@ const Home = () => {
                       </div>
                     </Dropdown>
                     <Dropdown header="Tags" activeTopic={activeTopic}>
-                      <div className="dropdown-content absolute top-9 left-0 p-3 dark:bg-dark-overlay-3 rounded-lg hidden w-[372px] min-w-[8.75rem]  md:max-w-[500px] max-h-[400px] overflow-y-scroll">
+                      <div className="dropdown_content absolute top-9 left-0 p-3 dark:bg-dark-overlay-3 rounded-lg hidden w-[372px] min-w-[8.75rem]  md:max-w-[500px] max-h-[400px] overflow-y-scroll">
                         <LInput
                           config={{
                             type: "text",
@@ -386,42 +397,7 @@ const Home = () => {
                     </div>
                   </div>
                 </div>
-
-                <table className="text-sm text-left mb-4 text-gray-500 dark:text-gray-400  w-full max-w-[1200px] mx-auto mt-5">
-                  {loadingProblems ? (
-                    <span className="max-w-[1200px] mx-auto w-full animate-pulse">
-                      {[...Array(10)].map((_, idx) => (
-                        <LoadingSkeleton key={`skeleton__${idx}`} />
-                      ))}
-                    </span>
-                  ) : (
-                    <thead className="text-xs text-gray-700 uppercase dark:text-gray-400 border-b border-light-border ">
-                      <tr>
-                        <th scope="col" className="px-1 py-3 w-0 text-sm">
-                          Status
-                        </th>
-                        <th scope="col" className="px-6 py-3 w-0 text-sm">
-                          Title
-                        </th>
-                        <th scope="col" className="px-6 py-3 w-0 text-sm">
-                          Difficulty
-                        </th>
-
-                        <th scope="col" className="px-6 py-3 w-0 text-sm">
-                          Acceptance
-                        </th>
-                        <th scope="col" className="px-6 py-3 w-0 text-sm">
-                          Solution
-                        </th>
-                        <th scope="col" className="px-6 py-3 w-0 text-sm">
-                          Frequency
-                        </th>
-                      </tr>
-                    </thead>
-                  )}
-                  <ProblemsTable setLoadingProblems={setLoadingProblems} />
-                </table>
-                <Pagination  list={companies} />
+                <ProblemsTable />
               </div>
             </div>
             <div className="w-3/12 relative">
