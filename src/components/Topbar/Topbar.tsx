@@ -165,7 +165,7 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage }) => {
           <div className="absolute w-full top-12 left-0 md:hidden lg:hidden z-10 py-4  dark:bg-gray-level-1 overflow-y-auto">
             {user && (
               <div className="flex items-center gap-2">
-                <div className="h-14  relative">
+                <div className="h-14 w-14 relative">
                   <img
                     src="https://assets.leetcode.com/users/igbinoba/avatar_1588932571.png"
                     alt="Avatar"

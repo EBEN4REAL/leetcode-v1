@@ -209,8 +209,8 @@ const Home = () => {
                   slidesPerView={1.5}
                   modules={[Navigation]}
                   slideToClickedSlide
-                  loop={true}
-                  slidesPerGroup={1.5}
+                  // loop={true}
+                  // slidesPerGroup={1.5}
                 >
                   {homeCards()}
                 </Swiper>
