@@ -25,7 +25,7 @@ import LoadingSkeleton from "@/components/LoadingSkeleton";
 import Pagination from "@/components/Pagination"
 
 
-const ProblemsTable = () => {
+const ProblemsTable: React.FC<{handleDropDownClose: () => void}> = ({handleDropDownClose}) => {
   const [youtubePlayer, setYoutubePlayer] = useState({
     isOpen: false,
     videoId: "",
@@ -186,7 +186,7 @@ const ProblemsTable = () => {
       </table>
       <Pagination
         list={problemsObj.problems}
-        handleDropdownClose={() => void(0)}
+        handleDropdownClose={handleDropDownClose}
       />
     </>
   );

@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { useSetRecoilState } from "recoil";
 import { problemsState } from "../../atoms/problemsAtom";
 import { RxCaretDown } from "react-icons/rx";
+import { closeDropDowns } from "@/utils/handleDropClose";
 
 interface PaginationProps<T> {
   list: T[];
@@ -32,24 +33,30 @@ const Pagination = <T,>({ list, handleDropdownClose }: PaginationProps<T>) => {
     setPaginatedList((prev) => ({ ...prev, paginatedProblems: paginatedList }));
   }, [paginatedList, setPaginatedList]);
 
+  const dropdownHeader = `${pageSize} / page`;
 
-  const dropdownHeader = `${pageSize} / page`
+  useEffect(() => {
+    closeDropDowns();
+  }, [pageSize]);
+
+
 
   return (
     <>
       <div className="py-3 flex justify-between relative">
         <div>
           <Dropdown header={dropdownHeader}>
-          <div
+            <div
               className={`dropdown_content absolute top-9 left-0 p-3 dark:bg-dark-overlay-3 rounded-lg hidden max-w-[15rem] min-w-[8.75rem] overflow-auto `}
             >
               {[4, 8, 10].map((pageSize, index) => (
                 <div
                   key={`pageSize__${index}`}
+                  id="pagination-btn"
                   className="flex  gap-4 dark:text-white text-sm hover:dark:bg-dark-fill-3 hover:rounded-md px-2 py-1.5 whitespace-nowrap"
                   onClick={() => {
-                    setPageSize(pageSize);
-                    handleDropdownClose();
+                    console.log("hchnage page size")
+                    setPageSize(pageSize)
                   }}
                 >
                   {pageSize} / page
@@ -68,7 +75,10 @@ const Pagination = <T,>({ list, handleDropdownClose }: PaginationProps<T>) => {
           >
             <RxCaretLeft
               className="text-xl font-bold  tags-btn"
-              onClick={() => setPrevPage()}
+              onClick={() => {
+                setPrevPage();
+                closeDropDowns();
+              }}
             />
           </div>
           {paginationLink.map(
@@ -79,14 +89,14 @@ const Pagination = <T,>({ list, handleDropdownClose }: PaginationProps<T>) => {
                   className={`flex items-center p-1 justify-center  h-[32px] w-[32px] rounded-[5px]   dark:hover:bg-dark-fill-3 text-gray-200 ${
                     currentPage === num ? "bg-gray-500" : "dark:bg-dark-fill-4 "
                   }   cursor-pointer text-sm  `}
-                  onClick={(
+                  onClick={
                     typeof num === "number"
                       ? () => {
                           setCurrentPage(num);
-                          handleDropdownClose();
+                          closeDropDowns();
                         }
                       : undefined
-                 ) }
+                  }
                 >
                   {num}
                 </div>
@@ -101,7 +111,10 @@ const Pagination = <T,>({ list, handleDropdownClose }: PaginationProps<T>) => {
           >
             <RxCaretRight
               className="text-xl font-bold  tags-btn"
-              onClick={() => setNextPage()}
+              onClick={() => {
+                setNextPage();
+                closeDropDowns();
+              }}
             />
           </div>
         </div>

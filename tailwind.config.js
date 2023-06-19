@@ -50,7 +50,8 @@ module.exports = {
         "dark-gray-4": "rgb(74, 74, 74, 1)",
         "text-dark-label-3": " #eff2f699",
         "dark-label-4": "#ebebf54d",
-        "dark-label-5": "#ebebf582"
+        "dark-label-5": "#ebebf582",
+        "fill-2": "#000a201a"
       },
     },
   },

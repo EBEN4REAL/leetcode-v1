@@ -6,7 +6,7 @@ import { doc, setDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
 import Calendar from "moedim";
 
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo } from "react";
 import { firestore } from "@/firebase/firebase";
 import { clipText } from "@/utils/clipText";
 import { BiSearch } from "react-icons/bi";
@@ -19,7 +19,7 @@ import { GrPowerReset } from "react-icons/gr";
 import { getDropDownDirection } from "@/utils/getDropDownDirection";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { problemsState } from "@/atoms/problemsAtom";
-import { useLayoutEffect } from "react";
+import { useEffect } from "react";
 /**
  *
  * @returns Components
@@ -29,6 +29,7 @@ import CompanyTags from "@/components/Company_tags/CompanyTags";
 import Filters from "@/components/Filters/filters";
 import Dropdown from "@/components/Dropdown/dropdown";
 import Pagination from "@/components/Pagination";
+import { closeDropDowns } from "@/utils/handleDropClose";
 
 /**
  *
@@ -106,39 +107,15 @@ const Home = () => {
     });
   };
 
-  const closeDropDowns = () => {
-    const dropdowns: Element[] = Array.from(
-      document.querySelectorAll("._dropdown")
-    );
-
-    document.addEventListener("mousedown", (e) => {
-      const dropdownContents = Array.from(
-        document.querySelectorAll<HTMLElement>(".dropdown_content")
-      );
-
-      dropdownContents.forEach((ddContent, index) => {
-        if (
-          !ddContent.contains(e.target as HTMLElement) &&
-          !dropdowns[index]?.contains(e.target as HTMLElement)
-        ) {
-          ddContent.classList.remove("show");
-          ddContent.parentNode?.children[0].children[1]?.classList.remove(
-            "rotate-180"
-          );
-        }
-      });
-    });
-  };
-
-  useLayoutEffect(() => {
+  useEffect(() => {
     handleDropdownClicks();
   });
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     handleDropdownClicks();
   }, [activeTopic]);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     setTimeout(() => {
       closeDropDowns();
     }, 1000);
@@ -178,35 +155,37 @@ const Home = () => {
     <>
       <main className="bg-dark-layer-2 min-h-screen ">
         <Topbar />
-        <div className="max-w-[1150px] mx-auto mt-[67px] pb-5">
-          <div className="flex gap-6">
-            <div className="w-9/12">
-              <div className="flex gap-6">
-                <div className="md:h-auto md:w-auto">
+        <div className="md:max-w-[1150px] lg:max-w-[1150px] max-w-full mx-auto px-3  md:pt-[67px] pt-[70px] pb-5">
+          <div className="flex md:gap-6 lg:gap-6 space-y-3   md:space-y-0 lg:space-y-0  md:flex-row lg:flex-row flex-col">
+            <div className="md:w-9/12 lg:md:w-9/12 w-full">
+              <div className="md:flex lg:flex hidden gap-6">
+                <div className="md:h-auto md:w-auto h-[100px] w-[200px]">
                   <span className="inline-block overflow-hidden  rounded-[8px]">
-                    <img src={`./lc-1.png`} />
+                    <img src={`./lc-1.png`} className="w-full h-full" />
                   </span>
                 </div>
-                <div>
+                <div className="md:h-auto md:w-auto h-[100px] w-[200px]">
                   <span className="inline-block overflow-hidden  rounded-[8px]">
-                    <img src={`./lc-2.png`} />
+                    <img src={`./lc-2.png`} className="w-full h-full" />
                   </span>
                 </div>
-                <div>
+                <div className="md:h-auto md:w-auto h-[100px] w-[200px]">
                   <span className="inline-block overflow-hidden  rounded-[8px]">
-                    <img src={`./lc-3.png`} />
+                    <img src={`./lc-3.png`} className="w-full h-full" />
                   </span>
                 </div>
               </div>
               <div className="relative  mx-auto ">
                 <div className="flex justify-between items-center">
-                  <div className="text-text-gray text-xl pt-5">Study Plan</div>
+                  <div className="text-text-gray text-xl md:pt-5 lg:pt-5 pt-0 md:sml-0 lg:ml-0 ml-2">
+                    Study Plan
+                  </div>
                   <div>
                     <a className="text-blue-500">See all</a>
                   </div>
                 </div>
 
-                <div className="grid grid-cols-3 gap-4 mt-5">
+                <div className="grid md:grid-cols-3 lg:grid-cols-3 grid-cols-2 gap-4 mt-5">
                   {cards.map((card, index) => (
                     <div
                       key={`car__${index}`}
@@ -236,11 +215,11 @@ const Home = () => {
 
                 <div className="border-t border-light-border mt-10"></div>
 
-                <div className="flex gap-4 mt-5  overflow-hidden flex-nowrap relative">
+                <div className="flex gap-4 mt-5  md:overflow-hidden lg:overflow-hidden overflow-auto   md:flex-nowrap	relative">
                   {renderCategories()}
                 </div>
 
-                <div className="flex  gap-4 mt-5">
+                <div className="flex  gap-4 mt-5 overflow-auto  md:overflow-hidden lg:overflow-hidden">
                   {topics.map((topic, _) => {
                     return (
                       <div
@@ -275,7 +254,7 @@ const Home = () => {
                 <Filters />
 
                 <div className="mt-5">
-                  <div className="flex w-full gap-2">
+                  <div className="flex w-full gap-2 flex-wrap md:flex-nowrap lg:flex-nowrap	">
                     <Dropdown header="Lists" activeTopic={activeTopic}>
                       <div className="dropdown_content absolute top-9 left-0 p-3 dark:bg-dark-overlay-3 rounded-lg hidden max-w-[15rem] min-w-[8.75rem] overflow-auto">
                         <div className="flex  gap-4 dark:text-white text-sm hover:dark:bg-dark-fill-3 hover:rounded-md px-2 py-1.5 whitespace-nowrap">
@@ -313,7 +292,7 @@ const Home = () => {
                           </span>
                           Todo
                         </div>
-                        <div className="flex  gap-1 items-center dark:text-white text-sm hover:rounded-md   hover:dark:bg-dark-fill-3 px-2 py-1.5 whitespace-nowrap">
+                        <div className="flex  gap-1 items-center dark:text- white text-sm hover:rounded-md   hover:dark:bg-dark-fill-3 px-2 py-1.5 whitespace-nowrap">
                           <span className="">
                             <BsCheck2 className="text-lg text-dark-green-s " />
                           </span>
@@ -393,15 +372,22 @@ const Home = () => {
                       <div className="flex items-center justify-center bg-green-500 h-[32px] w-[32px] rounded-full ml-3">
                         <QuestionPick />
                       </div>
-                      <span className="ml-2 text-green-500">Pick One</span>
+                      <span className="ml-2 text-green-500 hidden sm:block md:block lg:block">Pick One</span>
                     </div>
                   </div>
                 </div>
-                <ProblemsTable />
+                <div className="overflow-auto md:overflow-visible lg:overflow-visible">
+                  <ProblemsTable
+                    handleDropDownClose={() => {
+                      console.log("closeDropDowns()");
+                      closeDropDowns();
+                    }}
+                  />
+                </div>
               </div>
             </div>
-            <div className="w-3/12 relative">
-              <div className="w-full  h-auto py-1.5 p-3 rounded-[8px] bg-dark-layer-1 relative">
+            <div className="md:w-3/12 lg:w-3/12 w-full relative">
+              <div className="w-full  h-auto py-1.5 p-3 rounded-[8px] bg-dark-layer-1 relative mt-10">
                 <div className=" w-[75px] h-[75px] absolute -top-[2.5rem] right-[2.0rem] dark:opacity-50">
                   <img
                     src="./assets/img/lccal.png"
