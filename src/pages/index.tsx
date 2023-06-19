@@ -210,7 +210,7 @@ const Home = () => {
                   modules={[Navigation]}
                   slideToClickedSlide
                   loop={true}
-                  slidesPerGroup={1}
+                  slidesPerGroup={1.5}
                 >
                   {homeCards()}
                 </Swiper>

@@ -44,7 +44,7 @@ const Pagination = <T,>({ list, handleDropdownClose }: PaginationProps<T>) => {
   return (
     <>
       <div className="py-3 md:flex lg:flex flex flex-col-reverse md:flex-row lg:flex-row justify-between relative">
-        <div className="w-[120px] mx-auto md:mx-0 lg:mx-0 py-7 md:w-auto lg:w-auto md:py-0 lg:py-0">
+        <div className="w-[150px] mx-auto md:mx-0 lg:mx-0 py-7 md:w-auto lg:w-auto md:py-0 lg:py-0">
           <Dropdown header={dropdownHeader}>
             <div
               className={`dropdown_content absolute top-9 left-0 p-3 dark:bg-dark-overlay-3 rounded-lg hidden max-w-[15rem] min-w-[8.75rem] overflow-auto `}
