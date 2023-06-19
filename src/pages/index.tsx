@@ -5,6 +5,8 @@ import LoadingSkeleton from "@/components/LoadingSkeleton";
 import { doc, setDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
 import Calendar from "moedim";
+import { RxCaretRight } from "react-icons/rx";
+import { RxCaretLeft } from "react-icons/rx";
 
 import React, { useState, useMemo } from "react";
 import { firestore } from "@/firebase/firebase";
@@ -30,6 +32,13 @@ import Filters from "@/components/Filters/filters";
 import Dropdown from "@/components/Dropdown/dropdown";
 import Pagination from "@/components/Pagination";
 import { closeDropDowns } from "@/utils/handleDropClose";
+import SwiperBtns from "@/components/Swiper-btns/Swiper-btns";
+import Slides from "@/components/Swiper/Slides";
+
+import { SwiperSlide } from "swiper/react";
+import { Swiper } from "swiper/react";
+import { Navigation } from "swiper";
+import { Pagination as SwiperPagination } from "swiper";
 
 /**
  *
@@ -149,6 +158,19 @@ const Home = () => {
       </div>
     ));
 
+  const homeCards = () => {
+    return ["lc-1.png", "lc-2.png", "lc-3.png"].map((homeCard, index) => (
+      <SwiperSlide key={`home_card_${index}`}>
+        <div className="md:h-auto md:w-auto h-[116px] w-[222px]">
+          <span className="inline-block overflow-hidden  rounded-[8px]">
+            <img src={`./${homeCard}`} className="w-full h-full" />
+          </span>
+        </div>
+      </SwiperSlide>
+    ));
+  };
+  console.log("homeCards", homeCards());
+
   if (!hasMounted) return null;
 
   return (
@@ -174,6 +196,24 @@ const Home = () => {
                     <img src={`./lc-3.png`} className="w-full h-full" />
                   </span>
                 </div>
+              </div>
+              <div className="md:hidden lg:hidden flex justify-end py-3">
+                <SwiperBtns prevClass="prev-card" nextClass="next-card" />
+              </div>
+              <div className="md:hidden lg:hidden flex gap-6 mb-3">
+                <Swiper
+                  navigation={{
+                    prevEl: `.prev-card`,
+                    nextEl: `.next-card`,
+                  }}
+                  slidesPerView={1.5}
+                  modules={[Navigation]}
+                  slideToClickedSlide
+                  loop={true}
+                  slidesPerGroup={1}
+                >
+                  {homeCards()}
+                </Swiper>
               </div>
               <div className="relative  mx-auto ">
                 <div className="flex justify-between items-center">
@@ -213,7 +253,7 @@ const Home = () => {
                   ))}
                 </div>
 
-                <div className="border-t border-light-border mt-10"></div>
+                <div className="border-t border-light-border mt-7"></div>
 
                 <div className="flex gap-4 mt-5  md:overflow-hidden lg:overflow-hidden overflow-auto   md:flex-nowrap	relative">
                   {renderCategories()}
@@ -372,11 +412,13 @@ const Home = () => {
                       <div className="flex items-center justify-center bg-green-500 h-[32px] w-[32px] rounded-full ml-3">
                         <QuestionPick />
                       </div>
-                      <span className="ml-2 text-green-500 hidden sm:block md:block lg:block">Pick One</span>
+                      <span className="ml-2 text-green-500 hidden sm:block md:block lg:block">
+                        Pick One
+                      </span>
                     </div>
                   </div>
                 </div>
-                <div className="overflow-auto md:overflow-visible lg:overflow-visible">
+                <div className="md:overflow-x-visible lg:overflow-x-visible">
                   <ProblemsTable
                     handleDropDownClose={() => {
                       console.log("closeDropDowns()");
@@ -387,7 +429,7 @@ const Home = () => {
               </div>
             </div>
             <div className="md:w-3/12 lg:w-3/12 w-full relative">
-              <div className="w-full  h-auto py-1.5 p-3 rounded-[8px] bg-dark-layer-1 relative mt-10">
+              <div className="w-full  h-auto py-1.5 p-3 rounded-[8px] bg-dark-layer-1 relative mt-7 md:mt-0 lg:mt-0">
                 <div className=" w-[75px] h-[75px] absolute -top-[2.5rem] right-[2.0rem] dark:opacity-50">
                   <img
                     src="./assets/img/lccal.png"

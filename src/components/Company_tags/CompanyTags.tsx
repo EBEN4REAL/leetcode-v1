@@ -121,7 +121,10 @@ const CompanyTags: React.FC<CompanyTagsProps> = ({ companies }) => {
         />
         <Slides
           styles={["mt-3 flex gap-2 w-full flex-wrap slider"]}
-          companiesSliders={companiesSliders}
+          items={companiesSliders}
+          prevClass="prev"
+          nextClass="next"
+          showEmptyContainer={true}
         />
       </div>
     </>

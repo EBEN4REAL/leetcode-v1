@@ -22,10 +22,11 @@ import useGetProblems from "@/hooks/useGetProblems";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { problemsState } from "@/atoms/problemsAtom";
 import LoadingSkeleton from "@/components/LoadingSkeleton";
-import Pagination from "@/components/Pagination"
+import Pagination from "@/components/Pagination";
 
-
-const ProblemsTable: React.FC<{handleDropDownClose: () => void}> = ({handleDropDownClose}) => {
+const ProblemsTable: React.FC<{ handleDropDownClose: () => void }> = ({
+  handleDropDownClose,
+}) => {
   const [youtubePlayer, setYoutubePlayer] = useState({
     isOpen: false,
     videoId: "",
@@ -76,7 +77,7 @@ const ProblemsTable: React.FC<{handleDropDownClose: () => void}> = ({handleDropD
           <td className="px-2 py-4 font-medium whitespace-nowrap text-dark-green-s">
             {solved && <SolvedIcon />}
           </td>
-          <td className="px-6 py-4 w-[300px]">
+          <td className="px-6 py-4  whitespace-nowrap">
             {problem.link ? (
               <Link
                 href={problem.link}
@@ -126,64 +127,66 @@ const ProblemsTable: React.FC<{handleDropDownClose: () => void}> = ({handleDropD
 
   return (
     <>
-      <table className="text-sm text-left mb-4 text-gray-500 dark:text-gray-400  w-full max-w-[1200px] mx-auto mt-5">
-        {loadingProblems ? (
-          <span className="max-w-[1200px] mx-auto w-full animate-pulse">
-            {[...Array(10)].map((_, idx) => (
-              <LoadingSkeleton key={`skeleton__${idx}`} />
-            ))}
-          </span>
-        ) : (
-          <thead className="text-xs text-gray-700 uppercase dark:text-gray-400 border-b border-light-border ">
-            <tr>
-              <th scope="col" className="px-1 py-3 w-0 text-sm">
-                Status
-              </th>
-              <th scope="col" className="px-6 py-3 w-0 text-sm">
-                Title
-              </th>
-              <th scope="col" className="px-6 py-3 w-0 text-sm">
-                Difficulty
-              </th>
+      <div className="overflow-x-auto ">
+        <table className="text-sm text-left mb-4 text-gray-500 dark:text-gray-400  w-full max-w-[1200px] mx-auto mt-5 ">
+          {loadingProblems ? (
+            <span className="max-w-[1200px] mx-auto w-full animate-pulse">
+              {[...Array(10)].map((_, idx) => (
+                <LoadingSkeleton key={`skeleton__${idx}`} />
+              ))}
+            </span>
+          ) : (
+            <thead className="text-xs text-gray-700 uppercase dark:text-gray-400 border-b border-light-border ">
+              <tr>
+                <th scope="col" className="px-1 py-3 w-0 text-sm">
+                  Status
+                </th>
+                <th scope="col" className="px-6 py-3 w-0 text-sm">
+                  Title
+                </th>
+                <th scope="col" className="px-6 py-3 w-0 text-sm">
+                  Difficulty
+                </th>
 
-              <th scope="col" className="px-6 py-3 w-0 text-sm">
-                Acceptance
-              </th>
-              <th scope="col" className="px-6 py-3 w-0 text-sm">
-                Solution
-              </th>
-              <th scope="col" className="px-6 py-3 w-0 text-sm">
-                Frequency
-              </th>
-            </tr>
-          </thead>
-        )}
-        <tbody className="text-white">{tBody()}</tbody>
-        {youtubePlayer.isOpen && (
-          <tfoot className="fixed top-0 left-0 h-screen w-screen flex items-center justify-center">
-            <div
-              className="bg-black z-10 opacity-70 top-0 left-0 w-screen h-screen absolute"
-              onClick={closeModal}
-            ></div>
-            <div className="w-full z-50 h-full px-6 relative max-w-4xl">
-              <div className="w-full h-full flex items-center justify-center relative">
-                <div className="w-full relative">
-                  <IoClose
-                    fontSize={"35"}
-                    className="cursor-pointer absolute -top-16 right-0"
-                    onClick={closeModal}
-                  />
-                  <YouTube
-                    videoId={youtubePlayer.videoId}
-                    loading="lazy"
-                    iframeClassName="w-full min-h-[500px]"
-                  />
+                <th scope="col" className="px-6 py-3 w-0 text-sm">
+                  Acceptance
+                </th>
+                <th scope="col" className="px-6 py-3 w-0 text-sm">
+                  Solution
+                </th>
+                <th scope="col" className="px-6 py-3 w-0 text-sm">
+                  Frequency
+                </th>
+              </tr>
+            </thead>
+          )}
+          <tbody className="text-white">{tBody()}</tbody>
+          {youtubePlayer.isOpen && (
+            <tfoot className="fixed top-0 left-0 h-screen w-screen flex items-center justify-center">
+              <div
+                className="bg-black z-10 opacity-70 top-0 left-0 w-screen h-screen absolute"
+                onClick={closeModal}
+              ></div>
+              <div className="w-full z-50 h-full px-6 relative max-w-4xl">
+                <div className="w-full h-full flex items-center justify-center relative">
+                  <div className="w-full relative">
+                    <IoClose
+                      fontSize={"35"}
+                      className="cursor-pointer absolute -top-16 right-0"
+                      onClick={closeModal}
+                    />
+                    <YouTube
+                      videoId={youtubePlayer.videoId}
+                      loading="lazy"
+                      iframeClassName="w-full min-h-[500px]"
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
-          </tfoot>
-        )}
-      </table>
+            </tfoot>
+          )}
+        </table>
+      </div>
       <Pagination
         list={problemsObj.problems}
         handleDropdownClose={handleDropDownClose}

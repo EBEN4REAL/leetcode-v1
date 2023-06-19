@@ -51,8 +51,12 @@ module.exports = {
         "text-dark-label-3": " #eff2f699",
         "dark-label-4": "#ebebf54d",
         "dark-label-5": "#ebebf582",
-        "fill-2": "#000a201a"
-      },
+        "fill-2": "#000a201a",
+        "gray-level-1": "#303030",
+        "red-1": "#ef474326",
+        "red-s": "rgb(239, 71, 67, 1)",
+        "gray-7": "rgb(89, 89, 89, 1)"
+      }
     },
   },
   plugins: [],

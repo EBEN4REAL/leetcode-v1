@@ -43,8 +43,8 @@ const Pagination = <T,>({ list, handleDropdownClose }: PaginationProps<T>) => {
 
   return (
     <>
-      <div className="py-3 flex justify-between relative">
-        <div>
+      <div className="py-3 md:flex lg:flex flex flex-col-reverse md:flex-row lg:flex-row justify-between relative">
+        <div className="w-[120px] mx-auto md:mx-0 lg:mx-0 py-7 md:w-auto lg:w-auto md:py-0 lg:py-0">
           <Dropdown header={dropdownHeader}>
             <div
               className={`dropdown_content absolute top-9 left-0 p-3 dark:bg-dark-overlay-3 rounded-lg hidden max-w-[15rem] min-w-[8.75rem] overflow-auto `}
@@ -65,7 +65,7 @@ const Pagination = <T,>({ list, handleDropdownClose }: PaginationProps<T>) => {
             </div>
           </Dropdown>
         </div>
-        <div className="flex gap-2">
+        <div className="flex justify-center gap-2 w-full md:w-auto lg:w-auto mx-auto md:mx-0 lg:mx-0">
           <div
             className={`flex items-center p-1 justify-center  h-[32px] w-[37px] rounded-[5px] dark:bg-dark-fill-4   dark:hover:bg-dark-fill-3    ${
               !paginationBtns.hasPrev
