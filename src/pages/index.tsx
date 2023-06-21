@@ -22,6 +22,8 @@ import { getDropDownDirection } from "@/utils/getDropDownDirection";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { problemsState } from "@/atoms/problemsAtom";
 import { useEffect } from "react";
+import { RxCaretDown } from "react-icons/rx";
+
 /**
  *
  * @returns Components
@@ -39,14 +41,14 @@ import { SwiperSlide } from "swiper/react";
 import { Swiper } from "swiper/react";
 import { Navigation } from "swiper";
 import { Pagination as SwiperPagination } from "swiper";
+import { FrigadeChecklist, FrigadeProgressBadge } from "@frigade/react";
 
 /**
  *
  * @returns constants
  */
 import { _cards, _categories, _topics, _inputs, _companies } from "@/constants";
-import { problems } from "../mockProblems/problems";
-import { DBProblem } from "../utils/types/problem";
+import { render } from "react-dom";
 
 const Home = () => {
   const [loadingProblems, setLoadingProblems] = useState(false);
@@ -62,6 +64,8 @@ const Home = () => {
   const [guagePercent, setGuagePercent] = useState<boolean>(false);
   const [solvedProblems, setSolvedProblems] = useState<number>(0);
   const [difficultyMode, setDifficultyMode] = useState<string>("");
+  const [expandCategories, setExpandCategories] = useState<boolean>(false);
+  const [topicScroll, setTopicScroll] = useState<boolean>(false);
 
   const renderednewCategories = useMemo(() => {
     const categoriesList = collapseCategory
@@ -133,30 +137,90 @@ const Home = () => {
   function CategoryCount({ count, index }: { count: number; index: number }) {
     return (
       <>
-        <span
-          className={`ml-1 text-light-gray bg-secondary-gray  flex h-[18px] items-center justify-center rounded-[10px] px-1.5 text-xs font-normal ${
-            index === 6
-              ? "bg-gradient-to-r from-secondary-gray to-black-500"
+        <div
+          className={`ml-1 text-light-gray bg-secondary-gray  py-0.5 flex items-center justify-center rounded-full px-2 text-xs font-normal ${
+            index === 6 && !expandCategories
+              ? "bg-gradient-to-r from-secondary-gray to-dark-layer-2 opacity-30"
               : ""
-          }`}
+          } 
+          `}
         >
-          {count}
-        </span>
+          <span className="w-full h-full">{count}</span>
+        </div>
       </>
     );
   }
 
-  const renderCategories = () =>
-    categories.slice(0, 7).map((category, index) => (
-      <div className="inline-flex items-center " key={`category_&_${index}`}>
-        <span className="text-white whitespace-nowrap">{category.name}</span>
-        {index < 7 ? (
+  const expandButton = (
+    <div
+      className="absolute z-5 bottom-[-2.5px] right-0 items-center text-white  py-0.5  text-xs flex cursor-pointer text-right"
+      onClick={() => setExpandCategories((prev) => !prev)}
+    >
+      <div className="bg-dark-layer-2 p-[2.5px] shadow bg-gradient-to-l">
+        {expandCategories ? "Collapse" : "Expand"}
+      </div>
+      {expandCategories ? (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          width="1em"
+          height="1em"
+          fill="currentColor"
+          className="h-[15px] w-[15px]"
+        >
+          <path
+            fillRule="evenodd"
+            d="M17.707 11.707a1 1 0 01-1.414 0L12 7.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0l5 5a1 1 0 010 1.414zm-1.414 7L12 14.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0l5 5a1 1 0 01-1.414 1.414z"
+            clipRule="evenodd"
+          ></path>
+        </svg>
+      ) : (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          width="1em"
+          height="1em"
+          fill="currentColor"
+          className="h-[15px] w-[15px]"
+        >
+          <path
+            fillRule="evenodd"
+            d="M7.707 12.293L12 16.586l4.293-4.293a1 1 0 011.414 1.414l-5 5a1 1 0 01-1.414 0l-5-5a1 1 0 111.414-1.414zM12 9.586l4.293-4.293a1 1 0 111.414 1.414l-5 5a1 1 0 01-1.414 0l-5-5a1 1 0 011.414-1.414L12 9.586z"
+            clipRule="evenodd"
+          ></path>
+        </svg>
+      )}
+    </div>
+  );
+
+  const checkIfMobile = () => {
+    if (typeof window !== "undefined") {
+      return screen.width <= 768;
+    }
+  };
+
+  const renderCategories = useMemo(() => {
+    let cats = expandCategories ? [...categories] : categories.slice(0, 7);
+
+    if (checkIfMobile() && !expandCategories) {
+      cats = categories.slice(0, 3);
+    }
+
+    return cats.map((category, index) => (
+      <div className={`inline-flex items-center `} key={`category_&_${index}`}>
+        <span className="text-white text-sm whitespace-nowrap">
+          {category.name}
+        </span>
+        {index < 7 || expandCategories ? (
           <CategoryCount count={category.count} index={index} />
         ) : (
           ""
         )}
       </div>
     ));
+  }, [categories, expandCategories]);
+
+  renderCategories.push(expandButton);
 
   const homeCards = () => {
     return ["lc-1.png", "lc-2.png", "lc-3.png"].map((homeCard, index) => (
@@ -169,7 +233,91 @@ const Home = () => {
       </SwiperSlide>
     ));
   };
-  console.log("homeCards", homeCards());
+
+  const topicSlideBtn = () => {
+    return (
+      <div
+        className="bg-dark-layer-2 flex  sticky z-2 right-0 top-0 cursor-pointer pl-1 order-20"
+        onClick={() => setTopicScroll((prev) => !prev)}
+      >
+        {/* <span className="h-10 w-4 bg-gradient-to-l from-paper dark:from-dark-paper"></span> */}
+        <span className="bg-paper pl-1 font-normal bg-gradient-to-l from-paper dark:from-dark-paper h-10 w-8 flex items-center justify-cente">
+          {topicScroll ? (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              width="1em"
+              height="1em"
+              fill="currentColor"
+              className="h-3.5 w-3.5 text-white"
+            >
+              <path
+                fillRule="evenodd"
+                d="M11.707 7.707L7.414 12l4.293 4.293a1 1 0 01-1.414 1.414l-5-5a1 1 0 010-1.414l5-5a1 1 0 111.414 1.414zM14.414 12l4.293 4.293a1 1 0 01-1.414 1.414l-5-5a1 1 0 010-1.414l5-5a1 1 0 111.414 1.414L14.414 12z"
+                clipRule="evenodd"
+              ></path>
+            </svg>
+          ) : (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              width="1em"
+              height="1em"
+              fill="currentColor"
+              className="h-3.5 w-3.5 text-white"
+            >
+              <path
+                fillRule="evenodd"
+                d="M12.293 16.293L16.586 12l-4.293-4.293a1 1 0 011.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414-1.414zM9.586 12L5.293 7.707a1 1 0 011.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414-1.414L9.586 12z"
+                clipRule="evenodd"
+              ></path>
+            </svg>
+          )}
+        </span>
+      </div>
+    );
+  };
+
+  const renderTopics = () => {
+    return topics.map((topic, _) => {
+      return (
+        <div
+          key={`topic__${topic.name}`}
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setActiveTopic(() => topic.name);
+          }}
+          className={`${
+            activeTopic === topic.name ? "bg-white" : ""
+          } cursor-pointer bg-secondary-gray rounded-full py-[8px] px-4`}
+        >
+          <div className="flex items-center justify-center">
+            <topic.img active={activeTopic === topic.name ? true : false} />
+            <span
+              className={`whitespace-nowrap ${
+                activeTopic === topic.name ? "text-black" : "text-light-gray"
+              }`}
+            >
+              {topic.name}
+            </span>
+          </div>
+        </div>
+      );
+    });
+  };
+
+  useEffect(() => {
+    const topicWrapper = document.querySelector(".topic-wrapper");
+    if (topicWrapper) {
+      if (topicScroll) {
+        topicWrapper.scrollLeft =
+          topicWrapper.scrollWidth - topicWrapper.clientWidth;
+      } else {
+        topicWrapper.scrollLeft = 0;
+      }
+    }
+  }, [topicScroll]);
 
   if (!hasMounted) return null;
 
@@ -209,8 +357,6 @@ const Home = () => {
                   slidesPerView={1.5}
                   modules={[Navigation]}
                   slideToClickedSlide
-                  // loop={true}
-                  // slidesPerGroup={1.5}
                 >
                   {homeCards()}
                 </Swiper>
@@ -255,41 +401,13 @@ const Home = () => {
 
                 <div className="border-t border-light-border mt-7"></div>
 
-                <div className="flex gap-4 mt-5  md:overflow-hidden lg:overflow-hidden overflow-auto   md:flex-nowrap	relative">
-                  {renderCategories()}
+                <div className="flex flex-wrap   gap-4 mt-5 overflow-auto	relative">
+                  {renderCategories}
                 </div>
 
-                <div className="flex  gap-4 mt-5 overflow-auto  md:overflow-hidden lg:overflow-hidden">
-                  {topics.map((topic, _) => {
-                    return (
-                      <div
-                        key={`topic__${topic.name}`}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          e.stopPropagation();
-                          setActiveTopic(() => topic.name);
-                        }}
-                        className={`${
-                          activeTopic === topic.name ? "bg-white" : ""
-                        } cursor-pointer bg-secondary-gray rounded-full py-[8px] px-4`}
-                      >
-                        <div className="flex items-center justify-center">
-                          <topic.img
-                            active={activeTopic === topic.name ? true : false}
-                          />
-                          <span
-                            className={`whitespace-nowrap ${
-                              activeTopic === topic.name
-                                ? "text-black"
-                                : "text-light-gray"
-                            }`}
-                          >
-                            {topic.name} {activeTopic === topic.name}
-                          </span>
-                        </div>
-                      </div>
-                    );
-                  })}
+                <div className="flex  relative gap-3 mt-5 overflow-auto  topic-wrapper">
+                  {renderTopics()}
+                  {topicSlideBtn()}
                 </div>
                 <Filters />
 
@@ -388,7 +506,20 @@ const Home = () => {
 
                         <div className="flex items-center justify-end mt-2 dark:text-dark-label-3 opacity-60">
                           <span className="mr-1">
-                            <GrPowerReset className="dark:text-dark-label-3 opacity-60" />
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 24 24"
+                              width="1em"
+                              height="1em"
+                              fill="currentColor"
+                              className="h-4 w-4"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                d="M5.725 9.255h2.843a1 1 0 110 2H3.2a1 1 0 01-1-1V4.887a1 1 0 012 0v3.056l2.445-2.297a9.053 9.053 0 11-2.142 9.415 1 1 0 011.886-.665 7.053 7.053 0 1010.064-8.515 7.063 7.063 0 00-8.417 1.202L5.725 9.255z"
+                                clipRule="evenodd"
+                              ></path>
+                            </svg>
                           </span>
                           <span className="d text-sm ">Reset</span>
                         </div>
@@ -408,8 +539,8 @@ const Home = () => {
                     <div className="flex items-center justify-between bg-dark-layer-3 rounded-[5px]  px-3">
                       <FiSettings className="text-xl text-light-gray" />
                     </div>
-                    <div className="flex justify-center items-center ">
-                      <div className="flex items-center justify-center bg-green-500 h-[32px] w-[32px] rounded-full ml-3">
+                    <div className="flex justify-center items-center ml-3">
+                      <div className="shadow-md flex h-8 w-8 items-center justify-center rounded-full bg-[#34c164]  ">
                         <QuestionPick />
                       </div>
                       <span className="ml-2 text-green-500 hidden sm:block md:block lg:block">
@@ -421,7 +552,6 @@ const Home = () => {
                 <div className="md:overflow-x-visible lg:overflow-x-visible">
                   <ProblemsTable
                     handleDropDownClose={() => {
-                      console.log("closeDropDowns()");
                       closeDropDowns();
                     }}
                   />

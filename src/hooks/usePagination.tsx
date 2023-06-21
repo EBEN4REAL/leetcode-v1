@@ -1,4 +1,4 @@
-import React, { useState, useMemo, SetStateAction, useEffect } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 
 const usePagination = <T,>(itemList: T[], _pageSize: number) => {
   const [list, setList] = useState<T[]>(itemList);

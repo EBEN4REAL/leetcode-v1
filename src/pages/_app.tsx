@@ -4,20 +4,28 @@ import Head from "next/head";
 import { RecoilRoot } from "recoil";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { FrigadeProvider } from "@frigade/react";
+
 export default function App({ Component, pageProps }: AppProps) {
-	return (
-		<RecoilRoot>
-			<Head>
-				<title>Leetcode Clone</title>
-				<meta name='viewport' content='width=device-width, initial-scale=1' />
-				<link rel='icon' href='/favicon.png' />
-				<meta
-					name='description'
-					content='Web application that contains leetcode problems and video solutions'
-				/>
-			</Head>
-			<ToastContainer />
-			<Component {...pageProps} />
-		</RecoilRoot>
-	);
+  return (
+    <FrigadeProvider
+      publicApiKey="api_public_ur9TPtSwcIQRhE2Bt9w3JiytQUJYU3HLA1C7Tchv1SjBdN8R5LIaMKrc64YMOHHu"
+    //   userId="<OPTIONAL_USER_ID>"
+      organizationId="Leetcode-V1"
+    >
+      <RecoilRoot>
+        <Head>
+          <title>Leetcode Clone</title>
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <link rel="icon" href="/favicon.png" />
+          <meta
+            name="description"
+            content="Web application that contains leetcode problems and video solutions"
+          />
+        </Head>
+        <ToastContainer />
+        <Component {...pageProps} />
+      </RecoilRoot>
+    </FrigadeProvider>
+  );
 }

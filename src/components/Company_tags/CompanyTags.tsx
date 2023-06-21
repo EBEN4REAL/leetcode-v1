@@ -96,12 +96,12 @@ const CompanyTags: React.FC<CompanyTagsProps> = ({ companies }) => {
             <div
               className={`flex items-center justify-center  h-[25px] w-[25px] rounded-[5px] dark:bg-dark-fill-4   dark:hover:bg-dark-fill-3   cursor-pointer  `}
             >
-              <RxCaretLeft className="text-4xl font-bold prev tags-btn" />
+              <RxCaretLeft className="text-4xl font-bold prev dark:text-dark-label-2" />
             </div>
             <div
               className={`flex items-center justify-center  h-[25px] w-[25px] rounded-[5px] dark:bg-dark-fill-4   dark:hover:bg-dark-fill-3   cursor-pointer `}
             >
-              <RxCaretRight className="text-4xl font-bold next tags-btn" />
+              <RxCaretRight className="text-4xl font-bold next dark:text-dark-label-2" />
             </div>
           </div>
         </div>

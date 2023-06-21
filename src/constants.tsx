@@ -185,6 +185,118 @@ export const _categories = [
     name: "Database",
     count: 226,
   },
+  {
+    name: "Greedy",
+    count: 309,
+  },
+  {
+    name: "Depth-First Search ",
+    count: 274,
+  },
+  {
+    name: "Database",
+    count: 226,
+  },
+  {
+    name: "Array",
+    count: 1381,
+  },
+  {
+    name: "String",
+    count: 615,
+  },
+  {
+    name: "Hash table",
+    count: 475,
+  },
+  {
+    name: "Dynamic Programming",
+    count: 431,
+  },
+  {
+    name: "Greedy",
+    count: 309,
+  },
+  {
+    name: "Depth-First Search ",
+    count: 274,
+  },
+  {
+    name: "Database",
+    count: 226,
+  },
+  {
+    name: "Array",
+    count: 1381,
+  },
+  {
+    name: "String",
+    count: 615,
+  },
+  {
+    name: "Hash table",
+    count: 475,
+  },
+  {
+    name: "Dynamic Programming",
+    count: 431,
+  },
+  {
+    name: "Greedy",
+    count: 309,
+  },
+  {
+    name: "Depth-First Search ",
+    count: 274,
+  },
+  {
+    name: "Database",
+    count: 226,
+  },
+  {
+    name: "Array",
+    count: 1381,
+  },
+  {
+    name: "String",
+    count: 615,
+  },
+  {
+    name: "Hash table",
+    count: 475,
+  },
+  {
+    name: "Dynamic Programming",
+    count: 431,
+  },
+  {
+    name: "Greedy",
+    count: 309,
+  },
+  {
+    name: "Depth-First Search ",
+    count: 274,
+  },
+  {
+    name: "Database",
+    count: 226,
+  },
+  {
+    name: "Array",
+    count: 1381,
+  },
+  {
+    name: "String",
+    count: 615,
+  },
+  {
+    name: "Hash table",
+    count: 475,
+  },
+  {
+    name: "Dynamic Programming",
+    count: 431,
+  },
 ];
 
 export const _topics = [
@@ -203,6 +315,14 @@ export const _topics = [
   {
     name: "Javascript",
     img: Javascript,
+  },
+  {
+    name: "Shell",
+    img: Shell,
+  },
+  {
+    name: "Concurrency",
+    img: Concurrency,
   },
   {
     name: "Shell",

@@ -11,6 +11,7 @@
   "dependencies": {
     "@codemirror/lang-javascript": "^6.1.8",
     "@codemirror/lang-python": "^6.1.2",
+    "@frigade/react": "^1.32.55",
     "@types/node": "20.2.5",
     "@types/react": "18.2.7",
     "@types/react-dom": "18.2.4",

@@ -29,7 +29,7 @@ module.exports = {
         "dark-yellow": "rgb(255 192 30)",
         "dark-pink": "rgb(255 55 95)",
         olive: "rgb(0, 184, 163)",
-        "dark-green-s": "rgb(44 187 93)",
+        "dark-green-s": "#2cbb5d",
         "dark-blue-s": "rgb(10 132 255)",
         "text-gray": "rgba(245, 245, 245, 0.75)",
         "secondary-gray": "#2A2A2A",
@@ -55,10 +55,11 @@ module.exports = {
         "gray-level-1": "#303030",
         "red-1": "#ef474326",
         "red-s": "rgb(239, 71, 67, 1)",
-        "gray-7": "rgb(89, 89, 89, 1)"
+        "gray-7": "rgb(89, 89, 89, 1)",
+        "dark-paper": "rgb(28, 28, 28, 1)",
+        "fixed-green": "#50d57f"
       }
     },
   },
   plugins: [],
 };
-
