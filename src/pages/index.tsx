@@ -131,7 +131,7 @@ const Home = () => {
   useEffect(() => {
     setTimeout(() => {
       closeDropDowns();
-    }, 1000);
+    }, 5000);
   });
 
   function CategoryCount({ count, index }: { count: number; index: number }) {

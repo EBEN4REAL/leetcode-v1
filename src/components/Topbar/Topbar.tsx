@@ -584,7 +584,7 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage }) => {
               <div
                 className={`absolute top-[43px] ${
                   !openDropdown ? "hidden" : "block"
-                } right-[-10px] p-4 dark:bg-dark-overlay-3 rounded-lg z-10 dropdown_toggle_content dropdown_content`}
+                } right-[-10px] p-4 dark:bg-dark-overlay-3 rounded-lg z-10 dropdown_toggle_content dropdown__content`}
               >
                 <div className="w-[264px] flex flex-col">
                   <div className="flex items-center gap-2 ">
