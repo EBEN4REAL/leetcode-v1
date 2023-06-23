@@ -59,6 +59,7 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage }) => {
   const [navOpen, setNavOpen] = useState<boolean>(false);
   const [darkThemeToggle, setDarkThemeToggle] = useState<boolean>(true);
   const [signOut, loading, error] = useSignOut(auth);
+  const [openDropdown, setOpenDropdown] = useState<boolean>(false);
 
   const navigationTabs = () =>
     navTabs.map((nav) => {
@@ -129,10 +130,30 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage }) => {
     },
   ];
 
+  useEffect(() => {
+    const dropdownToggle = document.querySelector("#dropdown_toggle");
+    const dropdownToggleContent = document.querySelector(
+      ".dropdown_toggle_content"
+    ) as HTMLElement;
+
+    document.addEventListener("mousedown", (e) => {
+      if (dropdownToggle && dropdownToggleContent) {
+        if (
+          !dropdownToggleContent.contains(e.target as HTMLElement) &&
+          !dropdownToggle?.contains(e.target as HTMLElement)
+        ) {
+          if (dropdownToggleContent.classList.contains("block")) {
+            setOpenDropdown((prev) => !prev);
+          }
+        }
+      }
+    });
+  }, [openDropdown]);
+
   return (
     <nav className="z-10 md:z-0 lg:z-0 fixed top-0 left-0 md:static lg:static  md:flex lg:flex h-[50px] w-full shrink-0 items-center px-5 bg-dark-layer-1 text-dark-gray-7 ">
       <div
-        className={` flex   w-full items-center justify-between ${
+        className={`flex   w-full items-center justify-between ${
           !problemPage ? "max-w-[1150px] h-[50px] mx-auto" : ""
         }`}
       >
@@ -154,7 +175,7 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage }) => {
             </div>
           </div>
         </Link>
-        <div className="relative">
+        <div className="relative md:hidden lg:hidden block">
           <Notification />
           <div className="md:hidden lg:hidden block pointer-events-none absolute top-0.5 right-1 h-[7px] w-[7px] rounded-full  group-hover:border-gray-2 dark:group-hover:border-dark-gray-4">
             <div className="h-full w-full rounded-full bg-red-600 dark:bg-dark-red-s"></div>
@@ -379,9 +400,7 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage }) => {
                   }
                 >
                   <div className="flex flex-col space-y-3 px-4 py-3">
-                    <div className="dark:text-dark-label-2 text-sm">
-                      Redeem
-                    </div>
+                    <div className="dark:text-dark-label-2 text-sm">Redeem</div>
                     <div className="dark:text-dark-label-2 text-sm">
                       Premium
                     </div>
@@ -524,6 +543,181 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage }) => {
               Premium
             </a>
           </div>
+          {user && (
+            <div className="">
+              <Notification />
+            </div>
+          )}
+
+          {user && (
+            <div className="flex gap-1 items-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 18 18"
+                width="1em"
+                height="1em"
+                fill="currentColor"
+                className="h-[24px] w-[24px] group-hover:text-gray-7 dark:group-hover:text-dark-gray-7 text-gray-6 dark:text-dark-gray-6"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M7.19 1.564a.75.75 0 01.729.069c2.137 1.475 3.373 3.558 3.981 5.002l.641-.663a.75.75 0 011.17.115c1.633 2.536 1.659 5.537.391 7.725-1.322 2.282-3.915 2.688-5.119 2.688-1.177 0-3.679-.203-5.12-2.688-.623-1.076-.951-2.29-.842-3.528.109-1.245.656-2.463 1.697-3.54.646-.67 1.129-1.592 1.468-2.492.337-.895.51-1.709.564-2.105a.75.75 0 01.44-.583zm.784 2.023c-.1.368-.226.773-.385 1.193-.375.997-.947 2.13-1.792 3.005-.821.851-1.205 1.754-1.282 2.63-.078.884.153 1.792.647 2.645C6.176 14.81 7.925 15 8.983 15c1.03 0 2.909-.366 3.822-1.94.839-1.449.97-3.446.11-5.315l-.785.812a.75.75 0 01-1.268-.345c-.192-.794-1.04-2.948-2.888-4.625z"
+                  clipRule="evenodd"
+                ></path>
+              </svg>
+              <span>0</span>
+            </div>
+          )}
+          {user && (
+            <div className="relative">
+              <div
+                className="flex gap-1 items-center h-[30px] w-[30px]"
+                id="dropdown_toggle"
+                onClick={() => setOpenDropdown((prev) => !prev)}
+              >
+                <img
+                  src="https://assets.leetcode.com/users/igbinoba/avatar_1588932571.png"
+                  className="w-full h-full rounded-full"
+                />
+              </div>
+              {openDropdown && <></>}
+              <div
+                className={`absolute top-[43px] ${
+                  !openDropdown ? "hidden" : "block"
+                } right-[-10px] p-4 dark:bg-dark-overlay-3 rounded-lg z-10 dropdown_toggle_content dropdown_content`}
+              >
+                <div className="w-[264px] flex flex-col">
+                  <div className="flex items-center gap-2 ">
+                    <div className="flex items-center gap-2">
+                      <div className="h-14 w-14 shrink-0">
+                        <img
+                          src="https://assets.leetcode.com/users/igbinoba/avatar_1588932571.png"
+                          alt="Avatar"
+                          className="rounded-full w-full h-full"
+                        />
+                      </div>
+                      <div>
+                        <div className="mb-1 font-bold text-xl text-white">
+                          igbinoba
+                        </div>
+                        <div className="text-xs text-brand-orange">
+                          Access all features with our Premium subscription!
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex flex-wrap grid-cols-3 gap-3 my-3">
+                    {list.map((list, index) => (
+                      <div
+                        key={`list___${index}`}
+                        className="bg-fill-4 shrink-0 dark:bg-dark-fill-4 hover:bg-fill-3 dark:hover:bg-dark-fill-3 flex h-20 w-20 gap-2  flex-col items-center justify-center rounded-lg"
+                      >
+                        <div className="h-9 w-10 relative">
+                          <img
+                            src={list.src}
+                            alt={list.name}
+                            className="w-full h-full"
+                          />
+                        </div>
+                        <span className="text-xs dark:text-dark-label-2">
+                          {list.name}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <div className="flex gap-0.5 text-white text-sm hover:bg-dark-fill-3 p-2 rounded-md">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        className="dark:text-dark-label-2 mr-2"
+                        width="18"
+                        height="18"
+                        fill="currentColor"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M14 2a2 2 0 011.995 1.85L16 4v1a2 2 0 01-1.85 1.995L14 7h-4a2 2 0 01-1.995-1.85L8 5V4a2 2 0 011.85-1.995L10 2h4zm3.96 2H18a3 3 0 012.995 2.824L21 7v12a3 3 0 01-2.824 2.995L18 22H6a3 3 0 01-2.995-2.824L3 19V7a3 3 0 012.824-2.995L6.056 4a1 1 0 01.117 1.993L6.056 6H6a1 1 0 00-.993.883L5 7v12a1 1 0 00.883.993L6 20h12a1 1 0 00.993-.883L19 19V7a1 1 0 00-.883-.993L18 6h-.04a1 1 0 01-.116-1.993L17.961 4zM15 14a1 1 0 01.117 1.993L15 16H9a1 1 0 01-.117-1.993L9 14h6zm1-3a1 1 0 00-1-1H9l-.117.007A1 1 0 009 12h6l.117-.007A1 1 0 0016 11zm-6-7h4v1h-4V4z"
+                          clipRule="evenodd"
+                        ></path>
+                      </svg>
+                      Orders
+                    </div>
+                    <div className="flex gap-0.5 text-white text-sm hover:bg-dark-fill-3 p-2 rounded-md">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="dark:text-dark-label-2 mr-2"
+                        viewBox="0 0 24 24"
+                        width="18"
+                        height="18"
+                        fill="currentColor"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M12 18a1 1 0 110 2H5.7C3.663 20 2 18.383 2 16.375v-8.75C2 5.617 3.663 4 5.7 4h12.6C20.337 4 22 5.617 22 7.625v4.813a1 1 0 11-2 0V7.625C20 6.734 19.245 6 18.3 6H5.7C4.755 6 4 6.734 4 7.625v8.75C4 17.266 4.755 18 5.7 18H12zm5-2v-1.5a1 1 0 012 0V16h1.5a1 1 0 010 2H19v1.5a1 1 0 01-2 0V18h-1.5a1 1 0 010-2H17zm-7.973-4L6.906 9.879A1 1 0 018.32 8.464l2.475 2.475a1.5 1.5 0 010 2.122L8.32 15.536a1 1 0 11-1.414-1.415L9.027 12z"
+                          clipRule="evenodd"
+                        ></path>
+                      </svg>
+                      My Playground
+                    </div>
+                    <div className="flex items-center justify-between text-white text-sm hover:bg-dark-fill-3 p-2 rounded-md">
+                      <div className="flex items-center gap-0.5">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="dark:text-dark-label-2 mr-2"
+                          viewBox="0 0 24 24"
+                          width="18"
+                          height="18"
+                          fill="currentColor"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M12 18a1 1 0 110 2H5.7C3.663 20 2 18.383 2 16.375v-8.75C2 5.617 3.663 4 5.7 4h12.6C20.337 4 22 5.617 22 7.625v4.813a1 1 0 11-2 0V7.625C20 6.734 19.245 6 18.3 6H5.7C4.755 6 4 6.734 4 7.625v8.75C4 17.266 4.755 18 5.7 18H12zm5-2v-1.5a1 1 0 012 0V16h1.5a1 1 0 010 2H19v1.5a1 1 0 01-2 0V18h-1.5a1 1 0 010-2H17zm-7.973-4L6.906 9.879A1 1 0 018.32 8.464l2.475 2.475a1.5 1.5 0 010 2.122L8.32 15.536a1 1 0 11-1.414-1.415L9.027 12z"
+                            clipRule="evenodd"
+                          ></path>
+                        </svg>
+                        <div>
+                          Dark Side
+                          <span className="bg-red-1 dark:bg-red-1 text-red-s dark:text-red-s rounded p-1 ml-2">
+                            Beta
+                          </span>
+                        </div>
+                      </div>
+                      <div
+                        className={`h-5 flex items-center w-[42px]  transition-all ${
+                          darkThemeToggle
+                            ? "justify-end bg-blue-500"
+                            : "justify-start bg-fill-2"
+                        }  rounded-full `}
+                        onClick={() => setDarkThemeToggle((prev) => !prev)}
+                      >
+                        <div className="mx-1 my-1 h-4 w-4 bg-white  rounded-full"></div>
+                      </div>
+                    </div>
+                    <div className="flex justify-between text-white text-sm hover:bg-dark-fill-3 p-2 rounded-md">
+                      <div className="flex gap-0.5" onClick={() => signOut()}>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="dark:text-dark-label-2 mr-2"
+                          viewBox="0 0 24 24"
+                          width="18"
+                          height="18"
+                          fill="currentColor"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M18.586 13h-8.083c-.523 0-.947-.448-.947-1s.424-1 .947-1h8.083l-2.738-2.737a1 1 0 011.415-1.415l4.444 4.445a1 1 0 010 1.414l-4.444 4.445a1 1 0 01-1.415-1.415L18.586 13zM9 5H6a1 1 0 00-1 1v12a1 1 0 001 1h3a1 1 0 110 2H6a3 3 0 01-3-3V6a3 3 0 013-3h3a1 1 0 010 2z"
+                            clipRule="evenodd"
+                          ></path>
+                        </svg>
+                        Sign Out
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
           {!user && (
             <Link
               href="/auth"
@@ -541,25 +735,6 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage }) => {
             </Link>
           )}
           {user && problemPage && <Timer />}
-          {user && (
-            <div className="cursor-pointer group relative">
-              <Image
-                src="/avatar.png"
-                alt="Avatar"
-                width={30}
-                height={30}
-                className="rounded-full"
-              />
-              <div
-                className="absolute top-10 left-2/4 -translate-x-2/4  mx-auto bg-dark-layer-1 text-brand-orange p-2 rounded shadow-lg 
-								z-40 group-hover:scale-100 scale-0 
-								transition-all duration-300 ease-in-out"
-              >
-                <p className="text-sm">{user.email}</p>
-              </div>
-            </div>
-          )}
-          {user && <Logout />}
         </div>
       </div>
     </nav>

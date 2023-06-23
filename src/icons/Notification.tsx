@@ -7,7 +7,7 @@ export const Notification = () => {
         width="24"
         height="24"
         fill="currentColor"
-        className="md:hidden lg:hidden"
+        className="md:hidde lg:hidde"
       >
         <path
           fillRule="evenodd"

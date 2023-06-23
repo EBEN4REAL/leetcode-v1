@@ -196,3 +196,29 @@ nav {
 .swiper-wrapper{
     transition-timing-function: linear !important;
 }
+
+
+.dropdown_content {
+   transform: translate(0px, 0px);
+   animation-name: dropdown__content__slide;
+   animation-duration: .3s;
+ }
+
+/**@keyframes dropdown__content__slide {
+  from {transform: translate(0px,10px)}
+  to {transform: translate(0px, 0px)}
+} **/
+
+@keyframes dropdown__content__slide {
+  from {
+    opacity: 0;
+    transition-timing-function: ease-in;
+  }
+  to {
+    opacity: 1;
+    transition-timing-function: ease-in;
+  }
+  from {transform: translate(0px,7px);   transition-timing-function: ease-in;}
+  to {transform: translate(0px, 0px);   transition-timing-function: ease-out;}
+
+}
