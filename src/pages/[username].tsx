@@ -6,7 +6,7 @@ import { Problem } from "@/utils/types/problem";
 import React from "react";
 import { auth } from "@/firebase/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
-import Image from "Next/image";
+import Image from "next/image";
 // import Calendar from "react-github-contribution-calendar";
 // import GitHubCalendar from "react-github-calendar";
 import { useState, useRef } from "react";
