@@ -7,8 +7,15 @@ import React from "react";
 import { auth } from "@/firebase/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import Image from "Next/image";
-import Calendar from "react-github-contribution-calendar";
-import GitHubCalendar from "react-github-calendar";
+// import Calendar from "react-github-contribution-calendar";
+// import GitHubCalendar from "react-github-calendar";
+import { useState, useRef } from "react";
+
+import CalendarHeatmap from "react-calendar-heatmap";
+import "react-calendar-heatmap/dist/styles.css";
+
+import Tooltip from "@uiw/react-tooltip";
+import HeatMap from "@uiw/react-heat-map";
 
 type UserProfileProps = {
   username: string;
@@ -18,8 +25,8 @@ const UserProfile: React.FC<UserProfileProps> = () => {
   const hasMounted = useHasMounted();
   const [user] = useAuthState(auth);
 
-  var panelAttributes = { rx: 6, ry: 6 };
-  var values = {
+  const panelAttributes = { rx: 6, ry: 6 };
+  const values = {
     "2022-01-01": 1,
     "2022-02-01": 1,
     "2022-03-01": 1,
@@ -33,7 +40,25 @@ const UserProfile: React.FC<UserProfileProps> = () => {
     "2022-11-01": 1,
     "2022-12-01": 1,
   };
-  var until = "2022-12-31";
+  const until = "2022-12-31";
+
+  const [hoveredDate, setHoveredDate] = useState<{
+    date: string;
+    count: number;
+  } | null>(null);
+
+  const divRef = useRef<HTMLDivElement>(null);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+
+  const handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
+    const div = divRef.current;
+    if (div) {
+      const rect = div.getBoundingClientRect();
+      const x = event.clientX - rect.left;
+      const y = event.clientY - rect.top;
+      setPosition({ x, y });
+    }
+  };
 
   if (!hasMounted) return null;
 
@@ -301,7 +326,9 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                       <span className="mr-1.5 flex">
                         <span className="inline-block h-1 w-1 rounded-full bg-yellow dark:bg-dark-yellow"></span>
                       </span>
-                      <span className="font-medium text-white">Intermediate</span>
+                      <span className="font-medium text-white">
+                        Intermediate
+                      </span>
                     </div>
                     <div className="mt-3 flex flex-wrap">
                       <div className="mr-4 mb-3 inline-block text-xs">
@@ -341,7 +368,9 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                       <span className="mr-1.5 flex">
                         <span className="inline-block h-1 w-1 rounded-full bg-green-s dark:bg-dark-green-s"></span>
                       </span>
-                      <span className="font-medium text-white">Fundamental</span>
+                      <span className="font-medium text-white">
+                        Fundamental
+                      </span>
                     </div>
                     <div className="mt-3 flex flex-wrap">
                       <div className="mr-4 mb-3 inline-block text-xs">
@@ -628,24 +657,61 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                   </div>
                 </div>
               </div>
-              <div className="mt-4 p-4 ml-4">
-                <GitHubCalendar
+              <div
+                className="mt-4 py-4  relative"
+                ref={divRef}
+                onMouseOver={handleMouseMove}
+              >
+                <CalendarHeatmap
+                  startDate={new Date("2022-05-01")}
+                  endDate={new Date("2023-07-01")}
+                  values={[
+                    { date: "2023-01-01", count: 12 },
+                    { date: "2023-02-22", count: 122 },
+                    { date: "2023-03-30", count: 38 },
+                    { date: "2023-04-01", count: 12 },
+                    { date: "2023-05-22", count: 122 },
+                    { date: "2023-06-30", count: 38 },
+                  ]}
+                  onMouseLeave={() => setHoveredDate(null)}
+                  onMouseOver={(event, value) => {
+                    setHoveredDate(value);
+                  }}
+                /> 
+                {hoveredDate && (
+                  <div  style={{
+                    position: 'absolute',
+                    top: position.y - 45,
+                    left: position.x -110,
+                    padding: '5px 10px',
+                    borderRadius: '3px',
+                    backgroundColor: '#ffffff',
+                    color: 'black',
+                    fontSize: '13px',
+                    whiteSpace: 'nowrap',
+                    fontWeight: 'bold'
+                  }}>{`${hoveredDate.count} submissions on ${hoveredDate.date}`}</div>
+                )}
+                {/* <GitHubCalendar
                   loading={false}
-                  hideColorLegend={true}
-                  hideTotalCount={true}
-                  showWeekdayLabels={true}
+                  hideColorLegend={false}
+                  hideTotalCount={false}
+                  showWeekdayLabels={false}
                   transformData={(days) =>
-                    days.map(({ date, count, level }) => {
-                      if (date.split("-")[2] === "01") {
-                        return { date, count, level: 1 };
-                      }
-                      return { date, count, level: 0 };
-                    })
+                    {
+                        console.log("days", days)
+                        return days.map(({ date, count, level }) => {
+                            if (date.split("-")[2] === "01") {
+                                return { date, count, level: 1 };
+                            }
+                            return { date, count, level: 0 };
+                            })
+                    }
                   }
                   weekStart={1}
-                  year={2022}
-                  username="grubersjoe"
-                />
+                  year={2023}
+                  username="EBEN4REAL"
+                /> */}
               </div>
             </div>
             <div className="mt-4">

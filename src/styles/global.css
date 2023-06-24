@@ -242,3 +242,32 @@ text[dominant-baseline="hanging"] {
 text[text-anchor="end"] {
   color: white;
 }
+.react-activity-calendar__count {
+  color: white;
+}
+
+.react-activity-calendar__legend-colors {
+  color: white;
+}
+
+.react-calendar-heatmap .color-scale-1 {
+  fill: #3e3e3e;
+}
+.react-calendar-heatmap .color-scale-2 {
+  fill: #3e3e3e;
+}
+.react-calendar-heatmap .color-scale-3 {
+  fill: #3e3e3e;
+}
+.react-calendar-heatmap .color-scale-4 {
+  fill: #3e3e3e;
+}
+.react-calendar-heatmap .color-empty {
+  fill: #3e3e3e !important;
+  border-radius: 10px;
+}
+.react-calendar-heatmap .color-filled {
+  border-radius: 10px;
+  fill: #2dbb5d !important;
+}
+
