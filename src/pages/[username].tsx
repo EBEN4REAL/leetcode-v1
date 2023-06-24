@@ -16,6 +16,7 @@ import "react-calendar-heatmap/dist/styles.css";
 
 import Tooltip from "@uiw/react-tooltip";
 import HeatMap from "@uiw/react-heat-map";
+import Link from "next/link";
 
 type UserProfileProps = {
   username: string;
@@ -332,31 +333,31 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                     </div>
                     <div className="mt-3 flex flex-wrap">
                       <div className="mr-4 mb-3 inline-block text-xs">
-                        <a href="/tag/hash-table/">
+                        <Link href="/tag/hash-table/">
                           <span className="inline-flex items-center px-2 whitespace-nowrap text-xs leading-6 rounded-full bg-fill-3 dark:bg-dark-fill-3 cursor-pointer transition-all hover:bg-fill-2 dark:hover:bg-dark-fill-2 text-label-2 dark:text-dark-label-2">
                             Hash Table
                           </span>
-                        </a>
+                        </Link>
                         <span className="pl-1 text-xs text-label-3 dark:text-dark-label-3">
                           x1
                         </span>
                       </div>
                       <div className="mr-4 mb-3 inline-block text-xs">
-                        <a href="/tag/recursion/">
+                        <Link href="/tag/recursion/">
                           <span className="inline-flex items-center px-2 whitespace-nowrap text-xs leading-6 rounded-full bg-fill-3 dark:bg-dark-fill-3 cursor-pointer transition-all hover:bg-fill-2 dark:hover:bg-dark-fill-2 text-label-2 dark:text-dark-label-2">
                             Recursion
                           </span>
-                        </a>
+                        </Link>
                         <span className="pl-1 text-xs text-label-3 dark:text-dark-label-3">
                           x1
                         </span>
                       </div>
                       <div className="mr-4 mb-3 inline-block text-xs">
-                        <a href="/tag/math/">
+                        <Link href="/tag/math/">
                           <span className="inline-flex items-center px-2 whitespace-nowrap text-xs leading-6 rounded-full bg-fill-3 dark:bg-dark-fill-3 cursor-pointer transition-all hover:bg-fill-2 dark:hover:bg-dark-fill-2 text-label-2 dark:text-dark-label-2">
                             Math
                           </span>
-                        </a>
+                        </Link>
                         <span className="pl-1 text-xs text-label-3 dark:text-dark-label-3">
                           x1
                         </span>
@@ -374,21 +375,21 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                     </div>
                     <div className="mt-3 flex flex-wrap">
                       <div className="mr-4 mb-3 inline-block text-xs">
-                        <a href="/tag/array/">
+                        <Link href="/tag/array/">
                           <span className="inline-flex items-center px-2 whitespace-nowrap text-xs leading-6 rounded-full bg-fill-3 dark:bg-dark-fill-3 cursor-pointer transition-all hover:bg-fill-2 dark:hover:bg-dark-fill-2 text-label-2 dark:text-dark-label-2">
                             Array
                           </span>
-                        </a>
+                        </Link>
                         <span className="pl-1 text-xs text-label-3 dark:text-dark-label-3">
                           x1
                         </span>
                       </div>
                       <div className="mr-4 mb-3 inline-block text-xs">
-                        <a href="/tag/linked-list/">
+                        <Link href="/tag/linked-list/">
                           <span className="inline-flex items-center px-2 whitespace-nowrap text-xs leading-6 rounded-full bg-fill-3 dark:bg-dark-fill-3 cursor-pointer transition-all hover:bg-fill-2 dark:hover:bg-dark-fill-2 text-label-2 dark:text-dark-label-2">
                             Linked List
                           </span>
-                        </a>
+                        </Link>
                         <span className="pl-1 text-xs text-label-3 dark:text-dark-label-3">
                           x1
                         </span>
@@ -682,7 +683,7 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                   <div  style={{
                     position: 'absolute',
                     top: position.y - 45,
-                    left: position.x -110,
+                    left: position.x - 110,
                     padding: '5px 10px',
                     borderRadius: '3px',
                     backgroundColor: '#ffffff',
@@ -839,7 +840,7 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                         </div>
                       </div>
                     </div>
-                    <a
+                    <Link
                       className="text-label-3 dark:text-dark-label-3 hover:text-label-2 dark:hover:text-dark-label-2 text-xs font-medium ml-auto flex cursor-pointer items-center overflow-hidden pl-[50px]"
                       href="/submissions/"
                     >
@@ -865,10 +866,10 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                           ></path>
                         </svg>
                       </div>
-                    </a>
+                    </Link>
                   </div>
                   <div className="flex flex-col">
-                    <a
+                    <Link
                       className="flex h-[56px] items-center rounded px-4 bg-fill-4 dark:bg-dark-fill-4"
                       target="_blank"
                       href="/submissions/detail/970601782/"
@@ -884,8 +885,8 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                           10 days ago
                         </span>
                       </div>
-                    </a>
-                    <a
+                    </Link>
+                    <Link
                       className="flex h-[56px] items-center rounded px-4"
                       target="_blank"
                       href="/submissions/detail/835465845/"
@@ -901,7 +902,7 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                           8 months ago
                         </span>
                       </div>
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </div>
