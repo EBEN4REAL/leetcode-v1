@@ -57,7 +57,13 @@ module.exports = {
         "red-s": "rgb(239, 71, 67, 1)",
         "gray-7": "rgb(89, 89, 89, 1)",
         "dark-paper": "rgb(28, 28, 28, 1)",
-        "fixed-green": "#50d57f"
+        "fixed-green": "#50d57f",
+        "dark-green-0": "#2cbb5d1f",
+        "dark-green-1": "#2cbb5d40",
+        "dark-yellow-1": "#ffc01e40",
+        "dark-red-1": "#ef474340",
+        "dark-label-1": "#ffffff",
+        "label-1": "#ffffff"
       }
     },
   },
