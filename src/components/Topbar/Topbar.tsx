@@ -580,7 +580,6 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage }) => {
                   className="w-full h-full rounded-full"
                 />
               </div>
-              {openDropdown && <></>}
               <div
                 className={`absolute top-[43px] ${
                   !openDropdown ? "hidden" : "block"
@@ -589,13 +588,16 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage }) => {
                 <div className="w-[264px] flex flex-col">
                   <div className="flex items-center gap-2 ">
                     <div className="flex items-center gap-2">
-                      <div className="h-14 w-14 shrink-0">
-                        <img
-                          src="https://assets.leetcode.com/users/igbinoba/avatar_1588932571.png"
-                          alt="Avatar"
-                          className="rounded-full w-full h-full"
-                        />
-                      </div>
+                      <Link href={`/${user.email}`}>
+                        <div className="h-14 w-14 shrink-0">
+                          <img
+                            src="https://assets.leetcode.com/users/igbinoba/avatar_1588932571.png"
+                            alt="Avatar"
+                            className="rounded-full w-full h-full"
+                          />
+                        </div>
+                      </Link>
+
                       <div>
                         <div className="mb-1 font-bold text-xl text-white">
                           igbinoba

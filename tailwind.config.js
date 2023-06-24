@@ -63,7 +63,8 @@ module.exports = {
         "dark-yellow-1": "#ffc01e40",
         "dark-red-1": "#ef474340",
         "dark-label-1": "#ffffff",
-        "label-1": "#ffffff"
+        "label-1": "#ffffff",
+        "base": "#ffffff"
       }
     },
   },

@@ -229,3 +229,16 @@ nav {
     transition-timing-function: ease-out;
   }
 }
+
+.styles-module_calendar__-Ozc6 [data-level="0"] {
+  fill: #3e3e3e !important;
+}
+.styles-module_calendar__-Ozc6 [data-level="1"] {
+  fill: #2dbb5d !important;
+}
+text[dominant-baseline="hanging"] {
+  color: white;
+}
+text[text-anchor="end"] {
+  color: white;
+}
