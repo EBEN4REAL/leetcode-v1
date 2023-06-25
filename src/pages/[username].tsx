@@ -66,10 +66,10 @@ const UserProfile: React.FC<UserProfileProps> = () => {
   return (
     <div>
       <Topbar />
-      <div className="min-w-screen min-h-screen bg-dark-layer-2 pb-40">
-        <div className="flex gap-4 pt-5 max-w-[1150px] mx-auto">
+      <div className="min-w-screen min-h-screen bg-dark-layer-2 pb-40 p-4 md:p-0 lg:p-0 mt-7 md:mt-0 lg:mt-0">
+        <div className="md:flex lg:flex block  gap-4 pt-5 max-w-[1150px] mx-auto">
           <div
-            className="w-[300px] rounded-md bg-dark-layer-1 px-5 py-5 flex flex-col"
+            className="w-full md:w-[300x] lg:w-[300px] rounded-md bg-dark-layer-1 px-5 py-5 flex flex-col"
             style={{
               boxShadow:
                 "rgba(0, 0, 0, 0.08) 0px 2px 4px, rgba(0, 0, 0, 0.08) 0px 4px 8px, rgba(0, 0, 0, 0.08) 0px 6px 12px",
@@ -400,20 +400,20 @@ const UserProfile: React.FC<UserProfileProps> = () => {
               </div>
             </div>
           </div>
-          <div className="flex flex-col w-9/12">
-            <div className="flex gap-4">
+          <div className="flex flex-col md:w-9/12 lg:w-9/12 w-full">
+            <div className="md:flex lg:flex block gap-4">
               <div
-                className="w-1/2 rounded-md bg-dark-layer-1 h-[186px] "
+                className="md:w-1/2 lg:w-1/2 w-full md:mb-0 lg:mb-0 mb-4 pb-3 md:pb-0 lg:b-0 mt-4 md:mt-0 lg:mt-0 rounded-md bg-dark-layer-1 lg:h-[186px] md:h-[186px] h-auto "
                 style={{
                   boxShadow:
                     "rgba(0, 0, 0, 0.08) 0px 2px 4px, rgba(0, 0, 0, 0.08) 0px 4px 8px, rgba(0, 0, 0, 0.08) 0px 6px 12px",
                 }}
               >
-                <div className="px-[13px] text-xs font-medium text-label-3 dark:text-dark-label-3 pt-4">
+                <div className="md:px-[13px] lg:px-[13px] px-[5px] text-xs font-medium text-label-3 dark:text-dark-label-3 pt-4">
                   Solved problems
                 </div>
-                <div className="mx-7 h-full ">
-                  <div className="flex items-center justify-center gap-6">
+                <div className="mx-3  h-full ">
+                  <div className="flex items-center justify-center gap-2">
                     <div className="w-5/12">
                       <div className="relative max-h-[115px] max-w-[115px] mt-5">
                         <svg
@@ -543,7 +543,7 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                 </div>
               </div>
               <div
-                className="w-1/2 rounded-md bg-dark-layer-1 h-[186px]"
+                className="md:w-1/2 lg:w-1/2 w-full md:mb-0 lg:mb-0 mb-4   rounded-md bg-dark-layer-1 h-[186px]"
                 style={{
                   boxShadow:
                     "rgba(0, 0, 0, 0.08) 0px 2px 4px, rgba(0, 0, 0, 0.08) 0px 4px 8px, rgba(0, 0, 0, 0.08) 0px 6px 12px",
@@ -658,42 +658,45 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                   </div>
                 </div>
               </div>
-              <div
-                className="mt-4 py-4  relative"
-                ref={divRef}
-                onMouseOver={handleMouseMove}
-              >
-                <CalendarHeatmap
-                  startDate={new Date("2022-05-01")}
-                  endDate={new Date("2023-07-01")}
-                  values={[
-                    { date: "2023-01-01", count: 12 },
-                    { date: "2023-02-22", count: 122 },
-                    { date: "2023-03-30", count: 38 },
-                    { date: "2023-04-01", count: 12 },
-                    { date: "2023-05-22", count: 122 },
-                    { date: "2023-06-30", count: 38 },
-                  ]}
-                  onMouseLeave={() => setHoveredDate(null)}
-                  onMouseOver={(event, value) => {
-                    setHoveredDate(value);
-                  }}
-                /> 
-                {hoveredDate && (
-                  <div  style={{
-                    position: 'absolute',
-                    top: position.y - 45,
-                    left: position.x - 110,
-                    padding: '5px 10px',
-                    borderRadius: '3px',
-                    backgroundColor: '#ffffff',
-                    color: 'black',
-                    fontSize: '13px',
-                    whiteSpace: 'nowrap',
-                    fontWeight: 'bold'
-                  }}>{`${hoveredDate.count} submissions on ${hoveredDate.date}`}</div>
-                )}
-                {/* <GitHubCalendar
+              <div className="overflow-x-auto py-3">
+                <div
+                  className="mt-4 md:py-4 lg:py-4 relative  w-[900px]"
+                  ref={divRef}
+                  onMouseOver={handleMouseMove}
+                >
+                  <CalendarHeatmap
+                    startDate={new Date("2022-05-01")}
+                    endDate={new Date("2023-07-01")}
+                    values={[
+                      { date: "2023-01-01", count: 12 },
+                      { date: "2023-02-22", count: 122 },
+                      { date: "2023-03-30", count: 38 },
+                      { date: "2023-04-01", count: 12 },
+                      { date: "2023-05-22", count: 122 },
+                      { date: "2023-06-30", count: 38 },
+                    ]}
+                    onMouseLeave={() => setHoveredDate(null)}
+                    onMouseOver={(event, value) => {
+                      setHoveredDate(value);
+                    }}
+                  />
+                  {hoveredDate && (
+                    <div
+                      style={{
+                        position: "absolute",
+                        top: position.y - 45,
+                        left: position.x - 110,
+                        padding: "5px 10px",
+                        borderRadius: "3px",
+                        backgroundColor: "#ffffff",
+                        color: "black",
+                        fontSize: "13px",
+                        whiteSpace: "nowrap",
+                        fontWeight: "bold",
+                      }}
+                    >{`${hoveredDate.count} submissions on ${hoveredDate.date}`}</div>
+                  )}
+                  {/* <GitHubCalendar
                   loading={false}
                   hideColorLegend={false}
                   hideTotalCount={false}
@@ -713,6 +716,7 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                   year={2023}
                   username="EBEN4REAL"
                 /> */}
+                </div>
               </div>
             </div>
             <div className="mt-4">
