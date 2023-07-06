@@ -189,7 +189,7 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage }) => {
                 <Link href={`/${user.email}`}>
                   <div className="h-14 w-14 relative">
                     <img
-                      src="https://assets.leetcode.com/users/igbinoba/avatar_1588932571.png"
+                      src={"https://assets.leetcode.com/users/avatars/avatar_1687989636.png"}
                       alt="Avatar"
                       className="rounded-full w-full h-full"
                     />
@@ -578,7 +578,7 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage }) => {
                 onClick={() => setOpenDropdown((prev) => !prev)}
               >
                 <img
-                  src="https://assets.leetcode.com/users/igbinoba/avatar_1588932571.png"
+                  src={"https://assets.leetcode.com/users/avatars/avatar_1687989636.png"}
                   className="w-full h-full rounded-full"
                 />
               </div>
@@ -593,7 +593,7 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage }) => {
                       <Link href={`/${user.email}`}>
                         <div className="h-14 w-14 shrink-0">
                           <img
-                            src="https://assets.leetcode.com/users/igbinoba/avatar_1588932571.png"
+                            src={"https://assets.leetcode.com/users/avatars/avatar_1687989636.png"}
                             alt="Avatar"
                             className="rounded-full w-full h-full"
                           />

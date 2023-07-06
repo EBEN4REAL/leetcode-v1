@@ -22,6 +22,7 @@ export default function App({ Component, pageProps }: AppProps) {
             name="description"
             content="Web application that contains leetcode problems and video solutions"
           />
+          <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/fontawesome.min.css"  />
         </Head>
         <ToastContainer />
         <Component {...pageProps} />

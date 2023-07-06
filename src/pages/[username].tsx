@@ -17,6 +17,7 @@ import "react-calendar-heatmap/dist/styles.css";
 import Tooltip from "@uiw/react-tooltip";
 import HeatMap from "@uiw/react-heat-map";
 import Link from "next/link";
+import UploadAvatar from "../components/Modals/UploadAvatar";
 
 type UserProfileProps = {
   username: string;
@@ -25,6 +26,7 @@ type UserProfileProps = {
 const UserProfile: React.FC<UserProfileProps> = () => {
   const hasMounted = useHasMounted();
   const [user] = useAuthState(auth);
+  const [showModal, setShowModal] = useState<boolean>(false);
 
   const panelAttributes = { rx: 6, ry: 6 };
   const values = {
@@ -61,27 +63,43 @@ const UserProfile: React.FC<UserProfileProps> = () => {
     }
   };
 
+  
+
   if (!hasMounted) return null;
 
   return (
     <div>
       <Topbar />
+      {showModal && (
+        <UploadAvatar onModalClose={() => setShowModal((prev) => !prev)} />
+      )}
       <div className="min-w-screen min-h-screen bg-dark-layer-2 pb-40 p-4 md:p-0 lg:p-0 mt-7 md:mt-0 lg:mt-0">
         <div className="md:flex lg:flex block  gap-4 pt-5 max-w-[1150px] mx-auto">
           <div
-            className="w-full md:w-[300x] lg:w-[300px] rounded-md bg-dark-layer-1 px-5 py-5 flex flex-col"
+            className="w-full md:w-[300x] lg:w-[300px] md:mb-10 lg:mb-10 rounded-md bg-dark-layer-1 px-5 py-5 flex flex-col"
             style={{
               boxShadow:
                 "rgba(0, 0, 0, 0.08) 0px 2px 4px, rgba(0, 0, 0, 0.08) 0px 4px 8px, rgba(0, 0, 0, 0.08) 0px 6px 12px",
             }}
           >
             <div className="flex gap-4 ">
-              <div className="h-20 w-20 ">
+              <div className="h-20 w-20 relative group ring-4 ring-white rounded-md" onClick={() => setShowModal((prev) => !prev)}>
                 <img
                   className="h-full w-full rounded-md"
-                  src="https://assets.leetcode.com/users/igbinoba/avatar_1588932571.png"
+                  src={
+                    "https://assets.leetcode.com/users/avatars/avatar_1687989636.png"
+                  }
                   alt="profile-pic"
                 />
+                <div className="h-full w-full absolute top-0 left-0 cursor-pointer group-hover:bg-[#000000b5] rounded-md">
+                  <div className="hidden flex-col items-center justify-center gap-1 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 group-hover:flex ">
+                    <i
+                      className="fa fa-camera text-gray-200 text-2xl camera "
+                      aria-hidden="true"
+                    ></i>
+                    <span className="text-white text-sm">Edit {showModal}</span>
+                  </div>
+                </div>
               </div>
               <div>
                 <div className="text-white font-bold text-md leading-5">
@@ -95,9 +113,11 @@ const UserProfile: React.FC<UserProfileProps> = () => {
               </div>
             </div>
             <div className="mt-5 w-full">
-              <a className="bg-green-0 inline-block dark:bg-dark-green-0 text-green-s dark:text-dark-green-s hover:text-green-s dark:hover:text-dark-green-s w-full rounded-lg py-[7px] text-center font-medium">
+              <div
+                className="bg-green-0 inline-block dark:bg-dark-green-0 text-green-s dark:text-dark-green-s hover:text-green-s dark:hover:text-dark-green-s w-full rounded-lg py-[7px] text-center font-medium cursor-pointer"
+              >
                 Edit profile
-              </a>
+              </div>
             </div>
             <div className="flex gap-2 mt-3">
               <span>
