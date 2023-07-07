@@ -18,6 +18,7 @@ const UploadAvatar: React.FC<UploadAvatarProps> = ({ onModalClose }) => {
   const canvasWrapperRef = useRef(null);
   const [resetCanvas, setResetCanvas] = useState<boolean>(false);
   const [saveImage, setSaveImage] = useState<boolean>(false);
+  const [uploading, setUploading] = useState<boolean>(false);
 
   const handleFileUpload = () => {
     const fileUpload = document.getElementById(
@@ -48,15 +49,6 @@ const UploadAvatar: React.FC<UploadAvatarProps> = ({ onModalClose }) => {
     }
   });
 
-  useEffect(() => {
-    const uploadPic = document.querySelector(".upload-pic") as HTMLElement;
-    const picWidth = `${value}%`;
-    if (uploadPic) {
-      uploadPic.style.width = picWidth;
-      uploadPic.style.height = picWidth;
-    }
-  }, [value]);
-
   function rotateImg(mode: string) {
     const angle = mode === "clockwise" ? 90 : -90;
     setRotatingAngle((prev) => prev + angle);
@@ -73,7 +65,7 @@ const UploadAvatar: React.FC<UploadAvatarProps> = ({ onModalClose }) => {
   }
 
   return (
-    <div className=" top-0 left-0 w-full h-full bg-[#000000b5] z-10  fixed">
+    <div className=" top-0 left-0 w-full h-full bg-[#000000b5] z-10  fixed backdrop-blur-sm">
       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 min-h-[400px] min-w-[450px] rounded-md">
         <div className="h-[50px] w-full bg-white flex items-center justify-between rounded-tl-md rounded-tr-md">
           <span className="text-lg text-black pl-3">Upload a New Avatar</span>
@@ -99,6 +91,10 @@ const UploadAvatar: React.FC<UploadAvatarProps> = ({ onModalClose }) => {
               resetCanvas={resetCanvas}
               onReset={() => setResetCanvas(false)}
               saveImage={saveImage}
+              onModalClose={() => onModalClose()}
+              onUploadingChange={(uploading) =>
+                setUploading((prev) => uploading)
+              }
             />
           </div>
           <div className="flex gap-2">
@@ -150,7 +146,13 @@ const UploadAvatar: React.FC<UploadAvatarProps> = ({ onModalClose }) => {
               onClick={() => handleImageSave()}
             >
               <i className="fa fa-floppy-o" aria-hidden="true"></i>
-              <span className="text-sm">Save</span>
+              <span className="text-sm">
+                {uploading ? (
+                  <span className="font-italic">uploading...</span>
+                ) : (
+                  "Save"
+                )}
+              </span>
             </div>
             <div
               className="flex items-center gap-2 my- rounded-md border bg-[#efefef] border-[#ddd] mx-2 py-1.5 px-2.5 hover:bg-gray-100 cursor-pointer text-[#00acff] font-bold "

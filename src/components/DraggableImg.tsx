@@ -1,5 +1,9 @@
 import React, { useRef, useEffect, useState } from "react";
 import Draggable, { DraggableEvent, DraggableData } from "react-draggable";
+import firebase from "firebase/app";
+import "firebase/storage";
+import { getStorage, ref, uploadBytes } from "firebase/storage";
+import { toast } from "react-toastify";
 
 interface CanvasDraggableImageProps {
   imageUrl: string;
@@ -8,6 +12,8 @@ interface CanvasDraggableImageProps {
   resetCanvas: boolean;
   saveImage: boolean;
   onReset: () => void;
+  onModalClose: () => void;
+  onUploadingChange: (uploading: boolean) => void
 }
 
 const CanvasDraggableImage: React.FC<CanvasDraggableImageProps> = ({
@@ -17,6 +23,8 @@ const CanvasDraggableImage: React.FC<CanvasDraggableImageProps> = ({
   resetCanvas,
   onReset,
   saveImage,
+  onModalClose,
+  onUploadingChange
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
@@ -24,6 +32,7 @@ const CanvasDraggableImage: React.FC<CanvasDraggableImageProps> = ({
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [localImageUrl, setLocalImageUrl] = useState<string>();
   const [isLoading, setLoading] = useState<boolean>(false);
+  const [uploading, setUploading] = useState<boolean>(false);
 
   const handleDrag = (event: DraggableEvent, data: DraggableData) => {
     const canvas = canvasRef.current;
@@ -66,8 +75,6 @@ const CanvasDraggableImage: React.FC<CanvasDraggableImageProps> = ({
       ? (localImageUrl as string)
       : imageUrl;
 
-    console.log("71 imageUrl", imageObj.src);
-
     imageObj.onload = () => {
       const scaledWidth = imageObj.width * scale;
       const scaledHeight = imageObj.height * scale;
@@ -101,19 +108,47 @@ const CanvasDraggableImage: React.FC<CanvasDraggableImageProps> = ({
     scale,
   ]);
 
+  function base64ToBlob(base64: string, mimeType: string = "image/jpeg"): Blob {
+    const byteString = atob(base64.split(",")[1]);
+    const buffer = new ArrayBuffer(byteString.length);
+    const byteCharacters = new Uint8Array(buffer);
+
+    for (let i = 0; i < byteString.length; i++) {
+      byteCharacters[i] = byteString.charCodeAt(i);
+    }
+
+    return new Blob([buffer], { type: mimeType });
+  }
+
+  const handleUpload = (base64: string) => {
+    onUploadingChange(true);
+    const blob = base64ToBlob(base64);
+
+    uploadBytes(storageRef, blob).then(() => {
+      onModalClose();
+      toast.success("Picture uploaded successfully", {
+        position: "top-center",
+        autoClose: 3000,
+        theme: "dark",
+      });
+      onUploadingChange(false);
+    });
+  };
+
   useEffect(() => {
     if (saveImage) {
       if (canvasRef) {
         const canvas = canvasRef.current;
         if (canvas) {
           const imageUrl = canvas.toDataURL();
-          console.log(imageUrl);
+          handleUpload(imageUrl);
         }
       }
     }
   }, [saveImage]);
 
-  console.log("isLoading", isLoading);
+  const storage = getStorage();
+  const storageRef = ref(storage, "displayPicture.jpg");
 
   return (
     <>
