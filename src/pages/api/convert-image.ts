@@ -18,12 +18,11 @@ export default async function handler(
     const base64Str = `data:image/jpeg;base64,${base64Data}`;
 
     const data = {
-      imageUrl: base64Str
+      imageUrl: base64Str,
     };
-  
+
     res.status(200).json(data);
   } catch (error) {
-    console.error("Error converting image to base64:", error);
     return null;
   }
 }

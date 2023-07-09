@@ -29,7 +29,7 @@ const Signup: React.FC<SignupProps> = () => {
   const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!inputs.email || !inputs.password || !inputs.displayName)
-      return alert("Please fill all fields");
+      return toast.error("Please fill all fields", { position: "top-center" });
     try {
       toast.loading("Creating your account", {
         position: "top-center",
@@ -53,7 +53,7 @@ const Signup: React.FC<SignupProps> = () => {
       };
       await setDoc(doc(firestore, "users", newUser.user.uid), userData);
       router.push("/");
-	  toast.success("Registration successful", {
+      toast.success("Registration successful", {
         position: "top-center",
         autoClose: 3000,
         theme: "dark",

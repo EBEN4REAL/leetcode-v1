@@ -2,17 +2,21 @@ import Image from "next/image";
 import React, { useEffect, useState, useRef } from "react";
 import RangeSlider from "@/components/Range_slider/Range_slider";
 import DraggableImage from "@/components/DraggableImg";
+import useUserProfile from "@/hooks/useUserProfile";
 
 interface UploadAvatarProps {
   onModalClose: () => void;
+  handlePicChange: (bool: boolean) => void;
 }
 
-const UploadAvatar: React.FC<UploadAvatarProps> = ({ onModalClose }) => {
+const UploadAvatar: React.FC<UploadAvatarProps> = ({
+  onModalClose,
+  handlePicChange,
+}) => {
   const [value, setRangeValue] = useState<number>(1.02);
   const [key, setKey] = useState<number>(0);
-  const [imageUrl, setImageUrl] = useState<string>(
-    "https://assets.leetcode.com/users/avatars/avatar_1687989636.png"
-  );
+  const { userPic, loading } = useUserProfile();
+  const [imageUrl, setImageUrl] = useState<string>(userPic);
 
   const [rotatingAngle, setRotatingAngle] = useState<number>(0);
   const canvasWrapperRef = useRef(null);
@@ -20,15 +24,11 @@ const UploadAvatar: React.FC<UploadAvatarProps> = ({ onModalClose }) => {
   const [saveImage, setSaveImage] = useState<boolean>(false);
   const [uploading, setUploading] = useState<boolean>(false);
 
-  const handleFileUpload = () => {
-    const fileUpload = document.getElementById(
-      "file-upload"
-    ) as HTMLInputElement;
-
-    if (fileUpload) {
-      fileUpload.click();
+  useEffect(() => {
+    if (userPic) {
+      setImageUrl(userPic);
     }
-  };
+  }, [userPic]);
 
   useEffect(() => {
     const imageInput = document.getElementById(
@@ -48,6 +48,16 @@ const UploadAvatar: React.FC<UploadAvatarProps> = ({ onModalClose }) => {
       }
     }
   });
+
+  const handleFileUpload = () => {
+    const fileUpload = document.getElementById(
+      "file-upload"
+    ) as HTMLInputElement;
+
+    if (fileUpload) {
+      fileUpload.click();
+    }
+  };
 
   function rotateImg(mode: string) {
     const angle = mode === "clockwise" ? 90 : -90;
@@ -80,22 +90,27 @@ const UploadAvatar: React.FC<UploadAvatarProps> = ({ onModalClose }) => {
         </div>
         <div className="bg-[#151414] w-full flex flex-col items-center justify-center gap-5 py-8">
           <div
-            className="h-[200px] w-[200px] relative group ring-8 ring-white rounded-[10px] flex justify-center items-center overflow-auto"
+            className={`h-[200px] w-[200px] relative group ring-8 ring-white rounded-[10px] flex justify-center items-center overflow-auto ${
+              loading ? "animate-pulse absolute bg-gray-100" : ""
+            }`}
             ref={canvasWrapperRef}
           >
-            <DraggableImage
-              key={key}
-              value={value}
-              imageUrl={imageUrl}
-              rotatingAngle={rotatingAngle}
-              resetCanvas={resetCanvas}
-              onReset={() => setResetCanvas(false)}
-              saveImage={saveImage}
-              onModalClose={() => onModalClose()}
-              onUploadingChange={(uploading) =>
-                setUploading((prev) => uploading)
-              }
-            />
+            {!loading && (
+              <DraggableImage
+                key={key}
+                value={value}
+                imageUrl={imageUrl}
+                rotatingAngle={rotatingAngle}
+                resetCanvas={resetCanvas}
+                onReset={() => setResetCanvas(false)}
+                saveImage={saveImage}
+                onModalClose={() => onModalClose()}
+                onUploadingChange={(uploading) =>
+                  setUploading((prev) => uploading)
+                }
+                uploadSuccessful={(bool) => handlePicChange(bool)}
+              />
+            )}
           </div>
           <div className="flex gap-2">
             <div

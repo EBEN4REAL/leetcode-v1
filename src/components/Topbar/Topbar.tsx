@@ -20,6 +20,9 @@ import { RxCaretDown } from "react-icons/rx";
 import { useSignOut } from "react-firebase-hooks/auth";
 import Dropdown from "@/components/Custom-dropdown/Dropdown";
 
+import useUserProfile from "@/hooks/useUserProfile";
+import { clipText } from "../../utils/clipText";
+
 type TopbarProps = {
   problemPage?: boolean;
 };
@@ -60,6 +63,7 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage }) => {
   const [darkThemeToggle, setDarkThemeToggle] = useState<boolean>(true);
   const [signOut, loading, error] = useSignOut(auth);
   const [openDropdown, setOpenDropdown] = useState<boolean>(false);
+  const { loading: picLoading, userPic } = useUserProfile();
 
   const navigationTabs = () =>
     navTabs.map((nav) => {
@@ -187,9 +191,13 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage }) => {
             {user && (
               <div className="flex items-center gap-2">
                 <Link href={`/${user.email}`}>
-                  <div className="h-14 w-14 relative">
+                  <div
+                    className={`h-14 w-14 relative ${
+                      picLoading ? "animate-pulse rounded-full" : ""
+                    }`}
+                  >
                     <img
-                      src={"https://assets.leetcode.com/users/avatars/avatar_1687989636.png"}
+                      src={userPic}
                       alt="Avatar"
                       className="rounded-full w-full h-full"
                     />
@@ -197,7 +205,7 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage }) => {
                 </Link>
                 <div>
                   <div className="mb-1 font-bold text-xl text-white">
-                    igbinoba
+                    {user?.displayName || "username"}
                   </div>
                   <div className="text-xs text-brand-orange">
                     Access all features with our Premium subscription!
@@ -573,13 +581,16 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage }) => {
           {user && (
             <div className="relative">
               <div
-                className="flex gap-1 items-center h-[30px] w-[30px]"
+                className={`flex gap-1 items-center h-[30px] w-[30px] relative ${
+                  picLoading ? "animate-pulse rounded-full" : ""
+                }`}
                 id="dropdown_toggle"
                 onClick={() => setOpenDropdown((prev) => !prev)}
               >
                 <img
-                  src={"https://assets.leetcode.com/users/avatars/avatar_1687989636.png"}
-                  className="w-full h-full rounded-full"
+                  src={userPic}
+                  alt="Avatar"
+                  className="rounded-full w-full h-full"
                 />
               </div>
               <div
@@ -591,9 +602,13 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage }) => {
                   <div className="flex items-center gap-2 ">
                     <div className="flex items-center gap-2">
                       <Link href={`/${user.email}`}>
-                        <div className="h-14 w-14 shrink-0">
+                        <div
+                          className={`h-14 w-14 shrink-0 ${
+                            picLoading ? "animate-pulse rounded-full" : ""
+                          }`}
+                        >
                           <img
-                            src={"https://assets.leetcode.com/users/avatars/avatar_1687989636.png"}
+                            src={userPic}
                             alt="Avatar"
                             className="rounded-full w-full h-full"
                           />
@@ -602,7 +617,8 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage }) => {
 
                       <div>
                         <div className="mb-1 font-bold text-xl text-white">
-                          igbinoba
+                          {user?.displayName ||
+                            clipText<string>(user?.email as string, 15)}
                         </div>
                         <div className="text-xs text-brand-orange">
                           Access all features with our Premium subscription!

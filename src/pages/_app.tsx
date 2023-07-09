@@ -5,6 +5,8 @@ import { RecoilRoot } from "recoil";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FrigadeProvider } from "@frigade/react";
+import { AuthProvider } from '@/contexts/AuthContext';
+
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -25,7 +27,9 @@ export default function App({ Component, pageProps }: AppProps) {
           <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/fontawesome.min.css"  />
         </Head>
         <ToastContainer />
-        <Component {...pageProps} />
+        <AuthProvider>
+          <Component {...pageProps} />
+        </AuthProvider>
       </RecoilRoot>
     </FrigadeProvider>
   );

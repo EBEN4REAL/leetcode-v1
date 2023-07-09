@@ -39,8 +39,6 @@ const Pagination = <T,>({ list, handleDropdownClose }: PaginationProps<T>) => {
     closeDropDowns();
   }, [pageSize]);
 
-
-
   return (
     <>
       <div className="py-3 md:flex lg:flex flex flex-col-reverse md:flex-row lg:flex-row justify-between relative">
@@ -55,8 +53,7 @@ const Pagination = <T,>({ list, handleDropdownClose }: PaginationProps<T>) => {
                   id="pagination-btn"
                   className="flex  gap-4 dark:text-white text-sm hover:dark:bg-dark-fill-3 hover:rounded-md px-2 py-1.5 whitespace-nowrap"
                   onClick={() => {
-                    console.log("hchnage page size")
-                    setPageSize(pageSize)
+                    setPageSize(pageSize);
                   }}
                 >
                   {pageSize} / page

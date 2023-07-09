@@ -2,8 +2,12 @@ import React, { useRef, useEffect, useState } from "react";
 import Draggable, { DraggableEvent, DraggableData } from "react-draggable";
 import firebase from "firebase/app";
 import "firebase/storage";
-import { getStorage, ref, uploadBytes } from "firebase/storage";
 import { toast } from "react-toastify";
+
+import { auth } from '@/firebase/firebase';
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { useAuthState } from "react-firebase-hooks/auth";
+
 
 interface CanvasDraggableImageProps {
   imageUrl: string;
@@ -13,7 +17,8 @@ interface CanvasDraggableImageProps {
   saveImage: boolean;
   onReset: () => void;
   onModalClose: () => void;
-  onUploadingChange: (uploading: boolean) => void
+  onUploadingChange: (uploading: boolean) => void;
+  uploadSuccessful: (bool: boolean) =>  void
 }
 
 const CanvasDraggableImage: React.FC<CanvasDraggableImageProps> = ({
@@ -24,7 +29,8 @@ const CanvasDraggableImage: React.FC<CanvasDraggableImageProps> = ({
   onReset,
   saveImage,
   onModalClose,
-  onUploadingChange
+  onUploadingChange,
+  uploadSuccessful
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
@@ -33,6 +39,12 @@ const CanvasDraggableImage: React.FC<CanvasDraggableImageProps> = ({
   const [localImageUrl, setLocalImageUrl] = useState<string>();
   const [isLoading, setLoading] = useState<boolean>(false);
   const [uploading, setUploading] = useState<boolean>(false);
+  const [user] = useAuthState(auth);
+
+  const userId = auth?.currentUser?.uid;
+  const storage = getStorage();
+  const storageRef = ref(storage, `profilePictures/${userId}/${user?.email}`);
+
 
   const handleDrag = (event: DraggableEvent, data: DraggableData) => {
     const canvas = canvasRef.current;
@@ -54,7 +66,6 @@ const CanvasDraggableImage: React.FC<CanvasDraggableImageProps> = ({
         setLoading(false);
       } catch (error) {
         setLoading(false);
-        console.error("Error converting image:", error);
       }
     };
 
@@ -108,6 +119,8 @@ const CanvasDraggableImage: React.FC<CanvasDraggableImageProps> = ({
     scale,
   ]);
 
+ 
+
   function base64ToBlob(base64: string, mimeType: string = "image/jpeg"): Blob {
     const byteString = atob(base64.split(",")[1]);
     const buffer = new ArrayBuffer(byteString.length);
@@ -132,6 +145,7 @@ const CanvasDraggableImage: React.FC<CanvasDraggableImageProps> = ({
         theme: "dark",
       });
       onUploadingChange(false);
+      uploadSuccessful(true)
     });
   };
 
@@ -147,9 +161,7 @@ const CanvasDraggableImage: React.FC<CanvasDraggableImageProps> = ({
     }
   }, [saveImage]);
 
-  const storage = getStorage();
-  const storageRef = ref(storage, "displayPicture.jpg");
-
+ 
   return (
     <>
       {!isLoading && (
@@ -169,9 +181,6 @@ const CanvasDraggableImage: React.FC<CanvasDraggableImageProps> = ({
             />
           </canvas>
         </Draggable>
-      )}
-      {isLoading && (
-        <div className="h-full w-full rounded-md animate-pulse absolute bg-gray-100"></div>
       )}
     </>
   );
