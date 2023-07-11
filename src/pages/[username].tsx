@@ -167,7 +167,7 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                 )}
               </div>
             </div>
-            <div className="h-2  border-t dark:border-gray-7 border-gray-200 my-5 mx-auto w-full"></div>
+            <div className="h-2  border-t dark:border-gray-7 border-gray-100 my-5 mx-auto w-full"></div>
             <div>
               <div className="dark:text-white text-dark font-medium leading-6">
                 Community Stats
@@ -303,7 +303,7 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                   </div>
                 </div>
               </div>
-              <div className="h-2  border-t border-gray-7 border-gray-200  my-5 mx-auto w-full"></div>
+              <div className="h-2  border-t dark:border-gray-7 border-gray-100  my-5 mx-auto w-full"></div>
               <div className="dark:text-white text-dark font-medium leading-6">Languages</div>
               <div className="mt-4 flex flex-col space-y-3">
                 <div className="flex items-center justify-between text-xs text-label-1 dark:text-dark-label-1">
@@ -345,7 +345,7 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                   </div>
                 </div>
               </div>
-              <div className="h-2  border-t border-gray-7 border-gray-200  my-5 mx-auto w-full"></div>
+              <div className="h-2  border-t dark:border-gray-7 border-gray-100  my-5 mx-auto w-full"></div>
               <div>
                 <div className="dark:text-white text-dark font-medium leading-6">Skills</div>
                 <div className="mt-4 flex flex-col space-y-4">

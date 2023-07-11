@@ -164,7 +164,7 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage, nav }) => {
   }, [openDropdown]);
 
   return (
-    <nav className="z-10 md:z-0 lg:z-0 fixed top-0 left-0 md:static lg:static  md:flex lg:flex h-[50px] w-full shrink-0 items-center px-5  shadow-lg dark:bg-dark-layer-1 text-dark-gray-7 ">
+    <nav className="z-10 md:z-0 lg:z-0 fixed top-0 left-0 md:static lg:static  md:flex lg:flex h-[50px] w-full shrink-0 items-center px-5 bg-white md:bg-none lg:bg-none  shadow-lg  dark:bg-dark-layer-1 text-dark-gray-7 ">
       <div
         className={`flex   w-full items-center justify-between ${
           !problemPage ? "max-w-[1150px] h-[50px] mx-auto" : ""
@@ -196,7 +196,7 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage, nav }) => {
         </div>
 
         {navOpen && (
-          <div className="absolute w-full top-12 left-0 md:hidden lg:hidden z-10 py-4 bg-white shadow-sm  dark:bg-gray-level-1 overflow-y-auto">
+          <div className="absolute w-full top-12 left-0 md:hidden lg:hidden z-10 py-4 bg-white shadow-md  dark:bg-gray-level-1 overflow-y-auto">
             {user && (
               <div className="flex items-center gap-2">
                 <Link href={`/${user.email}`}>
@@ -213,7 +213,7 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage, nav }) => {
                   </div>
                 </Link>
                 <div>
-                  <div className="mb-1 font-bold text-xl text-white">
+                  <div className="mb-1 font-bold text-xl dark:text-white text-dark">
                     {user?.displayName || "username"}
                   </div>
                   <div className="text-xs text-brand-orange">
@@ -227,7 +227,7 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage, nav }) => {
                 {list.map((list, index) => (
                   <div
                     key={`list___${index}`}
-                    className="bg-fill-4 shrink-0 dark:bg-dark-fill-4 hover:bg-fill-3 dark:hover:bg-dark-fill-3 flex h-20 w-20 gap-2  flex-col items-center justify-center rounded-lg"
+                    className="bg-fill-4 shrink-0 bg-gray-100 shadow-md dark:bg-dark-fill-4 hover:bg-gray-100 hover:dark:bg-fill-3 dark:hover:bg-dark-fill-3 flex h-20 w-20 gap-2  flex-col items-center justify-center rounded-lg"
                   >
                     <div className="h-9 w-10 relative">
                       <img
@@ -236,7 +236,7 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage, nav }) => {
                         className="w-full h-full"
                       />
                     </div>
-                    <span className="text-xs dark:text-dark-label-2">
+                    <span className="text-xs dark:text-dark-label-2 text-dark">
                       {list.name}
                     </span>
                   </div>
@@ -244,7 +244,7 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage, nav }) => {
               </div>
             )}
             {!user && (
-              <div className="px-2 flex gap-1 items-center text-white teext-xs">
+              <div className="px-2 flex gap-1 items-center dark:text-white text-dark text-xs">
                 <Link
                   href="/auth"
                   onClick={() =>
@@ -255,7 +255,7 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage, nav }) => {
                     }))
                   }
                 >
-                  <button className=" py-1 px-2 cursor-pointer rounded ">
+                  <button className=" py-1 px-2 cursor-pointer rounded dark:text-white text-dark">
                     Register
                   </button>
                 </Link>
@@ -270,7 +270,7 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage, nav }) => {
                     }))
                   }
                 >
-                  <button className=" py-1 px-2 cursor-pointer rounded ">
+                  <button className=" py-1 px-2 cursor-pointer rounded   dark:text-white text-dark">
                     Sign In
                   </button>
                 </Link>
@@ -281,11 +281,11 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage, nav }) => {
             )}
             <div className="">
               <div className="flex flex-col gap-2 px-4 overflow-x-auto">
-                <div className="text-white flex  text-sm hover:bg-dark-fill-3 p-2 rounded-md">
+                <div className="dark:text-white text-dark hover:dark:text-white hover:dark:bg-dark-fill-3 hover:bg-gray-100  flex  text-sm p-2 rounded-md">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
-                    className="dark:text-dark-label-2 mr-2"
+                    className="dark:text-dark-label-2 text-dark mr-2"
                     width="18"
                     height="18"
                     fill="currentColor"
@@ -303,9 +303,9 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage, nav }) => {
                   </svg>
                   Explore
                 </div>
-                <div className="text-white flex text-sm hover:bg-dark-fill-3 p-2 rounded-md">
+                <div className="dark:text-white text-dark hover:dark:text-white hover:dark:bg-dark-fill-3 hover:bg-gray-100  flex  text-sm p-2 rounded-md">
                   <svg
-                    className="dark:text-dark-label-2 mr-2"
+                    className="dark:text-dark-label-2 text-dark mr-2"
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
                     width="18"
@@ -320,7 +320,7 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage, nav }) => {
                   </svg>
                   Problems
                 </div>
-                <div className="text-white flex   text-sm hover:bg-dark-fill-3 p-2 rounded-md">
+                <div className="dark:text-white text-dark hover:dark:text-white hover:dark:bg-dark-fill-3 hover:bg-gray-100  flex  text-sm p-2 rounded-md">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="dark:text-dark-label-2 mr-2"
@@ -337,7 +337,7 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage, nav }) => {
                   </svg>
                   Discuss
                 </div>
-                <div className="text-white flex items-center text-sm hover:bg-dark-fill-3 p-2 rounded-md">
+                <div className="dark:text-white text-dark hover:dark:text-white hover:dark:bg-dark-fill-3 hover:bg-gray-100  flex  text-sm p-2 rounded-md">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="dark:text-dark-label-2 mr-2"
@@ -356,7 +356,7 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage, nav }) => {
                 </div>
                 <Dropdown
                   toggleElement={
-                    <div className="text-white flex  items-center text-sm hover:bg-dark-fill-3 p-2 rounded-md justify-between _dropdown">
+                    <div className="dark:text-white text-dark hover:dark:text-white hover:dark:bg-dark-fill-3 hover:bg-gray-100  flex  text-sm p-2 rounded-md justify-between _dropdown">
                       <div className="flex gap-2 ">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -374,26 +374,26 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage, nav }) => {
                         </svg>
                         Interview
                       </div>
-                      <RxCaretDown className="text-2xl" />
+                      <RxCaretDown className="text-2xl dark:text-white text-dark " />
                     </div>
                   }
                 >
                   <div className="flex flex-col space-y-3 px-4 py-3">
-                    <div className="dark:text-dark-label-2 text-sm">
+                    <div className="dark:text-dark-label-2 text-dark text-sm">
                       Online Interview
                     </div>
-                    <div className="dark:text-dark-label-2 text-sm">
+                    <div className="dark:text-dark-label-2 text-dark text-sm">
                       Assessments
                     </div>
                   </div>
                 </Dropdown>
                 <Dropdown
                   toggleElement={
-                    <div className="text-white flex  items-center text-sm hover:bg-dark-fill-3 p-2 rounded-md justify-between _dropdown">
+                    <div className="dark:text-white text-dark hover:dark:text-white hover:dark:bg-dark-fill-3 hover:bg-gray-100  flex  text-sm p-2 rounded-md justify-between _dropdown">
                       <div className="flex gap-2 ">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
-                          className="dark:text-dark-label-2 "
+                          className="dark:text-dark-label-2 text-dark"
                           viewBox="0 0 24 24"
                           width="18"
                           height="18"
@@ -414,13 +414,13 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage, nav }) => {
                         </svg>
                         Store
                       </div>
-                      <RxCaretDown className="text-2xl" />
+                      <RxCaretDown className="text-2xl dark:text-white text-dark " />
                     </div>
                   }
                 >
                   <div className="flex flex-col space-y-3 px-4 py-3">
-                    <div className="dark:text-dark-label-2 text-sm">Redeem</div>
-                    <div className="dark:text-dark-label-2 text-sm">
+                    <div className="dark:text-dark-label-2 text-dark text-sm">Redeem</div>
+                    <div className="dark:text-dark-label-2 text-dark text-sm">
                       Premium
                     </div>
                   </div>
@@ -428,16 +428,16 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage, nav }) => {
               </div>
             </div>
             {user && (
-              <div className="h-2  border-t border-gray-7 mt-3 mx-auto w-11/12"></div>
+              <div className="h-2  border-t dark:border-gray-7 text-gray-200 mt-3 mx-auto w-11/12"></div>
             )}
 
             {user && (
               <div className="flex flex-col gap-2 px-2">
-                <div className="flex gap-0.5 text-white text-sm hover:bg-dark-fill-3 p-2 rounded-md">
+                <div className="flex gap-0.5 dark:text-white text-dark  text-sm hover:bg-dark-fill-3 p-2 rounded-md">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
-                    className="dark:text-dark-label-2 mr-2"
+                    className="dark:text-dark-label-2 text-dark mr-2"
                     width="18"
                     height="18"
                     fill="currentColor"
@@ -450,10 +450,10 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage, nav }) => {
                   </svg>
                   Orders
                 </div>
-                <div className="flex gap-0.5 text-white text-sm hover:bg-dark-fill-3 p-2 rounded-md">
+                <div className="flex gap-0.5 dark:text-white text-dark  text-sm hover:bg-dark-fill-3 p-2 rounded-md">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="dark:text-dark-label-2 mr-2"
+                    className="dark:text-dark-label-2 mr-2 text-dark"
                     viewBox="0 0 24 24"
                     width="18"
                     height="18"
@@ -467,11 +467,11 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage, nav }) => {
                   </svg>
                   My Playground
                 </div>
-                <div className="flex items-center justify-between text-white text-sm hover:bg-dark-fill-3 p-2 rounded-md">
+                <div className="flex items-center justify-between dark:text-white text-dark text-sm hover:bg-dark-fill-3 p-2 rounded-md">
                   <div className="flex items-center gap-0.5">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      className="dark:text-dark-label-2 mr-2"
+                      className="dark:text-dark-label-2 mr-2 text-dark"
                       viewBox="0 0 24 24"
                       width="18"
                       height="18"
@@ -492,20 +492,24 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage, nav }) => {
                   </div>
                   <div
                     className={`h-5 flex items-center w-[42px]  transition-all ${
-                      darkThemeToggle
+                      currentTheme === "dark"
                         ? "justify-end bg-blue-500"
                         : "justify-start bg-fill-2"
                     }  rounded-full `}
-                    onClick={() => setDarkThemeToggle((prev) => !prev)}
+                    onClick={() => {
+                      theme == "dark"
+                        ? setTheme("light")
+                        : setTheme("dark");
+                    }}
                   >
                     <div className="mx-1 my-1 h-4 w-4 bg-white  rounded-full"></div>
                   </div>
                 </div>
-                <div className="flex justify-between text-white text-sm hover:bg-dark-fill-3 p-2 rounded-md">
+                <div className="flex justify-between dark:text-white text-dark  text-sm hover:bg-dark-fill-3 p-2 rounded-md">
                   <div className="flex gap-0.5" onClick={() => signOut()}>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      className="dark:text-dark-label-2 mr-2"
+                      className="dark:text-dark-label-2 mr-2 text-dark"
                       viewBox="0 0 24 24"
                       width="18"
                       height="18"
@@ -722,7 +726,6 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage, nav }) => {
                           theme == "dark"
                             ? setTheme("light")
                             : setTheme("dark");
-                          // setDarkThemeToggle((prev) => !prev)
                         }}
                       >
                         <div className="mx-1 my-1 h-4 w-4 bg-white  rounded-full"></div>
