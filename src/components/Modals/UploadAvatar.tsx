@@ -77,7 +77,7 @@ const UploadAvatar: React.FC<UploadAvatarProps> = ({
   return (
     <div className=" top-0 left-0 w-full h-full bg-[#000000b5] z-10  fixed backdrop-blur-sm">
       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 min-h-[400px] min-w-[450px] rounded-md">
-        <div className="h-[50px] w-full bg-white flex items-center justify-between rounded-tl-md rounded-tr-md">
+        <div className="h-[50px] md:w-full lg:w-full mx-auto w-10/12 bg-white flex items-center justify-between rounded-tl-md rounded-tr-md">
           <span className="text-lg text-black pl-3">Upload a New Avatar</span>
           <span
             aria-hidden="true"
@@ -88,7 +88,7 @@ const UploadAvatar: React.FC<UploadAvatarProps> = ({
           </span>
           <span className="sr-only">Close</span>
         </div>
-        <div className="bg-[#151414] w-full flex flex-col items-center justify-center gap-5 py-8">
+        <div className="bg-[#151414] md:w-full lg:w-full mx-auto w-10/12 flex flex-col items-center justify-center gap-5 py-8">
           <div
             className={`h-[200px] w-[200px] relative group ring-8 ring-white rounded-[10px] flex justify-center items-center overflow-auto ${
               loading ? "animate-pulse absolute bg-gray-100" : ""
@@ -133,7 +133,7 @@ const UploadAvatar: React.FC<UploadAvatarProps> = ({
             </div>
           </div>
         </div>
-        <div className="bg-white w-full pt-2">
+        <div className="bg-white md:w-full lg:w-full mx-auto w-10/12 pt-2">
           <div className="border border-[#ccc] h-[17px] mx-3 rounded  relative">
             <RangeSlider
               onRangeChange={(value) => {
@@ -144,7 +144,7 @@ const UploadAvatar: React.FC<UploadAvatarProps> = ({
             />
           </div>
         </div>
-        <div className="flex justify-center w-full bg-white py-1 pb-3 ">
+        <div className="flex justify-center md:w-full lg:w-full mx-auto w-10/12 bg-white py-1 pb-3 ">
           <div
             className="flex items-center gap-2 my-3 rounded-md border border-[#ddd] mx-2 py-1.5 px-2.5 hover:bg-gray-100 cursor-pointer"
             onClick={() => handleFileUpload()}
@@ -154,7 +154,7 @@ const UploadAvatar: React.FC<UploadAvatarProps> = ({
           </div>
           <input id="file-upload" type="file" className="hidden" />
         </div>
-        <div className="bg-white flex justify-end rounded-bl-md rounded-br-md pb-3 pt-3">
+        <div className="bg-white flex justify-end rounded-bl-md rounded-br-md pb-3 pt-3 md:w-full lg:w-full mx-auto w-10/12">
           <div className="flex gap-0">
             <div
               className="flex items-center gap-2 my- text-[#00acff] font-bold  rounded-md border bg-[#efefef] border-[#ddd] py-1.5 px-2.5 hover:bg-gray-100 cursor-pointer"

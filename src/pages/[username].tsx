@@ -86,10 +86,10 @@ const UserProfile: React.FC<UserProfileProps> = () => {
           }}
         />
       )}
-      <div className="min-w-screen min-h-screen bg-dark-layer-2 pb-40 p-4 md:p-0 lg:p-0 mt-7 md:mt-0 lg:mt-0">
+      <div className="min-w-screen min-h-screen bg-white shadow-md dark:bg-dark-layer-2 pb-40 p-4 md:p-0 lg:p-0 mt-7 md:mt-0 lg:mt-0">
         <div className="md:flex lg:flex block  gap-4 pt-5 max-w-[1150px] mx-auto">
           <div
-            className="w-full md:w-[300x] lg:w-[300px] md:mb-10 lg:mb-10 rounded-md bg-dark-layer-1 px-5 py-5 flex flex-col"
+            className="w-full md:w-[300x] lg:w-[300px] md:mb-10 lg:mb-10 rounded-md dark:bg-dark-layer-1 bg-white shadow-md px-5 py-5 flex flex-col"
             style={{
               boxShadow:
                 "rgba(0, 0, 0, 0.08) 0px 2px 4px, rgba(0, 0, 0, 0.08) 0px 4px 8px, rgba(0, 0, 0, 0.08) 0px 6px 12px",
@@ -120,20 +120,20 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                 </div>
               </div>
               <div>
-                <div className="text-white font-bold text-md leading-5">
+                <div className="dark:text-white text-dark font-bold text-md leading-5">
                   {clipText<string>(router.query.username as string, 15)}
                 </div>
                 <span className="dark:text-dark-label-3 text-sm">
                   {user?.displayName || "username"}
                 </span>
                 <div className="flex mt-3">
-                  <span className="dark:text-dark-label-2"> Rank </span>
-                  <span className="text-white ml-3">3,811,465</span>
+                  <span className="dark:text-dark-label-2 text-dark"> Rank </span>
+                  <span className="text-white ml-3 text-dark">3,811,465</span>
                 </div>
               </div>
             </div>
             <div className="mt-5 w-full">
-              <div className="bg-green-0 inline-block dark:bg-dark-green-0 text-green-s dark:text-dark-green-s hover:text-green-s dark:hover:text-dark-green-s w-full rounded-lg py-[7px] text-center font-medium cursor-pointer">
+              <div className="bg-green-100 inline-block dark:bg-dark-green-0 text-green-600 dark:text-dark-green-s hover:text-green-s dark:hover:text-dark-green-s w-full rounded-lg py-[7px] text-center font-medium cursor-pointer">
                 Edit profile
               </div>
             </div>
@@ -145,7 +145,7 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                   width="1em"
                   height="1em"
                   fill="currentColor"
-                  className="text-gray-300"
+                  className="dark:text-gray-300 text-dark"
                 >
                   <path
                     fillRule="evenodd"
@@ -159,7 +159,7 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                   (element, index) => (
                     <div
                       key={`cat_tags__${index}`}
-                      className={` text-light-gray bg-dark-fill-3  py-0.5 flex items-center justify-center rounded-full px-2 text-xs font-normal`}
+                      className={` dark:text-light-gray text-dark bg-gray-100 dark:bg-dark-fill-3  py-0.5 flex items-center justify-center rounded-full px-2 text-xs font-normal`}
                     >
                       <span className="w-full h-full">{element}</span>
                     </div>
@@ -167,9 +167,9 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                 )}
               </div>
             </div>
-            <div className="h-2  border-t border-gray-7 my-5 mx-auto w-full"></div>
+            <div className="h-2  border-t dark:border-gray-7 border-gray-200 my-5 mx-auto w-full"></div>
             <div>
-              <div className="text-base font-medium leading-6">
+              <div className="dark:text-white text-dark font-medium leading-6">
                 Community Stats
               </div>
               <div className="mt-4 flex flex-col space-y-4">
@@ -182,7 +182,7 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                         width="1em"
                         height="1em"
                         fill="currentColor"
-                        className="text-blue-s dark:text-dark-blue-s"
+                        className="text-dark dark:text-dark-blue-s"
                       >
                         <path
                           fillRule="evenodd"
@@ -191,10 +191,10 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                         ></path>
                       </svg>
                     </div>
-                    <div className="text-label-2 dark:text-dark-label-2">
+                    <div className="text-label-2 dark:text-white">
                       Views
                     </div>
-                    <div className="text-white">0</div>
+                    <div className="text-label-2 dark:text-white">0</div>
                   </div>
                   <div className="ml-7 space-x-1 text-xs text-label-3 dark:text-dark-label-3">
                     <span>Last week</span>
@@ -226,7 +226,7 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                     <div className="text-label-2 dark:text-dark-label-2">
                       Solution
                     </div>
-                    <div className="text-white">0</div>
+                    <div className="text-label-2 dark:text-white">0</div>
                   </div>
                   <div className="ml-7 space-x-1 text-xs text-label-3 dark:text-dark-label-3">
                     <span>Last week</span>
@@ -259,7 +259,7 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                     <div className="text-label-2 dark:text-dark-label-2">
                       Discuss
                     </div>
-                    <div className="text-white">0</div>
+                    <div className="text-label-2 dark:text-white">0</div>
                   </div>
                   <div className="ml-7 space-x-1 text-xs text-label-3 dark:text-dark-label-3">
                     <span>Last week</span>
@@ -303,8 +303,8 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                   </div>
                 </div>
               </div>
-              <div className="h-2  border-t border-gray-7 my-5 mx-auto w-full"></div>
-              <div className="text-base font-medium leading-6">Languages</div>
+              <div className="h-2  border-t border-gray-7 border-gray-200  my-5 mx-auto w-full"></div>
+              <div className="dark:text-white text-dark font-medium leading-6">Languages</div>
               <div className="mt-4 flex flex-col space-y-3">
                 <div className="flex items-center justify-between text-xs text-label-1 dark:text-dark-label-1">
                   <div className="text-xs">
@@ -345,16 +345,16 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                   </div>
                 </div>
               </div>
-              <div className="h-2  border-t border-gray-7 my-5 mx-auto w-full"></div>
+              <div className="h-2  border-t border-gray-7 border-gray-200  my-5 mx-auto w-full"></div>
               <div>
-                <div className="text-base font-medium leading-6">Skills</div>
+                <div className="dark:text-white text-dark font-medium leading-6">Skills</div>
                 <div className="mt-4 flex flex-col space-y-4">
                   <div>
                     <div className="flex items-center text-xs">
                       <span className="mr-1.5 flex">
                         <span className="inline-block h-1 w-1 rounded-full bg-red-s dark:bg-dark-red-s"></span>
                       </span>
-                      <span className="font-medium text-white">Advanced</span>
+                      <span className="font-medium dark:text-white text-dark">Advanced</span>
                     </div>
                     <div className="mt-3 flex items-center justify-center text-xs text-label-4 dark:text-dark-label-4">
                       Not enough data
@@ -365,7 +365,7 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                       <span className="mr-1.5 flex">
                         <span className="inline-block h-1 w-1 rounded-full bg-yellow dark:bg-dark-yellow"></span>
                       </span>
-                      <span className="font-medium text-white">
+                      <span className="font-medium dark:text-white text-dark">
                         Intermediate
                       </span>
                     </div>
@@ -407,7 +407,7 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                       <span className="mr-1.5 flex">
                         <span className="inline-block h-1 w-1 rounded-full bg-green-s dark:bg-dark-green-s"></span>
                       </span>
-                      <span className="font-medium text-white">
+                      <span className="font-medium dark:text-white text-dark">
                         Fundamental
                       </span>
                     </div>
@@ -441,7 +441,7 @@ const UserProfile: React.FC<UserProfileProps> = () => {
           <div className="flex flex-col md:w-9/12 lg:w-9/12 w-full">
             <div className="md:flex lg:flex block gap-4">
               <div
-                className="md:w-1/2 lg:w-1/2 w-full md:mb-0 lg:mb-0 mb-4 pb-3 md:pb-0 lg:b-0 mt-4 md:mt-0 lg:mt-0 rounded-md bg-dark-layer-1 lg:h-[186px] md:h-[186px] h-auto "
+                className="md:w-1/2 lg:w-1/2 w-full md:mb-0 lg:mb-0 mb-4 pb-3 md:pb-0 lg:b-0 mt-4 md:mt-0 lg:mt-0 rounded-md dark:bg-dark-layer-1 bg-white shadow-md lg:h-[186px] md:h-[186px] h-auto "
                 style={{
                   boxShadow:
                     "rgba(0, 0, 0, 0.08) 0px 2px 4px, rgba(0, 0, 0, 0.08) 0px 4px 8px, rgba(0, 0, 0, 0.08) 0px 6px 12px",
@@ -466,7 +466,7 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                             strokeWidth="3"
                             strokeLinecap="round"
                             stroke="currentColor"
-                            className="text-gray-4 dark:text-dark-gray-4"
+                            className="text-gray-4 dark:text-dark-gray-4 text-gray-200"
                           ></circle>
                           <circle
                             fill="none"
@@ -484,7 +484,7 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                         </svg>
                         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform cursor-default text-center">
                           <div>
-                            <div className="text-[24px] font-medium text-white dark:text-dark-label-1">
+                            <div className="text-[24px] font-medium dark:text-white text-dark dark:text-dark-label-1">
                               2
                             </div>
                             <div className="whitespace-nowrap text-xs text-label-3 dark:text-dark-label-3">
@@ -501,10 +501,10 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                             Easy
                           </div>
                           <div className="flex flex-1 items-center">
-                            <span className="mr-[5px] text-base font-medium leading-[20px] text-white dark:text-dark-label-1">
+                            <span className="mr-[5px] text-base font-medium leading-[20px] text-dark  dark:text-dark-label-1">
                               1
                             </span>
-                            <span className="text-xs font-medium text-label-4 dark:text-dark-label-4">
+                            <span className="text-xs font-medium text-gray-300 dark:text-dark-label-4">
                               /687
                             </span>
                           </div>
@@ -515,7 +515,7 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                           </div>
                         </div>
                         <div className="relative h-2 w-full overflow-hidden rounded-full h-1 max-w-none">
-                          <div className="absolute h-full w-full bg-green-1 dark:bg-dark-green-1"></div>
+                          <div className="absolute h-full w-full bg-green-1 bg-dark-green-1"></div>
                           <div
                             className="absolute h-full rounded-full transition-all duration-300 ease-out bg-olive dark:bg-dark-olive"
                             style={{ width: "0.14556%" }}
@@ -528,10 +528,10 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                             Medium
                           </div>
                           <div className="flex flex-1 items-center">
-                            <span className="mr-[5px] text-base font-medium leading-[20px] text-white dark:text-dark-label-1">
+                            <span className="mr-[5px] text-base font-medium leading-[20px] text-dark dark:text-dark-label-1">
                               1
                             </span>
-                            <span className="text-xs font-medium text-label-4 dark:text-dark-label-4">
+                            <span className="text-xs font-medium text-gray-300 dark:text-dark-label-4">
                               /687
                             </span>
                           </div>
@@ -542,7 +542,7 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                           </div>
                         </div>
                         <div className="relative h-2 w-full overflow-hidden rounded-full h-1 max-w-none">
-                          <div className="absolute h-full w-full bg-green-1 dark:bg-dark-yellow-1"></div>
+                          <div className="absolute h-full w-full bg-green-1 bg-dark-yellow-1"></div>
                           <div
                             className="absolute h-full rounded-full transition-all duration-300 ease-out bg-olive dark:bg-dark-olive"
                             style={{ width: "0.14556%" }}
@@ -555,10 +555,10 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                             Hard
                           </div>
                           <div className="flex flex-1 items-center">
-                            <span className="mr-[5px] text-base font-medium leading-[20px] text-white dark:text-dark-label-1">
-                              1
+                            <span className="mr-[5px] text-base font-medium leading-[20px] text-dark dark:text-dark-label-1">
+                              0
                             </span>
-                            <span className="text-xs font-medium text-label-4 dark:text-dark-label-4">
+                            <span className="text-xs font-medium text-gray-300 dark:text-dark-label-4">
                               /687
                             </span>
                           </div>
@@ -569,7 +569,7 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                           </div>
                         </div>
                         <div className="relative h-2 w-full overflow-hidden rounded-full h-1 max-w-none">
-                          <div className="absolute h-full w-full bg-green-1 dark:bg-dark-red-1"></div>
+                          <div className="absolute h-full w-full bg-green-1 bg-dark-red-1"></div>
                           <div
                             className="absolute h-full rounded-full transition-all duration-300 ease-out bg-olive dark:bg-dark-olive"
                             style={{ width: "0.14556%" }}
@@ -581,7 +581,7 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                 </div>
               </div>
               <div
-                className="md:w-1/2 lg:w-1/2 w-full md:mb-0 lg:mb-0 mb-4   rounded-md bg-dark-layer-1 h-[186px]"
+                className="md:w-1/2 lg:w-1/2 w-full md:mb-0 lg:mb-0 mb-4   rounded-md dark:bg-dark-layer-1 bg-white shadow-md h-[186px]"
                 style={{
                   boxShadow:
                     "rgba(0, 0, 0, 0.08) 0px 2px 4px, rgba(0, 0, 0, 0.08) 0px 4px 8px, rgba(0, 0, 0, 0.08) 0px 6px 12px",
@@ -594,7 +594,7 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                         <div className="text-label-3 dark:text-dark-label-3 text-xs">
                           Badges
                         </div>
-                        <div className="text-white dark:text-dark-label-1 mt-1.5 text-2xl leading-[18px]">
+                        <div className="dark:text-dark-label-1 text-dark mt-1.5 text-2xl leading-[18px]">
                           0
                         </div>
                       </div>
@@ -609,7 +609,7 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                     <div className="text-label-3 dark:text-dark-label-3 text-xs">
                       Locked Badge
                     </div>
-                    <div className="text-white dark:text-dark-label-1 text-base">
+                    <div className="text-dark dark:text-dark-label-1 text-base">
                       Jun LeetCoding Challenge
                     </div>
                   </div>
@@ -617,7 +617,7 @@ const UserProfile: React.FC<UserProfileProps> = () => {
               </div>
             </div>
             <div
-              className="h-[186x] rounded-md bg-dark-layer-1 mt-4 p-4"
+              className="h-[186x] rounded-md dark:bg-dark-layer-1 bg-white shadow-md mt-4 p-4"
               style={{
                 boxShadow:
                   "rgba(0, 0, 0, 0.08) 0px 2px 4px, rgba(0, 0, 0, 0.08) 0px 4px 8px, rgba(0, 0, 0, 0.08) 0px 6px 12px",
@@ -625,10 +625,10 @@ const UserProfile: React.FC<UserProfileProps> = () => {
             >
               <div className="flex flex-col flex-wrap space-y-2 md:flex-row md:items-center md:space-y-0">
                 <div className="flex flex-1 items-center">
-                  <span className="mr-[5px] text-white font-medium md:text-xl">
+                  <span className="mr-[5px] dark:text-white text-dark font-medium md:text-xl">
                     4
                   </span>
-                  <span className="whitespace-nowrap md:text-base text-label-2 dark:text-dark-label-2">
+                  <span className="whitespace-nowrap  dark:text-white text-dark ">
                     submissions in the last year
                   </span>
                   <div className="ml-1 mr-2 text-gray-5 dark:text-dark-gray-5">
@@ -720,26 +720,21 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                   />
                   {hoveredDate && (
                     <div
+                      className={`absolute py-[5px] px-[10px] rounded-[3px] dark:bg-[#ffffff] bg-dark dark:text-dark text-white whitespace-nowrap text-sm font-bold`}
                       style={{
-                        position: "absolute",
                         top: position.y - 45,
                         left: position.x - 110,
-                        padding: "5px 10px",
-                        borderRadius: "3px",
-                        backgroundColor: "#ffffff",
-                        color: "black",
-                        fontSize: "13px",
-                        whiteSpace: "nowrap",
-                        fontWeight: "bold",
                       }}
-                    >{`${hoveredDate.count} submissions on ${hoveredDate.date}`}</div>
+                    >
+                      {`${hoveredDate.count} submissions on ${hoveredDate.date}`}
+                    </div>
                   )}
                 </div>
               </div>
             </div>
             <div className="mt-4">
               <div
-                className="bg-layer-1 dark:bg-dark-layer-1 rounded-lg px-4 pt-4 pb-4"
+                className="bg-layer-1 dark:bg-dark-layer-1 bg-white shadow-md rounded-lg px-4 pt-4 pb-4"
                 style={{
                   boxShadow:
                     "rgba(0, 0, 0, 0.08) 0px 2px 4px, rgba(0, 0, 0, 0.08) 0px 4px 8px, rgba(0, 0, 0, 0.08) 0px 6px 12px",
@@ -748,7 +743,7 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                 <div className="space-y-[18px]">
                   <div className="text-label-2 dark:text-dark-label-2 flex w-full items-center">
                     <div className="cursor-pointer">
-                      <div className="text-label-1 dark:text-dark-label-1 bg-fill-3 dark:bg-dark-fill-3 flex items-center rounded-[5px] px-5 py-[10px] font-medium md:space-x-2 hover:text-label-1 dark:hover:text-dark-label-1">
+                      <div className="text-label-1 dark:text-dark-label-1 bg-gray-100 dark:bg-dark-fill-3 flex items-center rounded-[5px] px-5 py-[10px] font-medium md:space-x-2 hover:text-label-1 dark:hover:text-dark-label-1">
                         <span className="hidden text-2xl md:inline">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -756,6 +751,7 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                             width="1em"
                             height="1em"
                             fill="currentColor"
+                            className="dark:text-white text-dark"
                           >
                             <path
                               fillRule="evenodd"
@@ -764,11 +760,11 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                             ></path>
                           </svg>
                         </span>
-                        <span className="whitespace-nowrap">Recent AC</span>
+                        <span className="whitespace-nowrap dark:text-white text-dark">Recent AC</span>
                       </div>
                     </div>
                     <div className="cursor-pointer">
-                      <div className="flex items-center rounded-[5px] px-5 py-[10px] font-medium md:space-x-2 hover:text-label-1 dark:hover:text-dark-label-1">
+                      <div className="flex items-center rounded-[5px] px-5 py-[10px] font-medium md:space-x-2 hover:text-dark dark:hover:text-dark-label-1">
                         <span className="hidden text-2xl md:inline">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -793,7 +789,7 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                       </div>
                     </div>
                     <div className="cursor-pointer">
-                      <div className="flex items-center rounded-[5px] px-5 py-[10px] font-medium md:space-x-2 hover:text-label-1 dark:hover:text-dark-label-1">
+                      <div className="flex items-center rounded-[5px] px-5 py-[10px] font-medium md:space-x-2 hover:text-dark dark:hover:text-dark-label-1">
                         <span className="hidden text-2xl md:inline">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -892,7 +888,7 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                   </div>
                   <div className="flex flex-col">
                     <Link
-                      className="flex h-[56px] items-center rounded px-4 bg-fill-4 dark:bg-dark-fill-4"
+                      className="flex h-[56px] items-center rounded px-4 bg-gray-100 dark:bg-dark-fill-4"
                       target="_blank"
                       href="/submissions/detail/970601782/"
                     >
@@ -900,10 +896,10 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                         data-title="Add Two Numbers"
                         className="flex flex-1 justify-between"
                       >
-                        <span className="text-label-1 dark:text-dark-label-1 font-medium line-clamp-1">
+                        <span className="text-dark dark:text-dark-label-1 font-medium line-clamp-1">
                           Add Two Numbers
                         </span>
-                        <span className="text-label-3 dark:text-dark-label-3 hidden whitespace-nowrap md:inline">
+                        <span className="text-dark dark:text-dark-label-3 hidden whitespace-nowrap md:inline">
                           10 days ago
                         </span>
                       </div>
@@ -917,7 +913,7 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                         data-title="Two Sum"
                         className="flex flex-1 justify-between"
                       >
-                        <span className="text-label-1 dark:text-dark-label-1 font-medium line-clamp-1">
+                        <span className="text-label-3 dark:text-dark-label-1 font-medium line-clamp-1">
                           Two Sum
                         </span>
                         <span className="text-label-3 dark:text-dark-label-3 hidden whitespace-nowrap md:inline">

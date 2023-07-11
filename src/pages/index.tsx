@@ -138,9 +138,9 @@ const Home = () => {
     return (
       <>
         <div
-          className={`ml-1 text-light-gray bg-secondary-gray  py-0.5 flex items-center justify-center rounded-full px-2 text-xs font-normal ${
+          className={`ml-1 dark:text-light-gray text-xs text-black dark:bg-secondary-gray bg-gray-200  py-0.5 flex items-center justify-center rounded-full px-2  font-normal ${
             index === 6 && !expandCategories
-              ? "bg-gradient-to-r from-secondary-gray to-dark-layer-2 opacity-30"
+              ? "dark:bg-gradient-to-r dark:from-secondary-gray from-text-gray-300 dark:to-dark-layer-2 to-text-white dark:opacity-30 opacity-5"
               : ""
           } 
           `}
@@ -153,10 +153,10 @@ const Home = () => {
 
   const expandButton = (
     <div
-      className="absolute z-5 bottom-[-2.5px] right-0 items-center text-white  py-0.5  text-xs flex cursor-pointer text-right"
+      className="absolute z-5 bottom-[-2.5px] right-0 items-center dark:text-white  py-0.5  text-xs flex cursor-pointer text-right"
       onClick={() => setExpandCategories((prev) => !prev)}
     >
-      <div className="bg-dark-layer-2 p-[2.5px] shadow bg-gradient-to-l">
+      <div className="dark:bg-dark-layer-2 p-[2.5px] dark:shadow dark:bg-gradient-to-l">
         {expandCategories ? "Collapse" : "Expand"}
       </div>
       {expandCategories ? (
@@ -208,7 +208,7 @@ const Home = () => {
 
     return cats.map((category, index) => (
       <div className={`inline-flex items-center `} key={`category_&_${index}`}>
-        <span className="text-white text-sm whitespace-nowrap">
+        <span className="dark:text-white text-black text-sm whitespace-nowrap">
           {category.name}
         </span>
         {index < 7 || expandCategories ? (
@@ -237,10 +237,9 @@ const Home = () => {
   const topicSlideBtn = () => {
     return (
       <div
-        className="bg-dark-layer-2 flex  sticky z-2 right-0 top-0 cursor-pointer pl-1 order-20"
+        className="dark:bg-dark-layer-2 bg-gray-50 flex  sticky z-2 right-0 top-0 cursor-pointer pl-1 order-20"
         onClick={() => setTopicScroll((prev) => !prev)}
       >
-        {/* <span className="h-10 w-4 bg-gradient-to-l from-paper dark:from-dark-paper"></span> */}
         <span className="bg-paper pl-1 font-normal bg-gradient-to-l from-paper dark:from-dark-paper h-10 w-8 flex items-center justify-cente">
           {topicScroll ? (
             <svg
@@ -249,7 +248,7 @@ const Home = () => {
               width="1em"
               height="1em"
               fill="currentColor"
-              className="h-3.5 w-3.5 text-white"
+              className="h-3.5 w-3.5 dark:text-white text-dark"
             >
               <path
                 fillRule="evenodd"
@@ -264,7 +263,7 @@ const Home = () => {
               width="1em"
               height="1em"
               fill="currentColor"
-              className="h-3.5 w-3.5 text-white"
+              className="h-3.5 w-3.5 dark:text-whi text-dark"
             >
               <path
                 fillRule="evenodd"
@@ -289,14 +288,16 @@ const Home = () => {
             setActiveTopic(() => topic.name);
           }}
           className={`${
-            activeTopic === topic.name ? "bg-white" : ""
-          } cursor-pointer bg-secondary-gray rounded-full py-[8px] px-4`}
+            activeTopic === topic.name ? "bg-secondary-gray dark:bg-white" : ""
+          } cursor-pointer dark:bg-secondary-gray bg-fill-3 rounded-full py-[8px] px-4`}
         >
           <div className="flex items-center justify-center">
             <topic.img active={activeTopic === topic.name ? true : false} />
             <span
-              className={`whitespace-nowrap ${
-                activeTopic === topic.name ? "text-black" : "text-light-gray"
+              className={`whitespace-nowrap  text-label-2  ${
+                activeTopic === topic.name
+                  ? "dark:text-black text-white"
+                  : "dark:text-dark-label-2"
               }`}
             >
               {topic.name}
@@ -323,7 +324,7 @@ const Home = () => {
 
   return (
     <>
-      <main className="bg-dark-layer-2 min-h-screen ">
+      <main className="dark:bg-dark-layer-2 min-h-screen bg-light ">
         <Topbar />
         <div className="md:max-w-[1150px] lg:max-w-[1150px] max-w-full mx-auto px-3  md:pt-[67px] pt-[70px] pb-5">
           <div className="flex md:gap-6 lg:gap-6 space-y-3   md:space-y-0 lg:space-y-0  md:flex-row lg:flex-row flex-col">
@@ -363,7 +364,7 @@ const Home = () => {
               </div>
               <div className="relative  mx-auto ">
                 <div className="flex justify-between items-center">
-                  <div className="text-text-gray text-xl md:pt-5 lg:pt-5 pt-0 md:sml-0 lg:ml-0 ml-2">
+                  <div className="dark:text-text-gray text-gray-600 font-semibold text-xl md:pt-5 lg:pt-5 pt-0 md:sml-0 lg:ml-0 ml-2">
                     Study Plan
                   </div>
                   <div>
@@ -375,7 +376,7 @@ const Home = () => {
                   {cards.map((card, index) => (
                     <div
                       key={`car__${index}`}
-                      className="flex gap-4 items-center  bg-secondary-gray rounded-[8px] p-2"
+                      className="flex gap-4 items-center  dark:bg-secondary-gray bg-white shadow-lg rounded-[8px] p-2"
                     >
                       <span className="inline-block overflow-hidden  rounded-[8px]">
                         <img
@@ -387,11 +388,11 @@ const Home = () => {
 
                       <div>
                         <div>
-                          <p className="text-white font-bold text-sm	pb-2 ">
+                          <p className="dark:text-white text-dark font-bold text-sm	pb-2 ">
                             {card.title}
                           </p>
                         </div>
-                        <p className="text-card-para text-xs	pr-2">
+                        <p className="dark:text-card-para text-gray-500 text-xs	pr-2">
                           {clipText(card.desc, 23)}
                         </p>
                       </div>
@@ -414,7 +415,7 @@ const Home = () => {
                 <div className="mt-5">
                   <div className="flex w-full gap-2 flex-wrap md:flex-nowrap lg:flex-nowrap	">
                     <Dropdown header="Lists" activeTopic={activeTopic}>
-                      <div className="dropdown_content absolute top-9 left-0 p-3 dark:bg-dark-overlay-3 rounded-lg hidden max-w-[15rem] min-w-[8.75rem] overflow-auto">
+                      <div className="dropdown_content bg-white shadow-md absolute top-9 left-0 p-3 dark:bg-dark-overlay-3 rounded-lg hidden max-w-[15rem] min-w-[8.75rem] overflow-auto">
                         <div className="flex  gap-4 dark:text-white text-sm hover:dark:bg-dark-fill-3 hover:rounded-md px-2 py-1.5 whitespace-nowrap">
                           LeetCode Curated Algo 170
                         </div>
@@ -430,7 +431,7 @@ const Home = () => {
                       </div>
                     </Dropdown>
                     <Dropdown header="Difficulty" activeTopic={activeTopic}>
-                      <div className="dropdown_content absolute top-9 left-0 p-3 dark:bg-dark-overlay-3 rounded-lg hidden max-w-[15rem] min-w-[8.75rem] overflow-auto">
+                      <div className="dropdown_content bg-white shadow-md absolute top-9 left-0 p-3 dark:bg-dark-overlay-3 rounded-lg hidden max-w-[15rem] min-w-[8.75rem] overflow-auto">
                         <div className="flex  gap-4   text-sm hover:dark:bg-dark-fill-3 hover:rounded-md px-2 py-1.5 whitespace-nowrap text-dark-green-s">
                           Easy
                         </div>
@@ -443,7 +444,7 @@ const Home = () => {
                       </div>
                     </Dropdown>
                     <Dropdown header="Status" activeTopic={activeTopic}>
-                      <div className="dropdown_content absolute top-9 left-0 p-3 dark:bg-dark-overlay-3 rounded-lg hidden max-w-[15rem] min-w-[8.75rem] overflow-auto">
+                      <div className="dropdown_content bg-white shadow-md absolute top-9 left-0 p-3 dark:bg-dark-overlay-3 rounded-lg hidden max-w-[15rem] min-w-[8.75rem] overflow-auto">
                         <div className="flex gap items-center dark:text-white text-sm hover:dark:bg-dark-fill-3 hover:rounded-md px-2 py-1.5 whitespace-nowrap">
                           <span className="">
                             <BsDash className="text-xl" />
@@ -465,12 +466,15 @@ const Home = () => {
                       </div>
                     </Dropdown>
                     <Dropdown header="Tags" activeTopic={activeTopic}>
-                      <div className="dropdown_content absolute top-9 left-0 p-3 dark:bg-dark-overlay-3 rounded-lg hidden w-[372px] min-w-[8.75rem]  md:max-w-[500px] max-h-[400px] overflow-y-scroll">
+                      <div className="dropdown_content bg-white shadow-md absolute top-9 left-0 p-3 dark:bg-dark-overlay-3 rounded-lg hidden w-[372px] min-w-[8.75rem]  md:max-w-[500px] max-h-[400px] overflow-y-scroll">
                         <LInput
                           config={{
                             type: "text",
                             placeholderText: "Filter topics",
-                            styles: ["w-full", "dark:bg-dark-fill-3"],
+                            styles: [
+                              "w-full",
+                              "dark:bg-dark-fill-3 bg-gray-100",
+                            ],
                             placeholderImg: {
                               component: BiSearch,
                               color: "text-input-grey",
@@ -479,10 +483,10 @@ const Home = () => {
                         />
                         <div className="mt-3">
                           <ul className="flex items-center gap-6">
-                            <li className="text-white text-sm py-1 border-b-2 border-text-white">
+                            <li className="dark:text-white text-dark text-sm py-1 border-b-2 dark:border-white border-black	">
                               Topics
                             </li>
-                            <li className="dark:text-dark-label-2 text-sm flex items-center">
+                            <li className="dark:text-dark-label-2 text-gray-600 text-sm flex items-center">
                               Companies
                               <span className="ml-1">
                                 <div className="h-4">
@@ -529,15 +533,18 @@ const Home = () => {
                       config={{
                         type: "text",
                         placeholderText: "Search questions",
-                        styles: ["min-w-[230px]", "bg-secondary-gray"],
+                        styles: [
+                          "min-w-[230px]",
+                          "dark:bg-secondary-gray bg-gray-100 ",
+                        ],
                         placeholderImg: {
                           component: BiSearch,
                           color: "text-input-grey",
                         },
                       }}
                     />
-                    <div className="flex items-center justify-between bg-dark-layer-3 rounded-[5px]  px-3">
-                      <FiSettings className="text-xl text-light-gray" />
+                    <div className="flex items-center justify-between dark:bg-dark-layer-3 bg-gray-200 rounded-[5px]  px-3">
+                      <FiSettings className="text-xl dark:text-light-gray text-gray-700" />
                     </div>
                     <div className="flex justify-center items-center ml-3">
                       <div className="shadow-md flex h-8 w-8 items-center justify-center rounded-full bg-[#34c164]  ">
@@ -559,7 +566,7 @@ const Home = () => {
               </div>
             </div>
             <div className="md:w-3/12 lg:w-3/12 w-full relative">
-              <div className="w-full  h-auto py-1.5 p-3 rounded-[8px] bg-dark-layer-1 relative mt-7 md:mt-0 lg:mt-0">
+              <div className="w-full  h-auto py-1.5 p-3 rounded-[8px] dark:bg-dark-layer-1 bg-white shadow-md relative mt-7 md:mt-0 lg:mt-0">
                 <div className=" w-[75px] h-[75px] absolute -top-[2.5rem] right-[2.0rem] dark:opacity-50">
                   <img
                     src="./assets/img/lccal.png"
@@ -602,26 +609,28 @@ const Home = () => {
                       src="./assets/img/points-oct.png"
                       className="h-[18px] w-[18px]"
                     />
-                    <span className=" text-sm dark:text-dark-label-2 ">0</span>
-                    <span className="text-xs dark:text-dark-green-s ">
+                    <span className=" text-sm dark:text-dark-label-2  text-black">
+                      0
+                    </span>
+                    <span className="text-xs dark:text-dark-green-s text-dark">
                       Redeem
                     </span>
                   </div>
-                  <div className="w-1/5 dark:text-dark-label-2 text-xs flex justify-end">
+                  <div className="w-1/5 dark:text-dark-label-2 text-black text-xs flex justify-end">
                     Rules
                   </div>
                 </div>
               </div>
               <CompanyTags companies={companies} />
-              <div className="w-full  py-3 mt-4 bg-dark-layer-1  rounded-lg">
+              <div className="w-full  py-3 mt-4 dark:bg-dark-layer-1 bg-white shadow-md  rounded-lg">
                 <div className="flex items-center justify-between px-3 pb-3">
-                  <div className=" text-white">Session</div>
+                  <div className=" dark:text-white text-black">Session</div>
                   <div className="flex gap-[1px]">
-                    <div className="rounded-l-[5px] h-[24px] flex items-center px-1.5 text-xs cursor-pointer  dark:bg-dark-fill-3  dark:text-dark-label-3">
+                    <div className="rounded-l-[5px] h-[24px] flex items-center px-1.5 text-xs cursor-pointer  dark:bg-dark-fill-3 bg-gray-100  dark:text-dark-label-3">
                       Anonymous
                     </div>
-                    <div className="flex items-center justify-center h-[24px] w-[22px] rounded-r-[5px] dark:bg-dark-fill-3  dark:text-dark-label-3">
-                      <FiSettings className="text-xl text-light-gray w-3" />
+                    <div className="flex items-center justify-center h-[24px] w-[22px] rounded-r-[5px] dark:bg-dark-fill-3 bg-gray-100  dark:text-dark-label-3">
+                      <FiSettings className="text-xl dark:text-light-gray text-dark w-3" />
                     </div>
                   </div>
                 </div>
@@ -644,7 +653,7 @@ const Home = () => {
                           strokeWidth="3"
                           strokeLinecap="round"
                           stroke="currentColor"
-                          className="text-gray-4 dark:text-dark-gray-4"
+                          className="text-gray-4 dark:text-dark-gray-4 text-gray-200"
                         ></circle>
                         <circle
                           fill="none"
@@ -679,11 +688,11 @@ const Home = () => {
                                 All
                               </span>
                             </div>
-                            <div className="pb-0.5 text-xl font-medium leading-none text-white lg:text-2xl lg:leading-none">
+                            <div className="pb-0.5 text-xl font-medium leading-none dark:text-white text-dark lg:text-2xl lg:leading-none">
                               {solvedProblems}
                             </div>
-                            <hr className="border-divider-2 dark:border-dark-label-4 mx-auto max-w-[32px]" />
-                            <div className="text-label-4 dark:text-dark-label-4 pt-0.5 text-xs font-semibold">
+                            <hr className="border-divider-2 dark:border-dark-label-4 border-gray-200 mx-auto max-w-[32px]" />
+                            <div className="text-label-4 dark:text-dark-label-4 text-gray-400 pt-0.5 text-xs font-semibold">
                               2736
                             </div>
                           </div>
@@ -700,13 +709,25 @@ const Home = () => {
                                 ? "text-dark-yellow"
                                 : difficultyMode === "Hard"
                                 ? "text-dark-pink"
-                                : "text-white"
+                                : "dark:text-white text-dark"
                             } lg:text-2xl lg:leading-none`}
                           >
                             50
-                            <span className="text-xs">.0%</span>
+                            <span
+                              className={`text-xs dark:text-white ${
+                                difficultyMode === "Easy"
+                                  ? "text-dark-green-s"
+                                  : difficultyMode === "Medium"
+                                  ? "text-dark-yellow"
+                                  : difficultyMode === "Hard"
+                                  ? "text-dark-pink"
+                                  : "dark:text-white text-dark"
+                              }`}
+                            >
+                              .0%
+                            </span>
                           </div>
-                          <div className="text-label-4 dark:text-dark-label-5 pt-0.5 text-[11px] font-semibold">
+                          <div className="text-label-4 dark:text-dark-label-5 text-dark pt-0.5 text-[11px] font-semibold">
                             Acceptance
                           </div>
                         </div>
@@ -740,20 +761,26 @@ const Home = () => {
                     </div>
                     <div>
                       <div className="text-sm  mt-3 whitespace-nowrap">
-                        <span className="dark:text-dark-label-2">1 </span>
-                        <span className="font-semibold text-xs dark:text-dark-label-4">
+                        <span className="dark:text-dark-label-2 text-dark">
+                          1{" "}
+                        </span>
+                        <span className="font-semibold text-xs dark:text-dark-label-4 text-gray-400">
                           /686
                         </span>
                       </div>
                       <div className="text-sm  mt-3 whitespace-nowrap">
-                        <span className="dark:text-dark-label-2">0 </span>
-                        <span className="font-semibold text-xs dark:text-dark-label-4">
+                        <span className="dark:text-dark-label-2 text-dark">
+                          0{" "}
+                        </span>
+                        <span className="font-semibold text-xs dark:text-dark-label-4 text-gray-400">
                           /1447
                         </span>
                       </div>
                       <div className="text-sm  mt-3 whitespace-nowrap">
-                        <span className="dark:text-dark-label-2">0 </span>
-                        <span className="font-semibold text-xs text-dark-label-4">
+                        <span className="dark:text-dark-label-2 text-dark">
+                          0{" "}
+                        </span>
+                        <span className="font-semibold text-xs text-dark-label-4 text-gray-400">
                           /603
                         </span>
                       </div>

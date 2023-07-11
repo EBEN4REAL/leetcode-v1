@@ -1,3 +1,5 @@
+"use client";
+
 import { auth } from "@/firebase/firebase";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
@@ -19,12 +21,14 @@ import { Close } from "@/icons/Close";
 import { RxCaretDown } from "react-icons/rx";
 import { useSignOut } from "react-firebase-hooks/auth";
 import Dropdown from "@/components/Custom-dropdown/Dropdown";
-
 import useUserProfile from "@/hooks/useUserProfile";
 import { clipText } from "../../utils/clipText";
 
+import { useTheme } from "next-themes";
+
 type TopbarProps = {
   problemPage?: boolean;
+  nav?: string
 };
 
 interface Nav {
@@ -32,7 +36,7 @@ interface Nav {
   hasDropdown: boolean;
 }
 
-const Topbar: React.FC<TopbarProps> = ({ problemPage }) => {
+const Topbar: React.FC<TopbarProps> = ({ problemPage, nav }) => {
   const [user] = useAuthState(auth);
   const setAuthModalState = useSetRecoilState(authModalState);
   const router = useRouter();
@@ -65,6 +69,11 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage }) => {
   const [openDropdown, setOpenDropdown] = useState<boolean>(false);
   const { loading: picLoading, userPic } = useUserProfile();
 
+  const { systemTheme, theme, setTheme } = useTheme();
+  const currentTheme = theme === "system" ? systemTheme : theme;
+
+  console.log("74 nav", nav);
+
   const navigationTabs = () =>
     navTabs.map((nav) => {
       const isActive = nav.name === activeTab;
@@ -74,8 +83,8 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage }) => {
       return (
         <li
           key={nav.name}
-          className={`flex text-light-gray ${
-            isActive ? "border-b-2 border-text-white pb-2" : ""
+          className={`flex dark:text-light-gray text-dark ${
+            isActive ? "border-b-2 dark:border-white border-dark pb-[9px]" : ""
           }`}
           onClick={handleClick}
         >
@@ -155,7 +164,7 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage }) => {
   }, [openDropdown]);
 
   return (
-    <nav className="z-10 md:z-0 lg:z-0 fixed top-0 left-0 md:static lg:static  md:flex lg:flex h-[50px] w-full shrink-0 items-center px-5 bg-dark-layer-1 text-dark-gray-7 ">
+    <nav className="z-10 md:z-0 lg:z-0 fixed top-0 left-0 md:static lg:static  md:flex lg:flex h-[50px] w-full shrink-0 items-center px-5  shadow-lg dark:bg-dark-layer-1 text-dark-gray-7 ">
       <div
         className={`flex   w-full items-center justify-between ${
           !problemPage ? "max-w-[1150px] h-[50px] mx-auto" : ""
@@ -187,7 +196,7 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage }) => {
         </div>
 
         {navOpen && (
-          <div className="absolute w-full top-12 left-0 md:hidden lg:hidden z-10 py-4  dark:bg-gray-level-1 overflow-y-auto">
+          <div className="absolute w-full top-12 left-0 md:hidden lg:hidden z-10 py-4 bg-white shadow-sm  dark:bg-gray-level-1 overflow-y-auto">
             {user && (
               <div className="flex items-center gap-2">
                 <Link href={`/${user.email}`}>
@@ -531,7 +540,7 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage }) => {
               <div>
                 <BsList />
               </div>
-              <p>Problem List</p>
+              <p className="dark:text-white text-dark">Problem List</p>
             </Link>
             <div
               className="flex items-center justify-center rounded bg-dark-fill-3 hover:bg-dark-fill-2 h-8 w-8 cursor-pointer"
@@ -596,7 +605,7 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage }) => {
               <div
                 className={`absolute top-[43px] ${
                   !openDropdown ? "hidden" : "block"
-                } right-[-10px] p-4 dark:bg-dark-overlay-3 rounded-lg z-10 dropdown_toggle_content dropdown__content`}
+                } right-[-10px] p-4 dark:bg-dark-overlay-3 bg-white shadow-2xl rounded-lg z-10 dropdown_toggle_content dropdown__content`}
               >
                 <div className="w-[264px] flex flex-col">
                   <div className="flex items-center gap-2 ">
@@ -616,7 +625,7 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage }) => {
                       </Link>
 
                       <div>
-                        <div className="mb-1 font-bold text-xl text-white">
+                        <div className="mb-1 font-bold text-xl dark:text-white text-dark">
                           {user?.displayName ||
                             clipText<string>(user?.email as string, 15)}
                         </div>
@@ -630,7 +639,7 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage }) => {
                     {list.map((list, index) => (
                       <div
                         key={`list___${index}`}
-                        className="bg-fill-4 shrink-0 dark:bg-dark-fill-4 hover:bg-fill-3 dark:hover:bg-dark-fill-3 flex h-20 w-20 gap-2  flex-col items-center justify-center rounded-lg"
+                        className="bg-fill-4 shrink-0 dark:bg-dark-fill-4 bg-gray-200 hover:bg-fill-3 dark:hover:bg-dark-fill-3 flex h-20 w-20 gap-2  flex-col items-center justify-center rounded-lg"
                       >
                         <div className="h-9 w-10 relative">
                           <img
@@ -646,11 +655,11 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage }) => {
                     ))}
                   </div>
                   <div className="flex flex-col gap-2">
-                    <div className="flex gap-0.5 text-white text-sm hover:bg-dark-fill-3 p-2 rounded-md">
+                    <div className="flex gap-0.5 dark:text-white text-black text-sm hover:bg-dark-fill-3 p-2 rounded-md">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
-                        className="dark:text-dark-label-2 mr-2"
+                        className="dark:text-dark-label-2  text-dark mr-2"
                         width="18"
                         height="18"
                         fill="currentColor"
@@ -663,7 +672,7 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage }) => {
                       </svg>
                       Orders
                     </div>
-                    <div className="flex gap-0.5 text-white text-sm hover:bg-dark-fill-3 p-2 rounded-md">
+                    <div className="flex gap-0.5 dark:text-white text-black text-sm hover:bg-dark-fill-3 p-2 rounded-md">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="dark:text-dark-label-2 mr-2"
@@ -680,7 +689,7 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage }) => {
                       </svg>
                       My Playground
                     </div>
-                    <div className="flex items-center justify-between text-white text-sm hover:bg-dark-fill-3 p-2 rounded-md">
+                    <div className="flex items-center justify-between dark:text-white text-black text-blacktext-sm hover:bg-dark-fill-3 p-2 rounded-md">
                       <div className="flex items-center gap-0.5">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -705,16 +714,21 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage }) => {
                       </div>
                       <div
                         className={`h-5 flex items-center w-[42px]  transition-all ${
-                          darkThemeToggle
+                          currentTheme === "dark"
                             ? "justify-end bg-blue-500"
                             : "justify-start bg-fill-2"
                         }  rounded-full `}
-                        onClick={() => setDarkThemeToggle((prev) => !prev)}
+                        onClick={() => {
+                          theme == "dark"
+                            ? setTheme("light")
+                            : setTheme("dark");
+                          // setDarkThemeToggle((prev) => !prev)
+                        }}
                       >
                         <div className="mx-1 my-1 h-4 w-4 bg-white  rounded-full"></div>
                       </div>
                     </div>
-                    <div className="flex justify-between text-white text-sm hover:bg-dark-fill-3 p-2 rounded-md">
+                    <div className="flex justify-between dark:text-white text-black text-sm hover:bg-dark-fill-3 p-2 rounded-md">
                       <div className="flex gap-0.5" onClick={() => signOut()}>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -761,3 +775,58 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage }) => {
   );
 };
 export default Topbar;
+
+const navs = [
+  {
+    name: "Explore",
+    hasDropdown: false,
+  },
+  {
+    name: "Problems",
+    hasDropdown: false,
+  },
+  {
+    name: "Contest",
+    hasDropdown: false,
+  },
+  {
+    name: "Discuss",
+    hasDropdown: false,
+  },
+  {
+    name: "Interviews",
+    hasDropdown: true,
+  },
+]
+
+/** SSG **/
+/** getStaticPaths => it create the dynamic routes **/
+export async function getStaticPaths() {
+  const paths = navs.map((nav) => ({
+    params: { pid: nav.name },
+  }));
+
+  return {
+    paths,
+    fallback: false,
+  };
+}
+
+/** getStaticProps => it fetch the data **/
+export async function getStaticProps({ params }: { params: { pid: string } }) {
+  const { pid } = params;
+  const nav = navs.filter(nav => nav.name !== pid);
+
+   console.log("820", nav)
+
+  // if (nav.length < 1) {
+  //   return {
+  //     notFound: true,
+  //   };
+  // }
+  return {
+    props: {
+      nav,
+    },
+  };
+}

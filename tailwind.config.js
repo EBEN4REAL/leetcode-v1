@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: "class",
   content: [
     "./app/**/*.{js,ts,jsx,tsx}",
     "./pages/**/*.{js,ts,jsx,tsx}",
@@ -14,12 +15,13 @@ module.exports = {
         'yellow_bg' : "url('./lc-bg')",
       },
       colors: {
+        dark: '#1a1a1a',
+        light: '#ffffff',
         "dark-layer-1": "rgb(40,40,40)",
         "dark-layer-2": "rgb(26,26,26)",
         "dark-label-2": "#eff1f6bf",
         "dark-divider-border-2": "rgb(61, 61, 61)",
         "dark-fill-2": "hsla(0,0%,100%,.14)",
-        // "dark-fill-3": "hsla(0,0%,100%,.1)",
         "dark-gray-6": "rgb(138, 138, 138)",
         "dark-gray-7": "rgb(179, 179, 179)",
         "gray-8": "rgb(38, 38, 38)",
@@ -64,7 +66,9 @@ module.exports = {
         "dark-red-1": "#ef474340",
         "dark-label-1": "#ffffff",
         "label-1": "#ffffff",
-        "base": "#ffffff"
+        "base": "#ffffff",
+        "dark-label-2 ": "#eff1f6bf",
+        "fill-3": "#000a200d",
       }
     },
   },

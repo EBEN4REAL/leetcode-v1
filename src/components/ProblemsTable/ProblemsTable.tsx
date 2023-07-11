@@ -73,7 +73,7 @@ const ProblemsTable: React.FC<{ handleDropDownClose: () => void }> = ({
       };
 
       return (
-        <tr className={isEvenRow ? "bg-dark-layer-1" : ""} key={problem.id}>
+        <tr className={isEvenRow ? "dark:bg-dark-layer-1 bg-white" : "bg-gray-100 dark:bg-dark"} key={problem.id}>
           <td className="px-2 py-4 font-medium whitespace-nowrap text-dark-green-s">
             {solved && <SolvedIcon />}
           </td>
@@ -88,34 +88,32 @@ const ProblemsTable: React.FC<{ handleDropDownClose: () => void }> = ({
               </Link>
             ) : (
               <Link
-                className="hover:text-blue-600 cursor-pointer"
+                className="hover:text-blue-600 dark:text-white text-dark cursor-pointer"
                 href={`/problems/${problem.id}`}
               >
-                {problem.title}
+                {problem.title} 
               </Link>
             )}
           </td>
           <td className={`px-6 py-4 ${difficulyColor}`}>
             {problem.difficulty}
           </td>
-          <td className="px-6 py-4">{`${randomPercentage}%`}</td>
+          <td className="px-6 py-4 text-dark dark:text-white">{`${randomPercentage}%`}</td>
           <td className="px-6 py-4">
             {hasVideo ? (
               <AiFillYoutube
                 fontSize={"28"}
-                className="cursor-pointer hover:text-red-600"
+                className="cursor-pointer text-red-500 hover:text-red-600"
                 onClick={handleVideoClick}
               />
             ) : (
-              <p className="text-gray-400">Coming...</p>
+              <p className="dark:text-gray-400 text-black">Coming...</p>
             )}
           </td>
           <td>
-            <div className="dark:bg-dark-fill-3 rounded-l-lg rounded-r-lg bg-fill-3 h-2 relative w-4/5 mx-auto">
+            <div className={`dark:bg-dark-fill-3  rounded-l-lg rounded-r-lg  bg-fill-3 h-2 relative w-4/5 mx-auto`}>
               <div
-                className={`h-5 w-6 absolute -top-2.5  left-1/2 transform -translate-x-1/2 ${
-                  isEvenRow ? "bg-dark-layer-1" : "dark:bg-dark-layer-2"
-                }  `}
+                className={`h-5 w-6 absolute -top-2.5  left-1/2 transform -translate-x-1/2 ${isEvenRow ? "dark:bg-dark-layer-1 bg-white" : "bg-gray-100 dark:bg-dark"}  `}
               >
                 <Padlock />
               </div>

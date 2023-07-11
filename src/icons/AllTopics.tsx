@@ -16,3 +16,4 @@ export const ALlTopics = () => {
     </svg>
   );
 };
+// className="text-purple dark:text-dark-purple mr-2 hidden h-[18px] w-[18px] lg:block"

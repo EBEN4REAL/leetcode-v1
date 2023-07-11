@@ -6,7 +6,7 @@ export const Padlock = () => {
       width="1em"
       height="1em"
       fill="currentColor"
-      className="w-full h-full dark:text-dark-text-gray-7"
+      className="w-full h-full dark:text-dark-text-gray-7 text-gray-300"
     >
       <path
         fillRule="evenodd"

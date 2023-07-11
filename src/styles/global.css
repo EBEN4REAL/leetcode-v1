@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base{
+    body {
+        @apply dark:bg-[#1a1a1a] bg-[#ffffff]
+    }
+}
+
 :root {
   --chakra-colors-yellow60: "#FFC926";
 }
@@ -301,3 +307,14 @@ input[type="range"]::-webkit-slider-runnable-track {
   border: 1px solid #ccc;
   background: transparent;
 }
+
+.react-calendar-heatmap .color-empty {
+    fill: #d3d3d345 !important;
+    border-radius: 10px;
+}
+
+/* .react-calendar-heatmap .color-filled, .react-calendar-heatmap .color-empty{
+  margin: 10px !important;
+  border-radius: 10px !important;
+  stroke-width:5 !important;
+} */

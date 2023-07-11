@@ -56,10 +56,10 @@ const CompanyTags: React.FC<CompanyTagsProps> = ({ companies }) => {
         return (
           <div
             key={`company_slide_${(Math.random() + 1) * 163636636373373}`}
-            className="rounded-full dark:text-dark-label-2 py-1 px-2 dark:bg-dark-fill-3 max-h-[32px]"
+            className="rounded-full dark:text-dark-label-2 bg-gray-100 py-1 px-2 dark:bg-dark-fill-3 max-h-[32px]"
           >
             <span className="text-sm">{slide.name} </span>
-            <span className="bg-brand-orange rounded-full px-1.5 text-gray-700 text-sm">
+            <span className="bg-brand-orange rounded-full px-1.5 dark:text-gray-700 text-white text-sm">
               {slide.count}
             </span>
           </div>
@@ -89,17 +89,17 @@ const CompanyTags: React.FC<CompanyTagsProps> = ({ companies }) => {
 
   return (
     <>
-      <div className="w-full  py-3 px-3 rounded-[8px] bg-dark-layer-1 mt-3">
+      <div className="w-full  py-3 px-3 rounded-[8px] dark:bg-dark-layer-1 bg-white shadow-md mt-3">
         <div className="flex items-center justify-between">
-          <div className="dark:text-dark-label-2">Companies</div>
+          <div className="dark:text-dark-label-2 text-black">Companies</div>
           <div className="flex justify-center items-center gap-1">
             <div
               className={`flex items-center justify-center  h-[25px] w-[25px] rounded-[5px] dark:bg-dark-fill-4   dark:hover:bg-dark-fill-3   cursor-pointer  `}
             >
-              <RxCaretLeft className="text-4xl font-bold prev dark:text-dark-label-2" />
+              <RxCaretLeft className="text-4xl font-bold prev dark:text-dark-label-2 text-dark" />
             </div>
             <div
-              className={`flex items-center justify-center  h-[25px] w-[25px] rounded-[5px] dark:bg-dark-fill-4   dark:hover:bg-dark-fill-3   cursor-pointer `}
+              className={`flex items-center justify-center  h-[25px] w-[25px] rounded-[5px] dark:bg-dark-fill-4   dark:hover:bg-dark-fill-3 text-dark   cursor-pointer `}
             >
               <RxCaretRight className="text-4xl font-bold next dark:text-dark-label-2" />
             </div>
@@ -112,7 +112,7 @@ const CompanyTags: React.FC<CompanyTagsProps> = ({ companies }) => {
           config={{
             type: "text",
             placeholderText: "Search questions",
-            styles: ["min-w-[230px]", "dark:bg-dark-fill-3", "mt-2"],
+            styles: ["min-w-[230px]", "bg-gray-100 dark:bg-dark-fill-3", "mt-2"], 
             placeholderImg: {
               component: BiSearch,
               color: "text-input-grey",
