@@ -81,7 +81,7 @@ const UploadAvatar: React.FC<UploadAvatarProps> = ({
 
   return (
     <div className=" top-0 left-0 w-full h-full bg-[#000000b5] z-10  fixed">
-      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 md:min-h-[400px] md:min-w-[450px] lg:min-h-[400px] lg:min-w-[450px] mx-auto md:mx-0 lg:mx-0 w-11/12 rounded-md">
+      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 md:min-h-[400px] md:w-3/12	lg:w-3/12	 md:min-w-[450px] lg:min-h-[400px] lg:min-w-[450px] mx-auto md:mx-0 lg:mx-0 w-11/12 rounded-md">
         <div className="h-[50px] w-full bg-white flex items-center justify-between rounded-tl-md rounded-tr-md">
           <span className="text-lg text-black pl-3">Upload a New Avatar</span>
           <span
