@@ -72,8 +72,6 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage, nav }) => {
   const { systemTheme, theme, setTheme } = useTheme();
   const currentTheme = theme === "system" ? systemTheme : theme;
 
-  console.log("74 nav", nav);
-
   const navigationTabs = () =>
     navTabs.map((nav) => {
       const isActive = nav.name === activeTab;
@@ -819,8 +817,6 @@ export async function getStaticPaths() {
 export async function getStaticProps({ params }: { params: { pid: string } }) {
   const { pid } = params;
   const nav = navs.filter(nav => nav.name !== pid);
-
-   console.log("820", nav)
 
   // if (nav.length < 1) {
   //   return {

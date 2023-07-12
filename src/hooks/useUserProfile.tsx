@@ -63,6 +63,7 @@ function useUserProfile() {
     userPic,
     loading,
     setUpdatePic,
+    setUserPic
   };
 }
 

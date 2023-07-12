@@ -29,12 +29,6 @@ const UserProfile: React.FC<UserProfileProps> = () => {
 
   const router = useRouter();
 
-  useEffect(() => {
-    if (!user) {
-      router.push("/");
-    }
-  }, [user]);
-
   const panelAttributes = { rx: 6, ry: 6 };
   const values = {
     "2022-01-01": 1,

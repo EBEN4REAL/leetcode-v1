@@ -1,7 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import axios from "axios";
-import fs from "fs";
-import path from "path";
 
 export default async function handler(
   req: NextApiRequest,
