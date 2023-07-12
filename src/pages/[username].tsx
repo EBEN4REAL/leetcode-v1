@@ -11,10 +11,9 @@ import UploadAvatar from "../components/Modals/UploadAvatar";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { clipText } from "@/utils/clipText";
-
 import useUserProfile from "@/hooks/useUserProfile";
-
 import { useAuth } from "@/contexts/AuthContext";
+import protectedRoute from '@/components/protectedRoute';
 
 type UserProfileProps = {
   username: string;
@@ -925,4 +924,4 @@ const UserProfile: React.FC<UserProfileProps> = () => {
     </div>
   );
 };
-export default UserProfile;
+export default protectedRoute<UserProfileProps>(UserProfile);

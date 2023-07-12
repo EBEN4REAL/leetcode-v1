@@ -162,7 +162,7 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage, nav }) => {
   }, [openDropdown]);
 
   return (
-    <nav className="z-10 md:z-0 lg:z-0 fixed top-0 left-0 md:static lg:static  md:flex lg:flex h-[50px] w-full shrink-0 items-center px-5 bg-white md:bg-none lg:bg-none  shadow-lg  dark:bg-dark-layer-1 text-dark-gray-7 ">
+    <nav className="z-10 md:z-0 lg:z-0 fixed top-0 left-0 md:static lg:static  md:flex lg:flex h-[50px] w-full shrink-0 items-center px-0 bg-white md:bg-none lg:bg-none  shadow-lg  dark:bg-dark-layer-1 text-dark-gray-7 ">
       <div
         className={`flex   w-full items-center justify-between ${
           !problemPage ? "max-w-[1150px] h-[50px] mx-auto" : ""

@@ -30,7 +30,6 @@ import { RxCaretDown } from "react-icons/rx";
  */
 import LInput from "@/components/Base_input/input";
 import CompanyTags from "@/components/Company_tags/CompanyTags";
-import Filters from "@/components/Filters/filters";
 import Dropdown from "@/components/Dropdown/dropdown";
 import Pagination from "@/components/Pagination";
 import { closeDropDowns } from "@/utils/handleDropClose";
@@ -40,8 +39,6 @@ import Slides from "@/components/Swiper/Slides";
 import { SwiperSlide } from "swiper/react";
 import { Swiper } from "swiper/react";
 import { Navigation } from "swiper";
-import { Pagination as SwiperPagination } from "swiper";
-import { FrigadeChecklist, FrigadeProgressBadge } from "@frigade/react";
 
 /**
  *
@@ -51,7 +48,6 @@ import { _cards, _categories, _topics, _inputs, _companies } from "@/constants";
 import { render } from "react-dom";
 
 const Home = () => {
-  const [loadingProblems, setLoadingProblems] = useState(false);
   const hasMounted = useHasMounted();
   const [activeTopic, setActiveTopic] = useState<string>("All Topics");
   const [collapseCategory, setCollapseCategory] = useState<boolean>(true);
@@ -59,7 +55,6 @@ const Home = () => {
   const [cards, setCards] = useState(_cards);
   const [categories, setCategories] = useState(_categories);
   const [topics, setTopics] = useState(_topics);
-  const [inputs, setInputs] = useState(_inputs);
   const [companies, setCompanies] = useState(_companies);
   const [guagePercent, setGuagePercent] = useState<boolean>(false);
   const [solvedProblems, setSolvedProblems] = useState<number>(0);
@@ -410,7 +405,6 @@ const Home = () => {
                   {renderTopics()}
                   {topicSlideBtn()}
                 </div>
-                <Filters />
 
                 <div className="mt-5">
                   <div className="flex w-full gap-2 flex-wrap md:flex-nowrap lg:flex-nowrap	">
