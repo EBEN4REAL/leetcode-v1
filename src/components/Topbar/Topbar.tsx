@@ -162,7 +162,7 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage, nav }) => {
   }, [openDropdown]);
 
   return (
-    <nav className="z-10 md:z-0 lg:z-0 fixed top-0 left-0 md:static lg:static  md:flex lg:flex h-[50px] w-full shrink-0 items-center px-0 bg-white md:bg-none lg:bg-none  shadow-lg  dark:bg-dark-layer-1 text-dark-gray-7 ">
+    <nav className="z-10 md:z-0 lg:z-0 fixed top-0 left-0 md:static lg:static  md:flex lg:flex h-[50px] w-full shrink-0 items-center px-0 bg-white md:bg-none lg:bg-none  shadow-lg  dark:bg-dark-layer-1 text-dark-gray-7 px-3">
       <div
         className={`flex   w-full items-center justify-between ${
           !problemPage ? "max-w-[1150px] h-[50px] mx-auto" : ""
@@ -179,7 +179,7 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage, nav }) => {
             <img
               src="https://leetcode.com/_next/static/images/logo-dark-c96c407d175e36c81e236fcfdd682a0b.png"
               className="h-full"
-              alt="LeetCode Logo"
+              alt="leetcode_logo"
             />
             <div className="hidden md:block lg:block">
               <ul className={`flex gap-7`}>{navigationTabs()}</ul>
@@ -504,7 +504,7 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage, nav }) => {
                   </div>
                 </div>
                 <div className="flex justify-between dark:text-white text-dark  text-sm hover:bg-dark-fill-3 p-2 rounded-md">
-                  <div className="flex gap-0.5" onClick={() => signOut()}>
+                  <div className="flex gap-0.5"   data-testid="mobile_signout" onClick={() => signOut()}>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       className="dark:text-dark-label-2 mr-2 text-dark"
@@ -559,13 +559,14 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage, nav }) => {
               href="https://www.buymeacoffee.com/burakorkmezz"
               target="_blank"
               rel="noreferrer"
-              className="bg-dark-fill-3 py-1.5 px-3 cursor-pointer rounded text-brand-orange hover:bg-dark-fill-2"
+              data-testid="premium_tab"
+              className="bg-dark-fill-3 py-1.5 px-3 cursor-pointer rounded text-brand-orange hover:bg-dark-fill-2 "
             >
               Premium
             </a>
           </div>
           {user && (
-            <div className="">
+            <div className="" data-testid="desk-noti">
               <Notification />
             </div>
           )}
@@ -602,6 +603,7 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage, nav }) => {
                   src={userPic}
                   alt="Avatar"
                   className="rounded-full w-full h-full"
+                  data-testid="user-dp"
                 />
               </div>
               <div
@@ -627,7 +629,7 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage, nav }) => {
                       </Link>
 
                       <div>
-                        <div className="mb-1 font-bold text-xl dark:text-white text-dark">
+                        <div className="mb-1 font-bold text-xl dark:text-white text-dark" data-testid="user_email">
                           {user?.displayName ||
                             clipText<string>(user?.email as string, 15)}
                         </div>
@@ -730,7 +732,7 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage, nav }) => {
                       </div>
                     </div>
                     <div className="flex justify-between dark:text-white text-black text-sm hover:bg-dark-fill-3 p-2 rounded-md">
-                      <div className="flex gap-0.5" onClick={() => signOut()}>
+                      <div className="flex gap-0.5" data-testid="desk-signout" onClick={() => signOut()}>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           className="dark:text-dark-label-2 mr-2"
@@ -764,7 +766,7 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage, nav }) => {
                 }))
               }
             >
-              <button className="bg-dark-fill-3 py-1 px-2 cursor-pointer rounded ">
+              <button className="bg-dark-fill-3 py-1 px-2 cursor-pointer rounded " data-testid="sign-in">
                 Sign In
               </button>
             </Link>

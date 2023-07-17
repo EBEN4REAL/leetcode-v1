@@ -29,7 +29,7 @@ const CanvasDraggableImage: React.FC<CanvasDraggableImageProps> = ({
   saveImage,
   onUploadingChange,
   uploadSuccessful,
-  onModalClose
+  onModalClose,
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
@@ -60,8 +60,8 @@ const CanvasDraggableImage: React.FC<CanvasDraggableImageProps> = ({
           `/api/convert-image?url=${encodeURIComponent(imageUrl)}`
         );
         const data = await response.json();
-        const blob = base64ToBlob(data.imageUrl)
-        const blobUrl = URL.createObjectURL(blob)
+        const blob = base64ToBlob(data.imageUrl);
+        const blobUrl = URL.createObjectURL(blob);
         setLocalImageUrl(blobUrl);
         setLoading(false);
       } catch (error) {
@@ -83,9 +83,7 @@ const CanvasDraggableImage: React.FC<CanvasDraggableImageProps> = ({
     if (!canvas || !context || !image) return;
 
     const imageObj = new Image();
-    imageObj.src = !imageUrl.includes("blob")
-      ? localImageUrl
-      : imageUrl;
+    imageObj.src = !imageUrl.includes("blob") ? localImageUrl : imageUrl;
 
     imageObj.onload = () => {
       const scaledWidth = imageObj.width * scale;
@@ -119,7 +117,6 @@ const CanvasDraggableImage: React.FC<CanvasDraggableImageProps> = ({
     rotatingAngle,
     scale,
   ]);
-
 
   function base64ToBlob(base64: string, mimeType: string = "image/jpeg"): Blob {
     const byteString = atob(base64.split(",")[1]);
@@ -189,4 +186,3 @@ const CanvasDraggableImage: React.FC<CanvasDraggableImageProps> = ({
 };
 
 export default CanvasDraggableImage;
-

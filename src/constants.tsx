@@ -325,11 +325,11 @@ export const _topics = [
     img: Concurrency,
   },
   {
-    name: "Shell",
+    name: "Shell_new",
     img: Shell,
   },
   {
-    name: "Concurrency",
+    name: "Concurrency_new",
     img: Concurrency,
   },
 ];

@@ -19,10 +19,10 @@ import { Attempted } from "@/icons/attempted";
 import { Padlock } from "@/icons/padlock";
 import { GrPowerReset } from "react-icons/gr";
 import { getDropDownDirection } from "@/utils/getDropDownDirection";
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import { problemsState } from "@/atoms/problemsAtom";
+// import { useRecoilValue, useSetRecoilState } from "recoil";
+// import { problemsState } from "@/atoms/problemsAtom";
 import { useEffect } from "react";
-import { RxCaretDown } from "react-icons/rx";
+// import { RxCaretDown } from "react-icons/rx";
 
 /**
  *

@@ -6,10 +6,7 @@ import { BiSearch } from "react-icons/bi";
 import { SwiperSlide } from "swiper/react";
 import Slides from "../Swiper/Slides";
 import usePagination from '@/hooks/usePagination'
-
-interface CompanyTagsProps {
-  companies: { name: string; count: number }[];
-}
+import {CompanyTagsProps} from "@/utils/types/companyTags"
 
 const CompanyTags: React.FC<CompanyTagsProps> = ({ companies }) => {
   const [tagQuery, setTagQuery] = useState<string>("");
