@@ -7,15 +7,13 @@ import { MdArrowDropDown } from "react-icons/md";
 import { useAuthState, useSignOut, useUpdateProfile } from 'react-firebase-hooks/auth';
 import { JSX } from "react";
 
-dotenv.config();
-
 jest.mock("next/router", () => ({
   useRouter: jest.fn(),
 }));
 
 jest.mock('react-firebase-hooks/auth');
 const mockUseAuthState = useAuthState as jest.Mock;
-const mockUseSignOut= useSignOut as jest.Mock;
+const mockUseSignOut = useSignOut as jest.Mock;
 const mockUseUpdateProfile = useUpdateProfile as jest.Mock
 const signOut = jest.fn()
 
@@ -68,9 +66,8 @@ const NavigationTabs: React.FC<NavigationTabsProps> = ({ activeTab }) => {
     return (
       <li
         key={nav.name}
-        className={`flex dark:text-light-gray text-dark ${
-          isActive ? "border-b-2 dark:border-white border-dark pb-[9px]" : ""
-        }`}
+        className={`flex dark:text-light-gray text-dark ${isActive ? "border-b-2 dark:border-white border-dark pb-[9px]" : ""
+          }`}
         onClick={handleClick(nav.name)}
       >
         {nav.name} {nav.hasDropdown && <MdArrowDropDown className="mt-1" />}
@@ -83,7 +80,7 @@ const NavigationTabs: React.FC<NavigationTabsProps> = ({ activeTab }) => {
 
 async function renderAuthenticatedComponents(component: JSX.Element, authenticated = false) {
   const updateProfile = jest.fn()
-  const mockUser = authenticated ?  { displayName: 'John Doe', email: "jdoe@email.com" } : null;
+  const mockUser = authenticated ? { displayName: 'John Doe', email: "jdoe@email.com" } : null;
   mockUseAuthState.mockReturnValue([mockUser]);
   mockUseSignOut.mockReturnValue([signOut, false, ""]);
   mockUseUpdateProfile.mockReturnValue([updateProfile, false, ""])
@@ -166,7 +163,7 @@ describe("Renders the  top bar succesfully", () => {
     await renderAuthenticatedComponents(<Topbar />, true)
   });
 
-  test("user can logout successfully" , async () => {
+  test("user can logout successfully", async () => {
     await renderAuthenticatedComponents(<Topbar />, true)
     const deskSignout = screen.getByTestId("desk-signout")
     fireEvent.click(deskSignout);

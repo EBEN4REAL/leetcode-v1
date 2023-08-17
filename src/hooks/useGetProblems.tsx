@@ -9,8 +9,8 @@ import {
   query,
 } from "firebase/firestore";
 import { auth, firestore } from "@/firebase/firebase";
-import {useSetRecoilState} from "recoil"
-import {problemsState} from "@/atoms/problemsAtom"
+import { useSetRecoilState } from "recoil"
+import { problemsState } from "@/atoms/problemsAtom"
 
 function useGetProblems(
   setLoadingProblems: React.Dispatch<React.SetStateAction<boolean>>
@@ -30,16 +30,18 @@ function useGetProblems(
       querySnapshot.forEach((doc) => {
         _problems.push({ id: doc.id, ...doc.data() } as DBProblem);
       });
-      
-      setProblemsState((prev) => ({...prev, problems: _problems }));
+
+      setProblemsState((prev) => ({ ...prev, problems: _problems }));
       setProblems(_problems);
       setLoadingProblems(false);
     };
 
     getProblems();
   }, [setLoadingProblems, setProblemsState]);
-  
+
   return problems;
 }
 
 export default useGetProblems;
+
+

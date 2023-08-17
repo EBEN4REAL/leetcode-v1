@@ -202,12 +202,12 @@ const Home = () => {
     }
 
     return cats.map((category, index) => (
-      <div className={`inline-flex items-center `} key={`category_&_${index}`}>
+      <div  key={`category_&_${index}`} className={`inline-flex items-center `} >
         <span className="dark:text-white text-black text-sm whitespace-nowrap">
           {category.name}
         </span>
         {index < 7 || expandCategories ? (
-          <CategoryCount count={category.count} index={index} />
+          <CategoryCount key={`category_&_${index + 53785}`} count={category.count} index={index} />
         ) : (
           ""
         )}
@@ -273,7 +273,7 @@ const Home = () => {
   };
 
   const renderTopics = () => {
-    return topics.map((topic, _) => {
+    return topics.map((topic, index) => {
       return (
         <div
           key={`topic__${topic.name}`}
@@ -287,7 +287,7 @@ const Home = () => {
           } cursor-pointer dark:bg-secondary-gray bg-fill-3 rounded-full py-[8px] px-4`}
         >
           <div className="flex items-center justify-center">
-            <topic.img active={activeTopic === topic.name ? true : false} />
+            <topic.img key={`topic__${topic.name}__${index + 1.5}`}  active={activeTopic === topic.name ? true : false} />
             <span
               className={`whitespace-nowrap  text-label-2  ${
                 activeTopic === topic.name
